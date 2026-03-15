@@ -44,11 +44,6 @@ export async function POST(req: NextRequest) {
     const session = event.data.object;
     const userId = session.metadata?.user_id;
 
-    if (!userId) {
-      console.error("No user_id in checkout session metadata");
-      return NextResponse.json({ received: true });
-    }
-
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
       console.error("Supabase admin client not configured");
@@ -58,25 +53,48 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error } = await supabaseAdmin
-      .from("user_info")
-      .update({
-        has_license: true,
-        license_purchased_at: new Date().toISOString(),
-        stripe_customer_id: session.customer as string,
-        stripe_session_id: session.id,
-      })
-      .eq("id", userId);
+    if (userId) {
+      // Signed-in purchase: grant license immediately
+      const { error } = await supabaseAdmin
+        .from("user_info")
+        .update({
+          has_license: true,
+          license_purchased_at: new Date().toISOString(),
+          stripe_customer_id: session.customer as string,
+          stripe_session_id: session.id,
+        })
+        .eq("id", userId);
 
-    if (error) {
-      console.error("Failed to update license:", error);
-      return NextResponse.json(
-        { error: "Failed to update license" },
-        { status: 500 }
-      );
+      if (error) {
+        console.error("Failed to update license:", error);
+        return NextResponse.json(
+          { error: "Failed to update license" },
+          { status: 500 }
+        );
+      }
+
+      console.log(`License granted to user ${userId}`);
+    } else {
+      // Anonymous purchase: store as pending license to be claimed after sign-in
+      const { error } = await supabaseAdmin
+        .from("pending_licenses")
+        .insert({
+          email: session.customer_details?.email || session.customer_email,
+          stripe_session_id: session.id,
+          stripe_customer_id: session.customer as string,
+          created_at: new Date().toISOString(),
+        });
+
+      if (error) {
+        console.error("Failed to store pending license:", error);
+        return NextResponse.json(
+          { error: "Failed to store pending license" },
+          { status: 500 }
+        );
+      }
+
+      console.log(`Pending license stored for email: ${session.customer_details?.email}`);
     }
-
-    console.log(`License granted to user ${userId}`);
   }
 
   return NextResponse.json({ received: true });

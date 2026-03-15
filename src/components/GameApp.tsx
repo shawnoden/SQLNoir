@@ -156,15 +156,6 @@ export function GameApp({
           onClose={() => setPaywallCase(null)}
           caseId={paywallCase?.id ?? ""}
           triggerLocation="home_case_selection"
-          isSignedIn={!!user}
-          onSignInRequired={() => {
-            setPaywallCase(null);
-            setShowAuthModal(true);
-          }}
-        />
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
         />
       </>
     );

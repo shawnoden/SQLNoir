@@ -107,15 +107,6 @@ export function CasesExplorer({
         onClose={() => setPaywallCase(null)}
         caseId={paywallCase?.id ?? ""}
         triggerLocation="case_selection"
-        isSignedIn={!!user}
-        onSignInRequired={() => {
-          setPaywallCase(null);
-          setShowAuthModal(true);
-        }}
-      />
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
       />
     </>
   );

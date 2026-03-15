@@ -128,18 +128,12 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
           </p>
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => {
-                if (!user) {
-                  setShowAuth(true);
-                } else {
-                  setShowPaywall(true);
-                }
-              }}
+              onClick={() => setShowPaywall(true)}
               className="py-3 px-6 rounded-lg font-detective text-amber-50
                        bg-amber-800 hover:bg-amber-700 transition-colors
                        border-2 border-amber-900/50 shadow-lg"
             >
-              {user ? "Get Detective License" : "Sign In to Continue"}
+              Get Detective License
             </button>
             <button
               onClick={() => router.push("/cases")}
@@ -154,13 +148,7 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
           onClose={() => setShowPaywall(false)}
           caseId={caseData.id}
           triggerLocation="case_page"
-          isSignedIn={!!user}
-          onSignInRequired={() => {
-            setShowPaywall(false);
-            setShowAuth(true);
-          }}
         />
-        <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
       </div>
     );
   }

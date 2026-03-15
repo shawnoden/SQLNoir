@@ -14,8 +14,8 @@ interface PaywallModalProps {
   onClose: () => void;
   caseId: string;
   triggerLocation: string;
-  isSignedIn: boolean;
-  onSignInRequired: () => void;
+  isSignedIn?: boolean;
+  onSignInRequired?: () => void;
 }
 
 export function PaywallModal({
@@ -23,8 +23,6 @@ export function PaywallModal({
   onClose,
   caseId,
   triggerLocation,
-  isSignedIn,
-  onSignInRequired,
 }: PaywallModalProps) {
   const [loading, setLoading] = useState(false);
 
@@ -36,19 +34,9 @@ export function PaywallModal({
 
   const handleCtaClick = async () => {
     trackPaywallCtaClicked(caseId);
-
-    if (!isSignedIn) {
-      onSignInRequired();
-      return;
-    }
-
     setLoading(true);
     try {
-      const res = await fetch("/api/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ caseId }),
-      });
+      const res = await fetch("/api/checkout", { method: "POST" });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -169,7 +157,7 @@ export function PaywallModal({
             ) : (
               <>
                 <Shield className="w-5 h-5" />
-                {isSignedIn ? "Get Your License" : "Sign In to Get Your License"}
+                Get Your License
               </>
             )}
           </button>

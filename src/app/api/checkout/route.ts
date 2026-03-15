@@ -11,23 +11,17 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    // Check if user is signed in (optional — not required for checkout)
     const supabase = createServerSupabaseClient();
     const {
       data: { session },
     } = await supabase.auth.getSession();
 
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: "You must be signed in to purchase a license" },
-        { status: 401 }
-      );
-    }
-
     const origin = req.headers.get("origin") || "https://www.sqlnoir.com";
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
+    const checkoutParams: any = {
+      mode: "payment" as const,
+      payment_method_types: ["card" as const],
       line_items: [
         {
           price: STRIPE_CONFIG.priceId,
@@ -36,11 +30,19 @@ export async function POST(req: NextRequest) {
       ],
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cases`,
-      customer_email: session.user.email,
-      metadata: {
-        user_id: session.user.id,
-      },
-    });
+      metadata: {} as Record<string, string>,
+    };
+
+    if (session?.user) {
+      // Signed-in user: attach user_id and pre-fill email
+      checkoutParams.customer_email = session.user.email;
+      checkoutParams.metadata.user_id = session.user.id;
+    } else {
+      // Anonymous user: Stripe will collect email, we'll link after sign-in
+      checkoutParams.metadata.anonymous = "true";
+    }
+
+    const checkoutSession = await stripe.checkout.sessions.create(checkoutParams);
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error: any) {
