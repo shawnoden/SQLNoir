@@ -52,9 +52,9 @@ export function BlogPost({ slug }: BlogPostProps) {
       post_slug: metadata.slug,
       title: metadata.title,
     });
-    capture("blog_post_viewed", {
+    trackBlogPostViewed({
       post_slug: metadata.slug,
-      referrer: typeof document !== "undefined" ? document.referrer : "",
+      referrer: typeof document !== "undefined" ? (document.referrer || "direct") : "direct",
     });
 
     const depths = [25, 50, 75, 100];

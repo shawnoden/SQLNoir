@@ -83,7 +83,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
 
       const result = await executeQuery(sanitizedQuery);
 
-      capture("sql_query_submitted", {
+      trackSqlQuerySubmitted({
         case_id: caseId,
         is_correct: !result.error,
         query_length: sanitizedQuery.length,

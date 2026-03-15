@@ -115,7 +115,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           }
         } else {
           // Show success message for sign up
-          capture("sign_up_completed");
+          trackSignUpCompleted();
           setError("success:Account created! You can now sign in.");
           setIsLogin(true);
           setPassword("");
