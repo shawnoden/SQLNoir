@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db, QueryResult } from '../services/DatabaseService';
 
-export function useDatabase(caseId: string) {
+export function useDatabase(caseId: string, locale: string = 'en') {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -21,7 +21,7 @@ export function useDatabase(caseId: string) {
         await new Promise(resolve => setTimeout(resolve, 100));
         
         // Load the case-specific database
-        await db.loadCaseDatabase(caseId);
+        await db.loadCaseDatabase(caseId, locale);
         
         if (mounted) {
           setIsInitialized(true);
@@ -42,7 +42,7 @@ export function useDatabase(caseId: string) {
     return () => {
       mounted = false;
     };
-  }, [caseId]);
+  }, [caseId, locale]);
 
   const executeQuery = async (sql: string): Promise<QueryResult> => {
     if (!isInitialized) {

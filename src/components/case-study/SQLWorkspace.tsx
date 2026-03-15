@@ -13,7 +13,7 @@ import { SQLEditor } from "./SQLEditor";
 import { useDatabase } from "../../hooks/useDatabase";
 import type { QueryResult } from "../../services/DatabaseService";
 import { trackSqlQuerySubmitted } from "../../lib/posthog-events";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface SQLWorkspaceProps {
   caseId: string;
@@ -21,6 +21,7 @@ interface SQLWorkspaceProps {
 
 export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const [query, setQuery] = useState("");
   const [selectedQuery, setSelectedQuery] = useState("");
   const [error, setError] = useState("");
@@ -64,7 +65,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
     }
   }, []);
 
-  const { isLoading, error: dbError, executeQuery } = useDatabase(caseId);
+  const { isLoading, error: dbError, executeQuery } = useDatabase(caseId, locale);
 
   const handleExecute = async () => {
     const trimmedSelection = selectedQuery.trim();

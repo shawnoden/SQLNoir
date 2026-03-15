@@ -13,6 +13,7 @@ interface DashboardProps {
   onLockedCaseClick: (caseData: Case) => void;
   userInfo: any;
   hasLicense: boolean;
+  localizedCases?: Record<string, any[]>;
 }
 
 export function Dashboard({
@@ -20,6 +21,7 @@ export function Dashboard({
   onLockedCaseClick,
   userInfo,
   hasLicense,
+  localizedCases,
 }: DashboardProps) {
   const t = useTranslations();
   const currentXP = userInfo?.xp || 0;
@@ -59,7 +61,7 @@ export function Dashboard({
                     <div className="flex items-center space-x-2">
                       <category.icon className="w-5 h-5 text-amber-700" />
                       <h3 className="font-detective text-xl text-amber-800">
-                        {category.title}
+                        {t(`cases.${category.id}` as any)}
                       </h3>
                     </div>
                     {isLocked && (
@@ -73,7 +75,7 @@ export function Dashboard({
                   </div>
 
                   <div className="space-y-4">
-                    {cases[category.id as keyof typeof cases].map(
+                    {((localizedCases || cases)[category.id as keyof typeof cases] || []).map(
                       (caseData) => (
                         <div key={caseData.id} className="relative">
                           <CaseFile

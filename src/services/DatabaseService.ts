@@ -12,6 +12,7 @@ class DatabaseService {
   private SQL: any;
   private initialized = false;
   private currentCaseId: string | null = null;
+  private currentLocale: string | null = null;
 
   private constructor() {}
 
@@ -22,7 +23,15 @@ class DatabaseService {
     return DatabaseService.instance;
   }
 
-  static async loadCaseSchema(caseId: string): Promise<string[]> {
+  static async loadCaseSchema(caseId: string, locale: string = 'en'): Promise<string[]> {
+    if (locale !== 'en') {
+      try {
+        const localizedSchema: any = await import(`../cases/schemas/${locale}/${caseId}.ts`);
+        return localizedSchema.default;
+      } catch {
+        // Fallback to English schema
+      }
+    }
     const caseSchema: any = await import(`../cases/schemas/${caseId}.ts`);
     return caseSchema.default;
   }
@@ -41,13 +50,13 @@ class DatabaseService {
     }
   }
 
-  async loadCaseDatabase(caseId: string): Promise<void> {
+  async loadCaseDatabase(caseId: string, locale: string = 'en'): Promise<void> {
     if (!this.initialized) {
       throw new Error("SQL.js not initialized");
     }
 
-    if (this.currentCaseId === caseId && this.db) {
-      return; // Database for this case is already loaded
+    if (this.currentCaseId === caseId && this.currentLocale === locale && this.db) {
+      return; // Database for this case and locale is already loaded
     }
 
     // Close existing database if any
@@ -57,7 +66,7 @@ class DatabaseService {
     }
 
     // Get case schema data
-    const caseSchema = await DatabaseService.loadCaseSchema(caseId);
+    const caseSchema = await DatabaseService.loadCaseSchema(caseId, locale);
     if (!caseSchema) {
       throw new Error(`No case found with ID ${caseId}`);
     }
@@ -71,6 +80,7 @@ class DatabaseService {
         this.db!.run(statement);
       });
       this.currentCaseId = caseId;
+      this.currentLocale = locale;
     } catch (error) {
       console.error("Error loading case database:", error);
       throw error;

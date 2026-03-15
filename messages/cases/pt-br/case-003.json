@@ -1,13 +1,13 @@
 {
   "id": "case-003",
-  "title": "The Miami Marina Murder",
-  "description": "A body was found at Coral Bay Marina. Two potential suspects were last seen near the scene. Find the murderer and bring them to justice.",
-  "brief": "A body was found floating near the docks of Coral Bay Marina in the early hours of August 14, 1986. Your job, detective, is to find the murderer and bring them to justice.\nThis case might require the use of JOINs, wildcard searches, and logical deduction. Get to work, detective.",
+  "title": "O Assassinato na Marina de Miami",
+  "description": "Um corpo foi encontrado na Coral Bay Marina. Dois possíveis suspeitos foram vistos pela última vez perto da cena. Encontre o assassino e leve-o à justiça.",
+  "brief": "Um corpo foi encontrado flutuando perto das docas da Coral Bay Marina nas primeiras horas de 14 de agosto de 1986. Seu trabalho, detetive, é encontrar o assassino e levá-lo à justiça.\nEste caso pode exigir o uso de JOINs, buscas com curingas e dedução lógica. Mãos à obra, detetive.",
   "objectives": [
-    "Find the murderer. ( Start by finding the crime scene and go from there )"
+    "Encontre o assassino. (Comece encontrando a cena do crime e prossiga a partir daí)"
   ],
   "solution": {
-    "successMessage": "Great detective work! Thomas Brown has confessed to the crime.",
-    "explanation": "The investigation started with two suspects from the crime scene, one living on Ocean Drive and the other with a name ending in \"ez\".\nAfter interviewing them, hotel check-ins were filtered using two separate clues: first by date, then further refined using surveillance records.\nOnly three people matched both filters.\nAn interview with each of them revealed their role in the case, and after pressing further, Thomas Brown confessed to the crime."
+    "successMessage": "Ótimo trabalho de detetive! Thomas Brown confessou o crime.",
+    "explanation": "A investigação começou com dois suspeitos da cena do crime, um morando na Ocean Drive e outro com um nome terminando em \"ez\".\nApós interrogá-los, os registros de check-in do hotel foram filtrados usando duas pistas separadas: primeiro pela data, depois refinados usando registros de vigilância.\nApenas três pessoas correspondiam a ambos os filtros.\nUm interrogatório com cada um deles revelou seu papel no caso, e após mais pressão, Thomas Brown confessou o crime."
   }
 }

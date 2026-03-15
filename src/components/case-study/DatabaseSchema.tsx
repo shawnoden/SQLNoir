@@ -10,7 +10,7 @@ import {
   ChevronUp,
   Copy,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import ReactFlow, {
   Node,
   Edge,
@@ -223,12 +223,13 @@ export function DatabaseSchemaGraph({ schema }: { schema: SchemaInfo[] }) {
 
 export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const [schema, setSchema] = React.useState<SchemaInfo[]>([]);
   const [viewMode, setViewMode] = React.useState<"table" | "graph">("table");
   const [expandedTables, setExpandedTables] = React.useState<Set<string>>(
     new Set()
   );
-  const { isLoading, error } = useDatabase(caseId);
+  const { isLoading, error } = useDatabase(caseId, locale);
 
   const toggleTable = (tableName: string) => {
     setExpandedTables((prev) => {

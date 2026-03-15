@@ -1,15 +1,15 @@
 {
   "id": "case-001",
-  "title": "The Vanishing Briefcase",
-  "description": "A briefcase containing sensitive documents has vanished from the Blue Note Lounge. Follow the clues to identify the thief.",
-  "brief": "Set in the gritty 1980s, a valuable briefcase has disappeared from the Blue Note Lounge. A witness reported that a man in a trench coat was seen fleeing the scene. Investigate the crime scene, review the list of suspects, and examine interview transcripts to reveal the culprit.",
+  "title": "A Maleta Desaparecida",
+  "description": "Uma maleta contendo documentos confidenciais desapareceu do Blue Note Lounge. Siga as pistas para identificar o ladrão.",
+  "brief": "Ambientado nos sombrios anos 1980, uma maleta valiosa desapareceu do Blue Note Lounge. Uma testemunha relatou que um homem de sobretudo foi visto fugindo da cena. Investigue a cena do crime, revise a lista de suspeitos e examine as transcrições dos interrogatórios para revelar o culpado.",
   "objectives": [
-    "Retrieve the correct crime scene details to gather the key clue.",
-    "Identify the suspect whose profile matches the witness description.",
-    "Verify the suspect using their interview transcript."
+    "Recupere os detalhes corretos da cena do crime para obter a pista principal.",
+    "Identifique o suspeito cujo perfil corresponde à descrição da testemunha.",
+    "Verifique o suspeito usando a transcrição do interrogatório."
   ],
   "solution": {
-    "successMessage": "Congratulations, detective! You have successfully identified Vincent Malone as the culprit.",
-    "explanation": "First, you retrieved the crime scene details from the 'crime_scene' table which mentioned a man in a trench coat with a scar on his left cheek. Next, querying the 'suspects' table narrowed the field down to two individuals. Finally, examining the 'interviews' table confirmed that Vincent Malone indeed stole the briefcase."
+    "successMessage": "Parabéns, detetive! Você identificou com sucesso Vincent Malone como o culpado.",
+    "explanation": "Primeiro, você recuperou os detalhes da cena do crime na tabela 'crime_scene', que mencionava um homem de sobretudo com uma cicatriz na bochecha esquerda. Em seguida, consultando a tabela 'suspects', o campo foi reduzido a dois indivíduos. Finalmente, examinando a tabela 'interviews', confirmou-se que Vincent Malone de fato roubou a maleta."
   }
 }
