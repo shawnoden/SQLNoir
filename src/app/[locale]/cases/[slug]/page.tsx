@@ -62,7 +62,6 @@ export default async function CasePage({ params }: CasePageProps) {
 
   const locale = await getLocale();
   const caseData = await getLocalizedCase(baseCaseData, locale);
-
   const tNav = await getTranslations("nav");
   const slugUrl = `https://www.sqlnoir.com/cases/${params.slug}`;
 

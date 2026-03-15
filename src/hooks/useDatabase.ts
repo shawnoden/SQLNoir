@@ -13,16 +13,16 @@ export function useDatabase(caseId: string, locale: string = 'en') {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         // Initialize SQL.js first
         await db.initialize();
-        
+
         // Add a small delay to ensure proper initialization
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         // Load the case-specific database
         await db.loadCaseDatabase(caseId, locale);
-        
+
         if (mounted) {
           setIsInitialized(true);
           setIsLoading(false);

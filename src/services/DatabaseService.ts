@@ -23,13 +23,18 @@ class DatabaseService {
     return DatabaseService.instance;
   }
 
-  static async loadCaseSchema(caseId: string, locale: string = 'en'): Promise<string[]> {
-    if (locale !== 'en') {
+  static async loadCaseSchema(
+    caseId: string,
+    locale: string = "en",
+  ): Promise<string[]> {
+    if (locale !== "en") {
       try {
-        const localizedSchema: any = await import(`../cases/schemas/${locale}/${caseId}.ts`);
-        return localizedSchema.default;
+        const caseSchema: any = await import(
+          `../cases/schemas/${locale}/${caseId}.ts`
+        );
+        return caseSchema.default;
       } catch {
-        // Fallback to English schema
+        // Fall back to English schema if locale-specific one doesn't exist
       }
     }
     const caseSchema: any = await import(`../cases/schemas/${caseId}.ts`);
@@ -50,13 +55,20 @@ class DatabaseService {
     }
   }
 
-  async loadCaseDatabase(caseId: string, locale: string = 'en'): Promise<void> {
+  async loadCaseDatabase(
+    caseId: string,
+    locale: string = "en",
+  ): Promise<void> {
     if (!this.initialized) {
       throw new Error("SQL.js not initialized");
     }
 
-    if (this.currentCaseId === caseId && this.currentLocale === locale && this.db) {
-      return; // Database for this case and locale is already loaded
+    if (
+      this.currentCaseId === caseId &&
+      this.currentLocale === locale &&
+      this.db
+    ) {
+      return; // Database for this case+locale is already loaded
     }
 
     // Close existing database if any

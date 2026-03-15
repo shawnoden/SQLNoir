@@ -42,14 +42,18 @@ export async function getLocalizedCase(caseData: Case, locale: string): Promise<
         explanation: t.solution?.explanation || caseData.solution.explanation,
       },
     };
-  } catch { return caseData; }
+  } catch {
+    return caseData;
+  }
 }
 
 export async function getAllLocalizedCases(locale: string): Promise<Record<string, Case[]>> {
   if (locale === 'en') return cases;
   const result: Record<string, Case[]> = {};
   for (const [category, caseList] of Object.entries(cases)) {
-    result[category] = await Promise.all(caseList.map((c) => getLocalizedCase(c, locale)));
+    result[category] = await Promise.all(
+      caseList.map((c) => getLocalizedCase(c, locale))
+    );
   }
   return result;
 }
