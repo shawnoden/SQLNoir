@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe, STRIPE_CONFIG } from "@/lib/stripe";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { getPriceTier } from "@/lib/ppp-prices";
 
 export async function POST(req: NextRequest) {
   if (!stripe) {
@@ -19,18 +20,28 @@ export async function POST(req: NextRequest) {
 
     const origin = req.headers.get("origin") || "https://www.sqlnoir.com";
 
+    // Detect country for PPP pricing
+    const country = req.headers.get("x-vercel-ip-country") || "US";
+    const priceTier = getPriceTier(country);
+
+    // Use tier-specific Stripe Price ID if available, otherwise fall back to default with amount override
+    const hasTierPriceId = priceTier.priceId && priceTier.priceId.startsWith("price_");
+
+    const lineItems = hasTierPriceId
+      ? [{ price: priceTier.priceId, quantity: 1 }]
+      : [{ price: STRIPE_CONFIG.priceId, quantity: 1 }];
+
     const checkoutParams: any = {
       mode: "payment" as const,
       payment_method_types: ["card" as const],
-      line_items: [
-        {
-          price: STRIPE_CONFIG.priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cases`,
-      metadata: {} as Record<string, string>,
+      metadata: {
+        country,
+        tier: String(priceTier.tier),
+        ppp_price: priceTier.display,
+      } as Record<string, string>,
     };
 
     if (session?.user) {

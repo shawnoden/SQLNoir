@@ -25,10 +25,20 @@ export function PaywallModal({
   triggerLocation,
 }: PaywallModalProps) {
   const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState("$14.99");
 
   useEffect(() => {
     if (isOpen) {
       trackPaywallShown(caseId, triggerLocation);
+      // Fetch localized price
+      fetch("/api/price")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.display) setPrice(data.display);
+        })
+        .catch(() => {
+          // Keep default price on error
+        });
     }
   }, [isOpen, caseId, triggerLocation]);
 
@@ -134,7 +144,7 @@ export function PaywallModal({
           <div className="text-center mb-5">
             <div className="inline-flex items-baseline gap-1">
               <span className="font-detective text-3xl text-amber-900">
-                $14.99
+                {price}
               </span>
             </div>
             <p className="text-amber-700/70 text-xs mt-1 font-detective">
