@@ -1,17 +1,23 @@
 import { CaseFile } from "./CaseFile";
 import { Lock } from "lucide-react";
 import { cases, categories } from "../cases";
+import { isCategoryLocked } from "@/lib/license";
+import type { Case } from "@/types";
 
 interface DashboardProps {
-  onCaseSelect: (caseData: any) => void;
+  onCaseSelect: (caseData: Case) => void;
+  onLockedCaseClick: (caseData: Case) => void;
   userInfo: any;
+  hasLicense: boolean;
 }
 
-export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
-  const currentXP = userInfo?.xp || 0;
+export function Dashboard({
+  onCaseSelect,
+  onLockedCaseClick,
+  userInfo,
+  hasLicense,
+}: DashboardProps) {
   const solvedCases = userInfo?.completed_cases || [];
-
-  const isCategoryLocked = (requiredXP: number) => currentXP < requiredXP;
 
   return (
     <div className="min-h-screen bg-amber-50/50">
@@ -24,7 +30,7 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {categories.map((category) => {
-              const isLocked = isCategoryLocked(category.requiredXP);
+              const isLocked = isCategoryLocked(category.id, hasLicense);
               const categoryClass = isLocked ? "opacity-75" : "";
 
               return (
@@ -39,7 +45,9 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
                     {isLocked && (
                       <div className="flex items-center text-amber-600 text-sm">
                         <Lock className="w-4 h-4 mr-1" />
-                        <span>{category.requiredXP} XP required</span>
+                        <span className="font-detective text-xs">
+                          Detective License Required
+                        </span>
                       </div>
                     )}
                   </div>
@@ -50,15 +58,21 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
                         <div key={caseData.id} className="relative">
                           <CaseFile
                             caseData={caseData}
-                            onClick={() => !isLocked && onCaseSelect(caseData)}
+                            onClick={() =>
+                              isLocked
+                                ? onLockedCaseClick(caseData)
+                                : onCaseSelect(caseData)
+                            }
                             isSolved={solvedCases.includes(caseData.id)}
                           />
                           {isLocked && (
-                            <div className="absolute inset-0 bg-amber-900/10 backdrop-blur-[1px] rounded-lg flex items-center justify-center">
+                            <div className="absolute inset-0 bg-amber-900/10 backdrop-blur-[1px] rounded-lg flex items-center justify-center cursor-pointer"
+                              onClick={() => onLockedCaseClick(caseData)}
+                            >
                               <div className="bg-amber-100 px-4 py-2 rounded-full flex items-center shadow-lg transform -rotate-12">
                                 <Lock className="w-4 h-4 mr-2 text-amber-700" />
                                 <span className="font-detective text-amber-900">
-                                  Locked
+                                  Licensed
                                 </span>
                               </div>
                             </div>
@@ -71,13 +85,6 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
               );
             })}
           </div>
-          {/* <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-1 px-4 pt-20">
-              <p className="text-lg font-detective text-amber-800">
-                More coming soon...
-              </p>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

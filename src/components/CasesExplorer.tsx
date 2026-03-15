@@ -4,8 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "@supabase/supabase-js";
 import { Dashboard } from "./Dashboard";
+import { PaywallModal } from "./PaywallModal";
+import { AuthModal } from "./auth/AuthModal";
 import { supabase } from "@/lib/supabase";
 import { getCaseSlug } from "@/lib/case-utils";
+import { getUserHasLicense } from "@/lib/license";
 import type { Case } from "@/types";
 
 interface CasesExplorerProps {
@@ -19,7 +22,11 @@ export function CasesExplorer({
 }: CasesExplorerProps) {
   const [user, setUser] = useState<any>(initialSession?.user ?? null);
   const [userInfo, setUserInfo] = useState<any>(initialUserInfo);
+  const [paywallCase, setPaywallCase] = useState<Case | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const router = useRouter();
+
+  const hasLicense = getUserHasLicense(userInfo);
 
   const fetchUserInfo = useCallback(async (userId: string) => {
     if (!supabase) return;
@@ -74,10 +81,39 @@ export function CasesExplorer({
     router.push(`/cases/${getCaseSlug(caseData)}`);
   };
 
+  const handleLockedCaseClick = (caseData: Case) => {
+    if (!user) {
+      // Not signed in — prompt auth first
+      setShowAuthModal(true);
+      return;
+    }
+    // Signed in but no license — show paywall
+    setPaywallCase(caseData);
+  };
+
   return (
-    <Dashboard
-      onCaseSelect={handleCaseSelect}
-      userInfo={userInfo}
-    />
+    <>
+      <Dashboard
+        onCaseSelect={handleCaseSelect}
+        onLockedCaseClick={handleLockedCaseClick}
+        userInfo={userInfo}
+        hasLicense={hasLicense}
+      />
+      <PaywallModal
+        isOpen={paywallCase !== null}
+        onClose={() => setPaywallCase(null)}
+        caseId={paywallCase?.id ?? ""}
+        triggerLocation="case_selection"
+        isSignedIn={!!user}
+        onSignInRequired={() => {
+          setPaywallCase(null);
+          setShowAuthModal(true);
+        }}
+      />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+    </>
   );
 }
