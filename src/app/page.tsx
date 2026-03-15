@@ -4,6 +4,7 @@ import { BsIncognito } from "react-icons/bs";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { TrackedLink } from "@/components/TrackedLink";
+import { HomepageCTA } from "@/components/HomepageCTA";
 
 export default function HomePage() {
   const faqItems = [
@@ -88,18 +89,11 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <TrackedLink
-                href="/cases"
-                event="cta_click"
-                eventProps={{
-                  cta_id: "hero-start-investigation",
-                  page: "/",
-                  source: "hero",
-                }}
+              <HomepageCTA
+                ctaId="hero-start-investigation"
+                source="hero"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-amber-800 hover:bg-amber-700 text-amber-50 font-detective text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Start Investigation
-              </TrackedLink>
+              />
               <div className="flex items-center gap-3 text-amber-800">
                 <TrackedLink
                   href="/blog"
@@ -223,18 +217,11 @@ export default function HomePage() {
                 Ready to see it in action?
             </p>
             <div className="pt-4">
-              <TrackedLink
-                href="/cases"
-                event="cta_click"
-                eventProps={{
-                  cta_id: "how-it-works-start-solving",
-                  page: "/",
-                  source: "how-it-works",
-                }}
+              <HomepageCTA
+                ctaId="how-it-works-start-solving"
+                source="how-it-works"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-amber-900 text-amber-50 font-detective text-lg transition-colors duration-200 hover:bg-amber-800 shadow-md"
-              >
-                Start Solving Cases
-              </TrackedLink>
+              />
             </div>
             </div>
             <div className="space-y-4">

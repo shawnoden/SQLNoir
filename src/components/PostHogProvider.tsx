@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { initPostHog, posthog } from "@/lib/posthog";
+import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { initPostHog, posthog, POSTHOG_KEY } from "@/lib/posthog";
 import { supabase } from "@/lib/supabase";
 import { identifyUser, resetUser } from "@/lib/analytics";
 
@@ -54,5 +55,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  return <>{children}</>;
+  if (!POSTHOG_KEY) return <>{children}</>;
+
+  return <PHProvider client={posthog}>{children}</PHProvider>;
 }

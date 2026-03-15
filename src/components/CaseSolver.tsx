@@ -17,6 +17,7 @@ import { CaseNotes } from "./case-study/CaseNotes";
 import type { Case } from "../types";
 import { track } from "@vercel/analytics/react";
 import { capture } from "../lib/analytics";
+import posthog from "posthog-js";
 
 const tabs = [
   { id: "brief", label: "Case Brief", icon: Book },
@@ -51,6 +52,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
       case_id: caseData.id,
       case_name: caseData.title,
       difficulty: caseData.difficulty,
+      category: caseData.category,
     });
   }, [caseData]);
 

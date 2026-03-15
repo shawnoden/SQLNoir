@@ -3,8 +3,10 @@ import { Send, CheckCircle, XCircle, Loader2, Share2 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import type { Case } from "../../types";
 import { SharePopup } from "../SharePopup";
+import { Paywall } from "../Paywall";
 import { track } from "@vercel/analytics/react";
 import { capture } from "../../lib/analytics";
+import posthog from "posthog-js";
 
 interface SolutionSubmissionProps {
   caseData: Case;
@@ -24,6 +26,7 @@ export function SolutionSubmission({
   const [attempts, setAttempts] = useState(0);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [shareContext, setShareContext] = useState("case-solved");
+  const [isPaywallOpen, setIsPaywallOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +95,17 @@ export function SolutionSubmission({
           case_id: caseData.id,
           time_spent_seconds: 0,
           query_count: attemptsNext,
+          difficulty: caseData.difficulty,
+          category: caseData.category,
         });
+
+        // Show paywall based on A/B test placement
+        const placement = posthog.getFeatureFlag("paywall-placement");
+        const triggerAfterCase1 = placement === "after-case-1" && caseData.id === "case-001";
+        const triggerAfterCase2 = placement !== "after-case-1" && caseData.id === "case-002";
+        if (triggerAfterCase1 || triggerAfterCase2) {
+          setTimeout(() => setIsPaywallOpen(true), 1500);
+        }
       } else {
         track("case_solve_failure", {
           case_slug: caseData.id,
@@ -192,6 +205,11 @@ export function SolutionSubmission({
           isOpen={isShareOpen}
           onClose={() => setIsShareOpen(false)}
           context={shareContext}
+        />
+        <Paywall
+          isOpen={isPaywallOpen}
+          onClose={() => setIsPaywallOpen(false)}
+          caseSlug={caseData.id}
         />
       </div>
     );
