@@ -148,7 +148,7 @@ export function PaywallModal({
               </span>
             </div>
             <p className="text-amber-700/70 text-xs mt-1 font-detective">
-              One-time payment &mdash; forever yours
+              One-time payment, forever yours
             </p>
           </div>
 

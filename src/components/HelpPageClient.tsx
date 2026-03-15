@@ -20,9 +20,9 @@ export function HelpPageClient() {
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: t('help.navHome'), href: "/", activeMatch: "/" },
-          { label: t('help.navCases'), href: "/cases", activeMatch: "/cases" },
-          { label: t('help.navHelp'), href: "/help", activeMatch: "/help" },
+          { label: t('nav.home'), href: "/", activeMatch: "/" },
+          { label: t('nav.cases'), href: "/cases", activeMatch: "/cases" },
+          { label: t('nav.help'), href: "/help", activeMatch: "/help" },
         ]}
         showShare
       />
@@ -36,7 +36,7 @@ export function HelpPageClient() {
               {t('help.subtitle')}
             </p>
             <p className="text-amber-800">
-              {t('help.startInvestigation')}
+              {t('help.startNew')}{" "}
               <Link
                 href="/cases"
                 className="underline ml-1"
@@ -44,13 +44,13 @@ export function HelpPageClient() {
               >
                 {t('help.caseFiles')}
               </Link>{" "}
-              {t('help.orBrowseTips')}{" "}
+              {t('help.orBrowse')}{" "}
               <Link
                 href="/blog"
                 className="underline"
                 onClick={() => track("help_action", { action: "blog", page: "/help" })}
               >
-                {t('help.detectivesJournal')}
+                {t('help.caseFiles')}
               </Link>
               .
             </p>
@@ -65,7 +65,7 @@ export function HelpPageClient() {
                 </h2>
               </div>
               <p className="text-amber-800">
-                {t('help.discordDescription')}
+                {t('help.discordDesc')}
               </p>
               <Link
                 href="https://discord.gg/rMQRwrRYHH"
@@ -84,7 +84,7 @@ export function HelpPageClient() {
                 </h2>
               </div>
               <p className="text-amber-800">
-                {t('help.githubDescription')}
+                {t('help.githubDesc')}
               </p>
               <Link
                 href="https://github.com/hristo2612/SQLNoir/issues"
@@ -103,26 +103,26 @@ export function HelpPageClient() {
             <div className="space-y-3 text-amber-800">
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  {t('help.needClueTitle')}
+                  {t('help.faqClueQ')}
                 </p>
                 <p>
-                  {t('help.needClueDescription')}
+                  {t('help.faqClueA')}
                 </p>
               </div>
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  {t('help.foundBugTitle')}
+                  {t('help.faqBugQ')}
                 </p>
                 <p>
-                  {t('help.foundBugDescription')}
+                  {t('help.faqBugA')}
                 </p>
               </div>
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  {t('help.joinForceTitle')}
+                  {t('help.faqContributeQ')}
                 </p>
                 <p>
-                  {t('help.joinForceDescription')}
+                  {t('help.faqContributeA')}
                 </p>
               </div>
             </div>

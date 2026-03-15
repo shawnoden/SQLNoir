@@ -52,7 +52,7 @@ export function GetLicenseButton({
       }
     >
       <Shield className="w-5 h-5" />
-      {loading ? "Redirecting..." : "Get Detective License — $14.99"}
+      {loading ? "Redirecting..." : "Get Detective License"}
     </button>
   );
 }
