@@ -2,6 +2,7 @@ import Script from "next/script";
 import { Github, BookOpen } from "lucide-react";
 import { BsIncognito } from "react-icons/bs";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { TrackedLink } from "@/components/TrackedLink";
 
 export default function HomePage() {
@@ -323,6 +324,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <Footer />
       <Script
         id="home-json-ld"
         type="application/ld+json"
