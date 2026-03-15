@@ -21,4 +21,23 @@ export function initPostHog() {
   initialized = true;
 }
 
+export function trackPaywallShown(caseId: string, triggerLocation: string) {
+  posthog.capture("paywall_shown", {
+    case_id: caseId,
+    trigger_location: triggerLocation,
+  });
+}
+
+export function trackPaywallCtaClicked(caseId: string) {
+  posthog.capture("paywall_cta_clicked", {
+    case_id: caseId,
+  });
+}
+
+export function trackPaywallDismissed(caseId: string) {
+  posthog.capture("paywall_dismissed", {
+    case_id: caseId,
+  });
+}
+
 export { posthog };

@@ -8,9 +8,13 @@ import { FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 import { Dashboard } from "./Dashboard";
 import { CaseSolver } from "./CaseSolver";
+import { PaywallModal } from "./PaywallModal";
+import { AuthModal } from "./auth/AuthModal";
 import { UserMenu } from "./auth/UserMenu";
 import { SharePopup } from "./SharePopup";
 import { supabase } from "../lib/supabase";
+import { getUserHasLicense } from "@/lib/license";
+import type { Case } from "@/types";
 import type { Session } from "@supabase/supabase-js";
 
 const SQL_TIPS = [
@@ -34,6 +38,10 @@ export function GameApp({
   const [userInfo, setUserInfo] = useState<any>(initialUserInfo);
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const [shareContext, setShareContext] = useState("game-app");
+  const [paywallCase, setPaywallCase] = useState<Case | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const hasLicense = getUserHasLicense(userInfo);
 
   const fetchUserInfo = useCallback(async (userId: string) => {
     if (!supabase) return;
@@ -130,7 +138,30 @@ export function GameApp({
         />
         <Dashboard
           onCaseSelect={setSelectedCase}
+          onLockedCaseClick={(caseData: Case) => {
+            if (!user) {
+              setShowAuthModal(true);
+            } else {
+              setPaywallCase(caseData);
+            }
+          }}
           userInfo={userInfo}
+          hasLicense={hasLicense}
+        />
+        <PaywallModal
+          isOpen={paywallCase !== null}
+          onClose={() => setPaywallCase(null)}
+          caseId={paywallCase?.id ?? ""}
+          triggerLocation="home_case_selection"
+          isSignedIn={!!user}
+          onSignInRequired={() => {
+            setPaywallCase(null);
+            setShowAuthModal(true);
+          }}
+        />
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
         />
       </>
     );
