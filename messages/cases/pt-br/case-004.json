@@ -1,13 +1,11 @@
 {
   "id": "case-004",
-  "title": "The Midnight Masquerade Murder",
-  "description": "Leonard Pierce was murdered at a Coconut Grove masked ball. Follow the clues to reveal the true murderer.",
-  "brief": "On October 31, 1987, at a Coconut Grove mansion masked ball, Leonard Pierce was found dead in the garden. Can you piece together all the clues to expose the true murderer?",
-  "objectives": [
-    "Reveal the true murderer of this complex case."
-  ],
+  "title": "O Assassinato no Baile de Máscaras da Meia-Noite",
+  "description": "Leonard Pierce foi assassinado em um baile de máscaras em Coconut Grove. Siga as pistas para revelar o verdadeiro assassino.",
+  "brief": "Em 31 de outubro de 1987, em um baile de máscaras na mansão de Coconut Grove, Leonard Pierce foi encontrado morto no jardim. Você consegue juntar todas as pistas para expor o verdadeiro assassino?",
+  "objectives": ["Revele o verdadeiro assassino deste caso complexo."],
   "solution": {
-    "successMessage": "Outstanding detective work! The evidence conclusively shows that Marco Santos is the true murderer.",
-    "explanation": "You began by retrieving the crime scene record and examining witness statements, which mentioned a hotel booking at The Grand Regency (room 707 on 19871030).\nFiltering hotel check-ins by these clues returned multiple entries.\nA JOIN with surveillance records narrowed the field to one key entry that noted a subject yelling on a phone (\"I'm gonna kill him!\").\nReviewing phone records, you found a call to Victor DiMarco containing the phrase \"Why did you kill him, bro? You should have let the carpenter do his job!\"\nIdentifying the recipient of that call and interviewing him revealed that he was not the killer but hinted that the true murderer is a carpenter driving a Lamborghini.\nJoining the vehicle registry with the person table (filtering for occupation \"Carpenter\" and car model \"Lamborghini\") yielded one candidate.\nA final interview with that candidate resulted in a confession.\nThus, the true murderer is Marco Santos."
+    "successMessage": "Trabalho de detetive excepcional! As evidências mostram conclusivamente que Marco Santos é o verdadeiro assassino.",
+    "explanation": "Você começou recuperando o registro da cena do crime e examinando os depoimentos das testemunhas, que mencionavam uma reserva de hotel no The Grand Regency (quarto 707 em 19871030).\nFiltrando os check-ins do hotel por essas pistas, retornaram múltiplas entradas.\nUm JOIN com os registros de vigilância reduziu o campo a uma entrada-chave que registrou um indivíduo gritando ao telefone (\"Eu vou matar ele!\").\nRevisando os registros telefônicos, você encontrou uma ligação para Victor DiMarco contendo a frase \"Por que você matou ele, cara? Devia ter deixado o carpinteiro fazer o trabalho dele!\"\nIdentificando o destinatário dessa ligação e interrogando-o, revelou-se que ele não era o assassino, mas insinuou que o verdadeiro assassino é um Carpinteiro que dirige uma Lamborghini.\nCruzando o registro de veículos com a tabela de pessoas (filtrando por profissão \"Carpinteiro\" e modelo de carro \"Lamborghini\") resultou em um candidato.\nUm interrogatório final com esse candidato resultou em uma confissão.\nAssim, o verdadeiro assassino é Marco Santos."
   }
 }

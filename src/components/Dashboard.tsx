@@ -8,9 +8,10 @@ import { useTranslations } from "next-intl";
 interface DashboardProps {
   onCaseSelect: (caseData: any) => void;
   userInfo: any;
+  localizedCases?: Record<string, any[]>;
 }
 
-export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
+export function Dashboard({ onCaseSelect, userInfo, localizedCases }: DashboardProps) {
   const t = useTranslations();
   const currentXP = userInfo?.xp || 0;
   const solvedCases = userInfo?.completed_cases || [];
@@ -37,7 +38,7 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
                     <div className="flex items-center space-x-2">
                       <category.icon className="w-5 h-5 text-amber-700" />
                       <h3 className="font-detective text-xl text-amber-800">
-                        {category.title}
+                        {t(`cases.${category.id}` as any)}
                       </h3>
                     </div>
                     {isLocked && (
@@ -49,7 +50,7 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
                   </div>
 
                   <div className="space-y-4">
-                    {cases[category.id as keyof typeof cases].map(
+                    {((localizedCases || cases)[category.id as keyof typeof cases] || []).map(
                       (caseData) => (
                         <div key={caseData.id} className="relative">
                           <CaseFile

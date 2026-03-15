@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { CasesExplorer } from "@/components/CasesExplorer";
 import { Navbar } from "@/components/Navbar";
-import { getAllCases, getCaseSlug } from "@/lib/case-utils";
+import { getAllCases, getCaseSlug, getAllLocalizedCases } from "@/lib/case-utils";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +42,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CasesPage() {
   const casesList = getAllCases();
+  const locale = await getLocale();
+  const localizedCases = await getAllLocalizedCases(locale);
   const tNav = await getTranslations("nav");
   const tMeta = await getTranslations("cases.metadata");
 
@@ -72,7 +74,7 @@ export default async function CasesPage() {
         ]}
         showShare
       />
-      <CasesExplorer initialSession={session} initialUserInfo={userInfo} />
+      <CasesExplorer initialSession={session} initialUserInfo={userInfo} localizedCases={localizedCases} />
       <Script
         id="cases-json-ld"
         type="application/ld+json"

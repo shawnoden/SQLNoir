@@ -11,11 +11,13 @@ import type { Case } from "@/types";
 interface CasesExplorerProps {
   initialSession?: Session | null;
   initialUserInfo?: any;
+  localizedCases?: Record<string, Case[]>;
 }
 
 export function CasesExplorer({
   initialSession = null,
   initialUserInfo = null,
+  localizedCases,
 }: CasesExplorerProps) {
   const [user, setUser] = useState<any>(initialSession?.user ?? null);
   const [userInfo, setUserInfo] = useState<any>(initialUserInfo);
@@ -78,6 +80,7 @@ export function CasesExplorer({
     <Dashboard
       onCaseSelect={handleCaseSelect}
       userInfo={userInfo}
+      localizedCases={localizedCases}
     />
   );
 }

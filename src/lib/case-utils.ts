@@ -24,3 +24,32 @@ export const findCaseBySlug = (slug: string) => {
     ) || null
   );
 };
+
+export async function getLocalizedCase(caseData: Case, locale: string): Promise<Case> {
+  if (locale === 'en') return caseData;
+  try {
+    const narratives = await import(`../../messages/cases/${locale}/${caseData.id}.json`);
+    const t = narratives.default || narratives;
+    return {
+      ...caseData,
+      title: t.title || caseData.title,
+      description: t.description || caseData.description,
+      brief: t.brief || caseData.brief,
+      objectives: t.objectives || caseData.objectives,
+      solution: {
+        ...caseData.solution,
+        successMessage: t.solution?.successMessage || caseData.solution.successMessage,
+        explanation: t.solution?.explanation || caseData.solution.explanation,
+      },
+    };
+  } catch { return caseData; }
+}
+
+export async function getAllLocalizedCases(locale: string): Promise<Record<string, Case[]>> {
+  if (locale === 'en') return cases;
+  const result: Record<string, Case[]> = {};
+  for (const [category, caseList] of Object.entries(cases)) {
+    result[category] = await Promise.all(caseList.map((c) => getLocalizedCase(c, locale)));
+  }
+  return result;
+}

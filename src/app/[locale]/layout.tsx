@@ -11,57 +11,73 @@ const defaultTitle =
 const defaultDescription =
   "SQLNoir is an interactive SQL game where you solve crimes and mysteries using SQL queries. Learn SQL by playing detective in this engaging SQL learning game.";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: defaultTitle,
-    template: "%s | SQLNoir",
-  },
-  description: defaultDescription,
-  keywords: [
-    "SQL game",
-    "learn SQL",
-    "interactive SQL tutorial",
-    "SQL practice",
-    "SQL detective game",
-  ],
-  alternates: {
-    canonical: "/",
-    types: {
-      "application/rss+xml": "/blog/rss.xml",
-    },
-  },
-  openGraph: {
-    type: "website",
-    url: siteUrl,
-    siteName: "SQLNoir",
+const localeMeta: Record<string, { title: string; description: string; keywords: string[] }> = {
+  en: {
     title: defaultTitle,
     description: defaultDescription,
-    images: [
-      {
-        url: "/open-graph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "SQLNoir interactive SQL detective game",
-      },
-    ],
+    keywords: ["SQL game", "learn SQL", "interactive SQL tutorial", "SQL practice", "SQL detective game"],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: defaultTitle,
-    description: defaultDescription,
-    images: ["/open-graph-image.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-96x96.png",
-    apple: "/apple-touch-icon.png",
-  },
-  robots: {
-    index: true,
-    follow: true,
+  "pt-br": {
+    title: "Jogo Interativo de SQL | Aprenda SQL Resolvendo Casos de Detetive | SQLNoir",
+    description: "SQLNoir é um jogo interativo de SQL onde você soluciona crimes e mistérios usando consultas SQL. Aprenda SQL sendo detetive neste envolvente jogo de aprendizado.",
+    keywords: ["jogo de SQL", "aprender SQL", "tutorial interativo de SQL", "praticar SQL", "jogo de detetive SQL"],
   },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = localeMeta[locale] || localeMeta.en;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: meta.title,
+      template: "%s | SQLNoir",
+    },
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: {
+      canonical: "/",
+      languages: {
+        en: "/",
+        "pt-BR": "/pt-br",
+      },
+      types: {
+        "application/rss+xml": "/blog/rss.xml",
+      },
+    },
+    openGraph: {
+      type: "website",
+      url: siteUrl,
+      siteName: "SQLNoir",
+      title: meta.title,
+      description: meta.description,
+      images: [
+        {
+          url: "/open-graph-image.png",
+          width: 1200,
+          height: 630,
+          alt: "SQLNoir interactive SQL detective game",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: ["/open-graph-image.png"],
+    },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon-96x96.png",
+      apple: "/apple-touch-icon.png",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 const jsonLd = {
   "@context": "https://schema.org",

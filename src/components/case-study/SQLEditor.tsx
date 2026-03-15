@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { db } from "../../services/DatabaseService";
 import { useDatabase } from "../../hooks/useDatabase";
 
@@ -86,6 +87,7 @@ export function SQLEditor({
   placeholder,
   caseId,
 }: SQLEditorProps) {
+  const locale = useLocale();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -93,7 +95,7 @@ export function SQLEditor({
     useState<SuggestionPosition | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [tableNames, setTableNames] = useState<string[]>([]);
-  const { isInitialized } = useDatabase(caseId);
+  const { isInitialized } = useDatabase(caseId, locale);
 
   // Check if device is mobile
   useEffect(() => {

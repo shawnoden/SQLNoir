@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { CasePageClient } from "@/components/CasePageClient";
-import { findCaseBySlug, getAllCases, getCaseSlug } from "@/lib/case-utils";
-import { getTranslations } from "next-intl/server";
+import { findCaseBySlug, getAllCases, getCaseSlug, getLocalizedCase } from "@/lib/case-utils";
+import { getTranslations, getLocale } from "next-intl/server";
 
 interface CasePageProps {
   params: { slug: string };
@@ -54,11 +54,14 @@ export function generateMetadata({ params }: CasePageProps): Metadata {
 }
 
 export default async function CasePage({ params }: CasePageProps) {
-  const caseData = findCaseBySlug(params.slug);
+  const baseCaseData = findCaseBySlug(params.slug);
 
-  if (!caseData) {
+  if (!baseCaseData) {
     return notFound();
   }
+
+  const locale = await getLocale();
+  const caseData = await getLocalizedCase(baseCaseData, locale);
 
   const tNav = await getTranslations("nav");
   const slugUrl = `https://www.sqlnoir.com/cases/${params.slug}`;

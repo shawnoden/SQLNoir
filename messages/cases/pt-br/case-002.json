@@ -1,16 +1,16 @@
 {
   "id": "case-002",
-  "title": "The Stolen Sound",
-  "description": "A prized vinyl record has been stolen from West Hollywood Records. Follow the clues to uncover the culprit.",
-  "brief": "In the neon glow of 1980s Los Angeles, the West Hollywood Records store was rocked by a daring theft. A prized vinyl record, worth over $10,000, vanished during a busy evening, leaving the store owner desperate for answers.\nVaguely recalling the details, you know the incident occurred on July 15, 1983, at this famous store. Your task is to track down the thief and bring them to justice.",
+  "title": "O Som Roubado",
+  "description": "Um disco de vinil valioso foi roubado da West Hollywood Records. Siga as pistas para descobrir o culpado.",
+  "brief": "Sob o brilho neon da Los Angeles dos anos 1980, a loja West Hollywood Records foi abalada por um roubo audacioso. Um disco de vinil valioso, avaliado em mais de $10.000, desapareceu durante uma noite movimentada, deixando o dono da loja desesperado por respostas.\nLembrando vagamente dos detalhes, você sabe que o incidente ocorreu em 15 de julho de 1983, nesta famosa loja. Sua tarefa é rastrear o ladrão e levá-lo à justiça.",
   "objectives": [
-    "Retrieve the crime scene report for the record theft using the known date and location.",
-    "Retrieve witness records linked to that crime scene to obtain their clues.",
-    "Use the clues from the witnesses to find the suspect in the suspects table.",
-    "Retrieve the suspect's interview transcript to confirm the confession."
+    "Recupere o relatório da cena do crime sobre o roubo do disco usando a data e local conhecidos.",
+    "Recupere os registros de testemunhas vinculados àquela cena do crime para obter suas pistas.",
+    "Use as pistas das testemunhas para encontrar o suspeito na tabela de suspeitos.",
+    "Recupere a transcrição do interrogatório do suspeito para confirmar a confissão."
   ],
   "solution": {
-    "successMessage": "Excellent work, detective! Rico Delgado has confessed to stealing the prized vinyl record.",
-    "explanation": "You began by querying the 'crime_scene' table with the date (19830715) and location (West Hollywood Records) to find the incident report. Then, you retrieved the two witness records from the 'witnesses' table, which revealed that:\n• The suspect wore a red bandana.\n• The suspect had a distinctive gold watch.\nNext, you queried the 'suspects' table, and there were 3 suspects matching the clues.\nFinally, you found the confession from Rico Delgado in the 'interviews' table."
+    "successMessage": "Excelente trabalho, detetive! Rico Delgado confessou ter roubado o valioso disco de vinil.",
+    "explanation": "Você começou consultando a tabela 'crime_scene' com a data (19830715) e local (West Hollywood Records) para encontrar o relatório do incidente. Em seguida, recuperou os dois registros de testemunhas da tabela 'witnesses', que revelaram que:\n• O suspeito usava uma bandana vermelha.\n• O suspeito tinha um relógio de ouro característico.\nDepois, você consultou a tabela 'suspects', e havia 3 suspeitos que correspondiam às pistas.\nFinalmente, encontrou a confissão de Rico Delgado na tabela 'interviews'."
   }
 }
