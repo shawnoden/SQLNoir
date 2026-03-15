@@ -6,13 +6,14 @@ import { getBlogPostMeta } from "@/lib/blog-posts";
 import { getTranslations } from "next-intl/server";
 
 interface BlogPostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const BASE_URL = "https://www.sqlnoir.com";
 
-export function generateMetadata({ params }: BlogPostPageProps): Metadata {
-  const post = getBlogPostMeta(params.slug);
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getBlogPostMeta(slug);
 
   if (!post) {
     return { title: "Post Not Found | SQLNoir" };
@@ -56,7 +57,8 @@ export function generateMetadata({ params }: BlogPostPageProps): Metadata {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getBlogPostMeta(params.slug);
+  const { slug } = await params;
+  const post = getBlogPostMeta(slug);
 
   if (!post) {
     return notFound();

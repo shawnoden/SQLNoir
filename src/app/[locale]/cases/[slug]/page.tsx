@@ -6,7 +6,7 @@ import { findCaseBySlug, getAllCases, getCaseSlug, getLocalizedCase } from "@/li
 import { getTranslations, getLocale } from "next-intl/server";
 
 interface CasePageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
@@ -15,8 +15,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: CasePageProps): Metadata {
-  const caseData = findCaseBySlug(params.slug);
+export async function generateMetadata({ params }: CasePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const caseData = findCaseBySlug(slug);
 
   if (!caseData) {
     return {
@@ -28,13 +29,13 @@ export function generateMetadata({ params }: CasePageProps): Metadata {
     title: caseData.title,
     description: caseData.description,
     alternates: {
-      canonical: `/cases/${params.slug}`,
+      canonical: `/cases/${slug}`,
     },
     openGraph: {
       type: "article",
       title: caseData.title,
       description: caseData.description,
-      url: `https://www.sqlnoir.com/cases/${params.slug}`,
+      url: `https://www.sqlnoir.com/cases/${slug}`,
       images: [
         {
           url: "/open-graph-image.png",
@@ -54,7 +55,8 @@ export function generateMetadata({ params }: CasePageProps): Metadata {
 }
 
 export default async function CasePage({ params }: CasePageProps) {
-  const baseCaseData = findCaseBySlug(params.slug);
+  const { slug } = await params;
+  const baseCaseData = findCaseBySlug(slug);
 
   if (!baseCaseData) {
     return notFound();
@@ -63,7 +65,7 @@ export default async function CasePage({ params }: CasePageProps) {
   const locale = await getLocale();
   const caseData = await getLocalizedCase(baseCaseData, locale);
   const tNav = await getTranslations("nav");
-  const slugUrl = `https://www.sqlnoir.com/cases/${params.slug}`;
+  const slugUrl = `https://www.sqlnoir.com/cases/${slug}`;
 
   return (
     <>
