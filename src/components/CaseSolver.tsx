@@ -16,6 +16,7 @@ import { DatabaseSchema } from "./case-study/DatabaseSchema";
 import { CaseNotes } from "./case-study/CaseNotes";
 import type { Case } from "../types";
 import { track } from "@vercel/analytics/react";
+import posthog from "posthog-js";
 
 const tabs = [
   { id: "brief", label: "Case Brief", icon: Book },
@@ -45,6 +46,11 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
       difficulty: caseData.difficulty,
       category: caseData.category,
       xp_reward: caseData.xpReward,
+    });
+    posthog.capture("case_started", {
+      case_slug: caseData.id,
+      difficulty: caseData.difficulty,
+      category: caseData.category,
     });
   }, [caseData]);
 
