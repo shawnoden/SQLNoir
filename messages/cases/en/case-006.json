@@ -1,0 +1,13 @@
+{
+  "id": "case-006",
+  "title": "The Vanishing Diamond",
+  "description": "The famous \"Heart of Atlantis\" diamond necklace suddenly disappeared from its display at the charity gala.",
+  "brief": "At Miami's prestigious Fontainebleau Hotel charity gala, the famous \"Heart of Atlantis\" diamond necklace suddenly disappeared from its display.",
+  "objectives": [
+    "Find who stole the diamond."
+  ],
+  "solution": {
+    "successMessage": "Outstanding detective work! The evidence conclusively shows that Mike Manning is the thief.",
+    "explanation": "You began by retrieving the crime scene record and examining witness statements, which mentioned a dock rental, part of a VIP-R invitation and a navy suit.\nFiltering marina rentals by these clues returned multiple entries.\nA multiple JOIN with the guest table and attire registry returned one candidate.\nA final interview with that candidate resulted in a confession.\nThus, the true thief is Mike Manning."
+  }
+}

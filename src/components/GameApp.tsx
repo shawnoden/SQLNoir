@@ -16,12 +16,7 @@ import { supabase } from "../lib/supabase";
 import { getUserHasLicense } from "@/lib/license";
 import type { Case } from "@/types";
 import type { Session } from "@supabase/supabase-js";
-
-const SQL_TIPS = [
-  "Comment your complex SQL queries",
-  "Use single quotes for text values: WHERE name = 'John'",
-  "End your SQL statements with a semicolon (;)",
-];
+import { useTranslations } from "next-intl";
 
 interface GameAppProps {
   initialSession?: Session | null;
@@ -32,6 +27,14 @@ export function GameApp({
   initialSession = null,
   initialUserInfo = null,
 }: GameAppProps) {
+  const t = useTranslations();
+
+  const SQL_TIPS = [
+    t('gameApp.sqlTip1'),
+    t('gameApp.sqlTip2'),
+    t('gameApp.sqlTip3'),
+  ];
+
   const [started, setStarted] = useState(Boolean(initialSession));
   const [selectedCase, setSelectedCase] = useState<any>(null);
   const [user, setUser] = useState<any>(initialSession?.user ?? null);
@@ -205,7 +208,7 @@ export function GameApp({
                    text-amber-900 transition-colors duration-200 backdrop-blur-sm"
         >
           <Github className="w-5 h-5" />
-          <span className="hidden sm:inline">Star on GitHub</span>
+          <span className="hidden sm:inline">{t('gameApp.starOnGitHub')}</span>
         </a>
         <a
           href="https://discord.gg/rMQRwrRYHH"
@@ -215,7 +218,7 @@ export function GameApp({
                    text-amber-900 transition-colors duration-200 backdrop-blur-sm"
         >
           <FaDiscord className="w-5 h-5" />
-          <span className="hidden sm:inline">Join Discord</span>
+          <span className="hidden sm:inline">{t('gameApp.joinDiscord')}</span>
         </a>
       </div>
 
@@ -230,11 +233,11 @@ export function GameApp({
 
         <div className="space-y-8">
           <h1 className="font-detective text-5xl md:text-8xl text-amber-900 drop-shadow-lg">
-            SQL Noir
+            {t('gameApp.sqlNoir')}
           </h1>
 
           <p className="text-xl md:text-2xl text-amber-800 font-detective">
-            Solve mysteries through SQL.
+            {t('gameApp.solveMysteriesThroughSQL')}
           </p>
 
           <button
@@ -244,11 +247,11 @@ export function GameApp({
                      flex items-center justify-center mx-auto shadow-lg hover:shadow-xl
                      focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50"
           >
-            Start Investigation
+            {t('gameApp.startInvestigation')}
             <ChevronRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
           <p className="text-amber-700 italic">
-            Detective&apos;s Tip: {SQL_TIPS[0]}
+            {t('gameApp.detectivesTip', { tip: SQL_TIPS[0] })}
           </p>
         </div>
       </div>

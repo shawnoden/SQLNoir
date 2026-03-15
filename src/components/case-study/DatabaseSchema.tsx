@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback } from "react";
 import {
   Table2,
@@ -8,6 +10,7 @@ import {
   ChevronUp,
   Copy,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import ReactFlow, {
   Node,
   Edge,
@@ -137,6 +140,7 @@ function calculateNodePosition(
 }
 
 export function DatabaseSchemaGraph({ schema }: { schema: SchemaInfo[] }) {
+  const t = useTranslations();
   const initialNodes = React.useMemo(() => {
     const nodes: Node[] = [];
     const totalTables = schema.length;
@@ -211,13 +215,14 @@ export function DatabaseSchemaGraph({ schema }: { schema: SchemaInfo[] }) {
         </ReactFlow>
       </div>
       <p className="text-sm text-amber-700 text-center italic">
-        Tip: You can drag and reposition tables to organize the schema view
+        {t('caseStudy.schemaTip')}
       </p>
     </div>
   );
 }
 
 export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
+  const t = useTranslations();
   const [schema, setSchema] = React.useState<SchemaInfo[]>([]);
   const [viewMode, setViewMode] = React.useState<"table" | "graph">("table");
   const [expandedTables, setExpandedTables] = React.useState<Set<string>>(
@@ -295,7 +300,7 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="w-6 h-6 text-amber-700 animate-spin" />
-        <span className="ml-2 text-amber-900">Loading schema...</span>
+        <span className="ml-2 text-amber-900">{t('caseStudy.loadingSchema')}</span>
       </div>
     );
   }
@@ -303,7 +308,7 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
   if (error) {
     return (
       <div className="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded">
-        <p className="font-bold">Failed to load schema</p>
+        <p className="font-bold">{t('caseStudy.failedToLoadSchema')}</p>
         <p className="text-sm">{error}</p>
       </div>
     );
@@ -312,7 +317,7 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
   if (schema.length === 0) {
     return (
       <div className="bg-amber-100/50 p-6 rounded-lg border border-amber-900/10">
-        <p className="text-amber-800">No tables found in the database.</p>
+        <p className="text-amber-800">{t('caseStudy.noTablesFound')}</p>
       </div>
     );
   }
@@ -329,7 +334,7 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
             }`}
             onClick={() => setViewMode("table")}
           >
-            Table View
+            {t('caseStudy.tableView')}
           </button>
           <button
             className={`px-3 py-1 rounded-md text-sm ${
@@ -339,7 +344,7 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
             }`}
             onClick={() => setViewMode("graph")}
           >
-            Graph View
+            {t('caseStudy.graphView')}
           </button>
         </div>
       </div>
@@ -391,13 +396,13 @@ export function DatabaseSchema({ caseId }: DatabaseSchemaProps) {
                     <thead>
                       <tr className="bg-amber-50">
                         <th className="px-6 py-3 text-left text-xs font-detective text-amber-900">
-                          Column
+                          {t('caseStudy.column')}
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-detective text-amber-900">
-                          Type
+                          {t('caseStudy.type')}
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-detective text-amber-900">
-                          Key
+                          {t('caseStudy.key')}
                         </th>
                       </tr>
                     </thead>

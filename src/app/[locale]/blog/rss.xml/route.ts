@@ -1,4 +1,5 @@
 import { blogPostsMeta } from "@/lib/blog-posts";
+import { getTranslations } from "next-intl/server";
 
 const siteUrl = "https://www.sqlnoir.com";
 
@@ -17,13 +18,14 @@ const generateRssItem = (post: (typeof blogPostsMeta)[number]) => {
 };
 
 export async function GET() {
+  const t = await getTranslations("blog.metadata");
   const items = blogPostsMeta.map(generateRssItem).join("");
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SQLNoir Detective's Journal</title>
-    <description>SQL tutorials, tips, and learning resources from SQLNoir.</description>
+    <title>${t("rssTitle")}</title>
+    <description>${t("rssDescription")}</description>
     <link>${siteUrl}/blog</link>
     <atom:link href="${siteUrl}/blog/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-US</language>

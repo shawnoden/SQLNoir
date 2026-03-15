@@ -1,9 +1,12 @@
+"use client";
+
 import { CaseFile } from "./CaseFile";
 import { Lock } from "lucide-react";
 import { cases, categories } from "../cases";
 import { GetLicenseButton } from "./GetLicenseButton";
 import { isCategoryLocked } from "@/lib/license";
 import type { Case } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface DashboardProps {
   onCaseSelect: (caseData: Case) => void;
@@ -18,6 +21,8 @@ export function Dashboard({
   userInfo,
   hasLicense,
 }: DashboardProps) {
+  const t = useTranslations();
+  const currentXP = userInfo?.xp || 0;
   const solvedCases = userInfo?.completed_cases || [];
 
   return (
@@ -25,7 +30,7 @@ export function Dashboard({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="font-detective text-3xl text-amber-900 leading-none">
-            Case Files
+            {t('cases.caseFiles')}
           </h1>
         </div>
 
@@ -87,7 +92,7 @@ export function Dashboard({
                               <div className="bg-amber-100 px-4 py-2 rounded-full flex items-center shadow-lg transform -rotate-12">
                                 <Lock className="w-4 h-4 mr-2 text-amber-700" />
                                 <span className="font-detective text-amber-900">
-                                  Licensed
+                                  {t('common.locked')}
                                 </span>
                               </div>
                             </div>

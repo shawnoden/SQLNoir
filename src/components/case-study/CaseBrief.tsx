@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import {
   FileText,
@@ -7,12 +9,14 @@ import {
   ChevronUp,
   CheckCircle,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CaseBriefProps {
   caseData: any;
 }
 
 export function CaseBrief({ caseData }: CaseBriefProps) {
+  const t = useTranslations();
   const [isHintsOpen, setIsHintsOpen] = useState(false);
 
   return (
@@ -31,7 +35,7 @@ export function CaseBrief({ caseData }: CaseBriefProps) {
       <div className="bg-amber-100/50 p-6 rounded-lg border border-amber-900/10">
         <h3 className="font-detective text-xl text-amber-900 mb-4 flex items-center">
           <Target className="w-5 h-5 mr-2" />
-          Objectives
+          {t('caseStudy.objectives')}
         </h3>
         <ul className="space-y-3 text-amber-800">
           {caseData.objectives.map((objective: string, index: number) => (

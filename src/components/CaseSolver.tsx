@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useMemo, useEffect } from "react";
 import {
   Book,
@@ -18,14 +20,7 @@ import type { Case } from "../types";
 import { track } from "@vercel/analytics/react";
 import { capture } from "../lib/analytics";
 import posthog from "posthog-js";
-
-const tabs = [
-  { id: "brief", label: "Case Brief", icon: Book },
-  { id: "workspace", label: "SQL Workspace", icon: Code },
-  { id: "schema", label: "Schema", icon: Database },
-  { id: "notes", label: "Notes", icon: PenLine, desktopOnly: true },
-  { id: "submit", label: "Submit", icon: Send },
-];
+import { useTranslations } from "next-intl";
 
 interface CaseSolverProps {
   caseData: Case;
@@ -34,6 +29,16 @@ interface CaseSolverProps {
 }
 
 export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
+  const t = useTranslations();
+
+  const tabs = [
+    { id: "brief", label: t('caseSolver.caseBrief'), icon: Book },
+    { id: "workspace", label: t('caseSolver.sqlWorkspace'), icon: Code },
+    { id: "schema", label: t('caseSolver.schema'), icon: Database },
+    { id: "notes", label: t('caseSolver.notes'), icon: PenLine, desktopOnly: true },
+    { id: "submit", label: t('caseSolver.submit'), icon: Send },
+  ];
+
   const [activeTab, setActiveTab] = useState("brief");
   const [isSolved, setIsSolved] = useState(false);
   const [isSideBySide, setIsSideBySide] = useState(false);
@@ -108,7 +113,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
             className="flex items-center text-amber-900 hover:text-amber-700 font-detective"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
+            {t('caseSolver.back')}
           </button>
           <span className="font-mono text-amber-900 text-sm">
             Case #{caseData.id.split("-")[1]} • {caseData.xpReward} XP
@@ -157,7 +162,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
             className="flex items-center text-amber-900 hover:text-amber-700 font-detective"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Cases
+            {t('caseSolver.backToCases')}
           </button>
           <div className="flex items-center gap-4">
             <button
@@ -176,7 +181,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
               ) : (
                 <Columns className="w-4 h-4 mr-2" />
               )}
-              {isSideBySide ? "Stack View" : "Side by Side"}
+              {isSideBySide ? t('caseSolver.stackView') : t('caseSolver.sideBySide')}
             </button>
             <div className="bg-amber-100 px-4 py-2 rounded-lg">
               <span className="font-mono text-amber-900">
@@ -222,7 +227,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
                       {tab.label}
                       {isSideBySide && isActive && (
                         <span className="ml-2 text-xs opacity-75">
-                          {isActiveInTab1 ? "(Tab 1)" : "(Tab 2)"}
+                          {isActiveInTab1 ? `(${t('caseSolver.tab1')})` : `(${t('caseSolver.tab2')})`}
                         </span>
                       )}
                     </button>
@@ -239,7 +244,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
                         : "text-amber-700 hover:bg-amber-100"
                     }`}
                   >
-                    Tab 1
+                    {t('caseSolver.tab1')}
                   </button>
                   <button
                     onClick={() => setActiveTabSelector(2)}
@@ -249,7 +254,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
                         : "text-amber-700 hover:bg-amber-100"
                     }`}
                   >
-                    Tab 2
+                    {t('caseSolver.tab2')}
                   </button>
                 </div>
               )}
@@ -265,7 +270,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
             <div className={`${isSideBySide ? "lg:w-1/2 min-w-0" : ""}`}>
               {isSideBySide && (
                 <div className="mb-4 text-sm font-detective text-amber-900">
-                  Tab 1
+                  {t('caseSolver.tab1')}
                 </div>
               )}
               {Object.entries(tabComponents).map(([id, component]) => (
@@ -277,7 +282,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
             {isSideBySide && (
               <div className="hidden lg:block lg:w-1/2 min-w-0 border-l border-amber-200 pl-6">
                 <div className="mb-4 text-sm font-detective text-amber-900">
-                  Tab 2
+                  {t('caseSolver.tab2')}
                 </div>
                 {Object.entries(tabComponents).map(([id, component]) => (
                   <div key={id} className={secondaryTab === id ? "" : "hidden"}>

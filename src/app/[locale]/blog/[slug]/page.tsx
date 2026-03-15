@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { BlogPost } from "@/components/blog/BlogPost";
 import { getBlogPostMeta } from "@/lib/blog-posts";
+import { getTranslations } from "next-intl/server";
 
 interface BlogPostPageProps {
   params: { slug: string };
@@ -54,12 +55,14 @@ export function generateMetadata({ params }: BlogPostPageProps): Metadata {
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = getBlogPostMeta(params.slug);
 
   if (!post) {
     return notFound();
   }
+
+  const tNav = await getTranslations("nav");
 
   const url = `${BASE_URL}/blog/${post.slug}`;
   const heroUrl = `${BASE_URL}${post.heroImage.src}`;
@@ -73,13 +76,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Home",
+            name: tNav("home"),
             item: "https://www.sqlnoir.com/",
           },
           {
             "@type": "ListItem",
             position: 2,
-            name: "Blog",
+            name: tNav("blog"),
             item: "https://www.sqlnoir.com/blog",
           },
           {

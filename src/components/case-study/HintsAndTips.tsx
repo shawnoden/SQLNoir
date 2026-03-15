@@ -1,32 +1,33 @@
+"use client";
+
 import { Lightbulb, CheckCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function HintsAndTips() {
+  const t = useTranslations();
   return (
     <div className="space-y-6">
       <div className="bg-amber-100/50 p-6 rounded-lg border border-amber-900/10">
         <h3 className="font-detective text-xl text-amber-900 mb-4 flex items-center">
           <Lightbulb className="w-5 h-5 mr-2" />
-          Investigation Tips
+          {t('hints.title')}
         </h3>
         <ul className="space-y-4">
           {[
             {
-              title: "Check for NULL Values",
-              description:
-                "Use IS NULL to find records with missing information in critical fields.",
+              title: t('hints.tip1Title'),
+              description: t('hints.tip1Description'),
               example: "SELECT * FROM Orders WHERE ShipDate IS NULL;",
             },
             {
-              title: "Join Multiple Tables",
-              description:
-                "Connect orders with customer information using JOIN operations.",
+              title: t('hints.tip2Title'),
+              description: t('hints.tip2Description'),
               example:
                 "SELECT o.*, c.CompanyName FROM Orders o JOIN Customers c ON o.CustomerID = c.CustomerID;",
             },
             {
-              title: "Filter by Date Range",
-              description:
-                "Use BETWEEN operator to find orders within specific dates.",
+              title: t('hints.tip3Title'),
+              description: t('hints.tip3Description'),
               example:
                 "SELECT * FROM Orders WHERE OrderDate BETWEEN '1998-03-01' AND '1998-04-30';",
             },

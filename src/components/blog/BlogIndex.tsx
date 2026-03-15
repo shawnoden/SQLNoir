@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
@@ -5,6 +7,7 @@ import { BsIncognito } from "react-icons/bs";
 import { Navbar } from "@/components/Navbar";
 import { type BlogPostMeta } from "@/lib/blog-posts";
 import { Pagination } from "./Pagination";
+import { useTranslations } from "next-intl";
 
 interface BlogIndexProps {
   posts: BlogPostMeta[];
@@ -13,18 +16,20 @@ interface BlogIndexProps {
 }
 
 export function BlogIndex({ posts, currentPage, totalPages }: BlogIndexProps) {
+  const t = useTranslations();
+
   return (
     <div className="min-h-screen bg-amber-50/50">
       <Navbar
-        title="Detective's Journal"
+        title={t('blog.title')}
         titleHref="/blog"
         links={[
-          { label: "Home", href: "/", activeMatch: "/" },
-          { label: "Journal", href: "/blog", activeMatch: "/blog" },
+          { label: t('blog.navHome'), href: "/", activeMatch: "/" },
+          { label: t('blog.navJournal'), href: "/blog", activeMatch: "/blog" },
         ]}
       />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
-        <h1 className="font-detective text-3xl text-amber-900 mb-8">Detective&apos;s Journal</h1>
+        <h1 className="font-detective text-3xl text-amber-900 mb-8">{t('blog.title')}</h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {posts.map((post) => (
             <article key={post.slug} className="group">
@@ -77,7 +82,7 @@ export function BlogIndex({ posts, currentPage, totalPages }: BlogIndexProps) {
                       className="inline-flex items-center w-full sm:w-auto justify-center px-5 py-3 bg-amber-800/90 text-amber-100 
                                    rounded-lg font-detective group-hover:bg-amber-700/90 transition-colors"
                     >
-                      Read full article
+                      {t('blog.readFullArticle')}
                     </span>
                   </div>
                 </div>
