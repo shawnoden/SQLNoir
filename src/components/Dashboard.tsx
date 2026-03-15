@@ -1,6 +1,7 @@
 import { CaseFile } from "./CaseFile";
 import { Lock } from "lucide-react";
 import { cases, categories } from "../cases";
+import { GetLicenseButton } from "./GetLicenseButton";
 
 interface DashboardProps {
   onCaseSelect: (caseData: any) => void;
@@ -21,6 +22,20 @@ export function Dashboard({ onCaseSelect, userInfo }: DashboardProps) {
             Case Files
           </h1>
         </div>
+
+        {!userInfo?.has_license && (
+          <div className="mb-8 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="space-y-1">
+              <p className="font-detective text-xl text-amber-900">
+                Unlock all cases with a Detective License
+              </p>
+              <p className="text-amber-700 text-sm">
+                One-time purchase. Full access to all 6 cases, every difficulty tier, unlimited practice.
+              </p>
+            </div>
+            <GetLicenseButton source="dashboard-banner" />
+          </div>
+        )}
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {categories.map((category) => {
