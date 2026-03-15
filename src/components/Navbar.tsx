@@ -2,12 +2,13 @@
 
 import { useEffect, useState, type ComponentType } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Share2, Home, FolderOpen, LifeBuoy, BookOpen } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Share2, Home, FolderOpen, LifeBuoy, BookOpen, Globe } from "lucide-react";
 import { track } from "@vercel/analytics/react";
 import { supabase } from "@/lib/supabase";
 import { SharePopup } from "./SharePopup";
 import { UserMenu } from "./auth/UserMenu";
+import { routing } from "@/i18n/routing";
 
 type NavLink = {
   label: string;
@@ -77,9 +78,29 @@ export function Navbar({
     return targets.some((target) => matchesPath(pathname, target));
   };
 
+  const router = useRouter();
+
+  // Detect current locale from pathname
+  const currentLocale = routing.locales.find(
+    (l) => l !== routing.defaultLocale && pathname.startsWith(`/${l}`)
+  ) || routing.defaultLocale;
+
   const handleNavClick = (target: string) => {
     track("nav_click", { target, page: pathname });
   };
+
+  const switchLocale = (newLocale: string) => {
+    const pathWithoutLocale = currentLocale !== routing.defaultLocale
+      ? pathname.replace(`/${currentLocale}`, "") || "/"
+      : pathname;
+    const newPath = newLocale === routing.defaultLocale
+      ? pathWithoutLocale
+      : `/${newLocale}${pathWithoutLocale}`;
+    track("locale_switch", { from: currentLocale, to: newLocale });
+    router.push(newPath);
+  };
+
+  const localeLabel = currentLocale === "en" ? "EN" : "PT";
 
   return (
     <div className="bg-amber-50/80 border-b border-amber-200 backdrop-blur-sm relative z-50">
@@ -178,6 +199,16 @@ export function Navbar({
             </button>
           )}
 
+          <button
+            type="button"
+            onClick={() => switchLocale(currentLocale === "en" ? "pt-br" : "en")}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-detective text-sm bg-amber-100 hover:bg-amber-200 text-amber-900 border border-transparent transition-colors duration-200"
+            title={currentLocale === "en" ? "Switch to Portuguese" : "Switch to English"}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>{localeLabel}</span>
+          </button>
+
           <UserMenu user={user} onSignOut={() => setUser(null)} />
         </nav>
       </div>
@@ -254,6 +285,18 @@ export function Navbar({
                 </span>
               </button>
             )}
+
+            <button
+              type="button"
+              onClick={() => switchLocale(currentLocale === "en" ? "pt-br" : "en")}
+              className="w-full inline-flex items-center justify-between px-4 py-3 rounded-lg font-detective transition-colors duration-200 border shadow-sm bg-amber-100 text-amber-900 hover:bg-amber-200"
+            >
+              <span className="inline-flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                <span>{currentLocale === "en" ? "Portugues" : "English"}</span>
+              </span>
+              <span className="text-xs opacity-70">{localeLabel}</span>
+            </button>
           </div>
         </div>
       )}

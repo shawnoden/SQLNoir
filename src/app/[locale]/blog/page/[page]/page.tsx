@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { Blog } from "@/components/Blog";
 import { getPostsForPage, getTotalPages, isValidPage } from "@/lib/pagination";
 import { getTranslations } from "next-intl/server";
+import { routing } from "@/i18n/routing";
 
 interface PageProps {
   params: Promise<{ page: string }>;
@@ -11,10 +12,12 @@ interface PageProps {
 
 export async function generateStaticParams() {
   const totalPages = getTotalPages();
-  // Generate pages 2 onwards (page 1 is /blog)
-  return Array.from({ length: totalPages - 1 }, (_, i) => ({
-    page: String(i + 2),
-  }));
+  return routing.locales.flatMap((locale) =>
+    Array.from({ length: totalPages - 1 }, (_, i) => ({
+      locale,
+      page: String(i + 2),
+    }))
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

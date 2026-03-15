@@ -4,15 +4,19 @@ import { notFound } from "next/navigation";
 import { CasePageClient } from "@/components/CasePageClient";
 import { findCaseBySlug, getAllCases, getCaseSlug, getLocalizedCase } from "@/lib/case-utils";
 import { getTranslations, getLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
 
 interface CasePageProps {
   params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return getAllCases().map((caseData) => ({
-    slug: getCaseSlug(caseData),
-  }));
+  return routing.locales.flatMap((locale) =>
+    getAllCases().map((caseData) => ({
+      locale,
+      slug: getCaseSlug(caseData),
+    }))
+  );
 }
 
 export async function generateMetadata({ params }: CasePageProps): Promise<Metadata> {
