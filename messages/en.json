@@ -279,6 +279,49 @@
       "title": "SQL Breakdown"
     }
   },
+  "license": {
+    "upgradeTitle": "Upgrade to Detective License",
+    "upgradeSubtitle": "The deeper mysteries await, detective...",
+    "unlockCases": "Unlock 4 advanced cases",
+    "unlockCasesDesc": "Intermediate & advanced investigations with complex SQL challenges",
+    "earnBadges": "Earn exclusive XP badges",
+    "earnBadgesDesc": "Show off your SQL mastery with licensed-only achievements",
+    "supportDev": "Support indie development",
+    "supportDevDesc": "Help us build more cases and keep SQLNoir growing",
+    "oneTimePayment": "One-time payment, forever yours",
+    "getYourLicense": "Get Your License",
+    "continueWithFree": "Continue with free cases",
+    "getLicense": "Get Detective License",
+    "redirecting": "Redirecting...",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "checkingCredentials": "Checking credentials...",
+    "caseClassified": "Case Classified",
+    "caseClassifiedDesc": "This investigation requires a Detective License. Upgrade to access all intermediate and advanced cases.",
+    "backToCaseFiles": "Back to Case Files",
+    "licenseRequired": "Detective License Required",
+    "unlockAllCases": "Unlock all cases with a Detective License",
+    "unlockAllCasesDesc": "One-time purchase. Full access to all 6 cases, every difficulty tier, unlimited practice."
+  },
+  "checkout": {
+    "paymentReceived": "Payment Received!",
+    "welcomeDetective": "Welcome, Detective",
+    "signInToActivate": "Sign in to activate your Detective License and unlock all cases.",
+    "activatingLicense": "Activating your license...",
+    "licenseActive": "Your Detective License is now active. All 6 cases are unlocked and waiting for you.",
+    "signInButton": "Sign In to Activate License",
+    "whatYouGet": "What you get:",
+    "accessAllCases": "Access to all 6 detective cases",
+    "allDifficulties": "Beginner through Advanced difficulty",
+    "unlimitedPractice": "Unlimited SQL practice with real schemas",
+    "xpTracking": "XP tracking and progress badges",
+    "openCaseFiles": "Open the Case Files"
+  },
+  "localeSwitcher": {
+    "switchToPortuguese": "Switch to Portuguese",
+    "switchToEnglish": "Switch to English",
+    "portuguese": "Portugues",
+    "english": "English"
+  },
   "metadata": {
     "siteTitle": "Interactive SQL Game | Learn SQL by Solving Detective Cases | SQLNoir",
     "siteDescription": "SQLNoir is an interactive SQL game where you solve crimes and mysteries using SQL queries. Learn SQL by playing detective in this engaging SQL learning game.",

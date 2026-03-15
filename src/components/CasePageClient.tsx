@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { isCaseFree, getUserHasLicense } from "@/lib/license";
 import { track } from "@vercel/analytics/react";
 import { capture } from "@/lib/analytics";
+import { useTranslations } from "next-intl";
 import type { Case } from "@/types";
 
 interface CasePageClientProps {
@@ -17,6 +18,7 @@ interface CasePageClientProps {
 
 export function CasePageClient({ caseData }: CasePageClientProps) {
   const router = useRouter();
+  const t = useTranslations("license");
   const [user, setUser] = useState<any>(null);
   const [userInfo, setUserInfo] = useState<any>(null);
   const [loading, setLoading] = useState(!isCaseFree(caseData));
@@ -107,7 +109,7 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-amber-300 border-t-amber-700 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="font-detective text-amber-800">
-            Checking credentials...
+            {t('checkingCredentials')}
           </p>
         </div>
       </div>
@@ -120,11 +122,10 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
       <div className="min-h-screen bg-amber-50/50 flex items-center justify-center px-4">
         <div className="paper-texture p-8 rounded-xl shadow-xl border border-amber-900/20 max-w-md text-center">
           <h2 className="font-detective text-2xl text-amber-900 mb-3">
-            Case Classified
+            {t('caseClassified')}
           </h2>
           <p className="text-amber-800/80 mb-6 text-sm">
-            This investigation requires a Detective License. Upgrade to access
-            all intermediate and advanced cases.
+            {t('caseClassifiedDesc')}
           </p>
           <div className="flex flex-col gap-3">
             <button
@@ -133,13 +134,13 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
                        bg-amber-800 hover:bg-amber-700 transition-colors
                        border-2 border-amber-900/50 shadow-lg"
             >
-              Get Detective License
+              {t('getLicense')}
             </button>
             <button
               onClick={() => router.push("/cases")}
               className="py-2 text-amber-700/70 hover:text-amber-800 text-sm font-detective transition-colors"
             >
-              Back to Case Files
+              {t('backToCaseFiles')}
             </button>
           </div>
         </div>

@@ -30,9 +30,9 @@ export function GameApp({
   const t = useTranslations();
 
   const SQL_TIPS = [
-    t('gameApp.sqlTip1'),
-    t('gameApp.sqlTip2'),
-    t('gameApp.sqlTip3'),
+    t('gameApp.sqlTips.tip1'),
+    t('gameApp.sqlTips.tip2'),
+    t('gameApp.sqlTips.tip3'),
   ];
 
   const [started, setStarted] = useState(Boolean(initialSession));

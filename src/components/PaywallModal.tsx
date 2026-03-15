@@ -8,6 +8,7 @@ import {
   trackPaywallCtaClicked,
   trackPaywallDismissed,
 } from "@/lib/posthog";
+import { useTranslations } from "next-intl";
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -24,21 +25,19 @@ export function PaywallModal({
   caseId,
   triggerLocation,
 }: PaywallModalProps) {
+  const t = useTranslations("license");
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState("$14.99");
 
   useEffect(() => {
     if (isOpen) {
       trackPaywallShown(caseId, triggerLocation);
-      // Fetch localized price
       fetch("/api/price")
         .then((res) => res.json())
         .then((data) => {
           if (data.display) setPrice(data.display);
         })
-        .catch(() => {
-          // Keep default price on error
-        });
+        .catch(() => {});
     }
   }, [isOpen, caseId, triggerLocation]);
 
@@ -52,7 +51,7 @@ export function PaywallModal({
         window.location.href = data.url;
       }
     } catch {
-      // Silently fail — user can retry
+      // Silently fail
     } finally {
       setLoading(false);
     }
@@ -72,7 +71,6 @@ export function PaywallModal({
         onClick={handleDismiss}
       />
       <div className="relative w-full max-w-lg overflow-hidden rounded-xl border-2 border-amber-700/50 shadow-2xl">
-        {/* Dark noir header with texture */}
         <div className="paper-texture-dark px-6 py-5 text-center relative">
           <button
             onClick={handleDismiss}
@@ -86,14 +84,13 @@ export function PaywallModal({
             </div>
           </div>
           <h2 className="font-detective text-2xl text-amber-100 mb-1">
-            Upgrade to Detective License
+            {t('upgradeTitle')}
           </h2>
           <p className="text-amber-300/80 text-sm font-detective">
-            The deeper mysteries await, detective...
+            {t('upgradeSubtitle')}
           </p>
         </div>
 
-        {/* Benefits section on paper texture */}
         <div className="paper-texture px-6 py-6">
           <div className="space-y-4 mb-6">
             <div className="flex items-start gap-3">
@@ -102,11 +99,10 @@ export function PaywallModal({
               </div>
               <div>
                 <p className="font-detective text-amber-900 text-sm">
-                  Unlock 4 advanced cases
+                  {t('unlockCases')}
                 </p>
                 <p className="text-amber-700/70 text-xs mt-0.5">
-                  Intermediate &amp; advanced investigations with complex SQL
-                  challenges
+                  {t('unlockCasesDesc')}
                 </p>
               </div>
             </div>
@@ -117,10 +113,10 @@ export function PaywallModal({
               </div>
               <div>
                 <p className="font-detective text-amber-900 text-sm">
-                  Earn exclusive XP badges
+                  {t('earnBadges')}
                 </p>
                 <p className="text-amber-700/70 text-xs mt-0.5">
-                  Show off your SQL mastery with licensed-only achievements
+                  {t('earnBadgesDesc')}
                 </p>
               </div>
             </div>
@@ -131,16 +127,15 @@ export function PaywallModal({
               </div>
               <div>
                 <p className="font-detective text-amber-900 text-sm">
-                  Support indie development
+                  {t('supportDev')}
                 </p>
                 <p className="text-amber-700/70 text-xs mt-0.5">
-                  Help us build more cases and keep SQLNoir growing
+                  {t('supportDevDesc')}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Price */}
           <div className="text-center mb-5">
             <div className="inline-flex items-baseline gap-1">
               <span className="font-detective text-3xl text-amber-900">
@@ -148,11 +143,10 @@ export function PaywallModal({
               </span>
             </div>
             <p className="text-amber-700/70 text-xs mt-1 font-detective">
-              One-time payment, forever yours
+              {t('oneTimePayment')}
             </p>
           </div>
 
-          {/* CTA */}
           <button
             onClick={handleCtaClick}
             disabled={loading}
@@ -167,18 +161,17 @@ export function PaywallModal({
             ) : (
               <>
                 <Shield className="w-5 h-5" />
-                Get Your License
+                {t('getYourLicense')}
               </>
             )}
           </button>
 
-          {/* Secondary action */}
           <button
             onClick={handleDismiss}
             className="w-full mt-3 py-2 text-center text-amber-700/70 hover:text-amber-800
                      text-sm font-detective transition-colors"
           >
-            Continue with free cases
+            {t('continueWithFree')}
           </button>
         </div>
       </div>

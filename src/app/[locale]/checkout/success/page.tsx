@@ -7,10 +7,14 @@ import { Navbar } from "@/components/Navbar";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { supabase } from "@/lib/supabase";
 import { CheckCircle, LogIn } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
   const stripeSessionId = searchParams.get("session_id");
+  const t = useTranslations();
+  const tCheckout = useTranslations("checkout");
+  const tNav = useTranslations("nav");
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +42,6 @@ export default function CheckoutSuccessPage() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Auto-claim license when user signs in
   useEffect(() => {
     if (user && !claimed && stripeSessionId) {
       claimLicense();
@@ -56,11 +59,9 @@ export default function CheckoutSuccessPage() {
       });
       const data = await res.json();
       if (data.success || data.error === "No pending license found for this purchase") {
-        // Either claimed successfully or was already granted via webhook (signed-in purchase)
         setClaimed(true);
       }
     } catch {
-      // License may have been granted directly via webhook — treat as success
       setClaimed(true);
     } finally {
       setClaiming(false);
@@ -77,9 +78,9 @@ export default function CheckoutSuccessPage() {
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: "Home", href: "/", activeMatch: "/" },
-          { label: "Cases", href: "/cases", activeMatch: "/cases" },
-          { label: "Help", href: "/help", activeMatch: "/help" },
+          { label: tNav("home"), href: "/", activeMatch: "/" },
+          { label: tNav("cases"), href: "/cases", activeMatch: "/cases" },
+          { label: tNav("help"), href: "/help", activeMatch: "/help" },
         ]}
       />
       <main className="min-h-screen bg-amber-50/50 flex items-center justify-center">
@@ -92,14 +93,14 @@ export default function CheckoutSuccessPage() {
 
           <div className="space-y-2">
             <h1 className="font-detective text-3xl text-amber-900">
-              {showSignInPrompt ? "Payment Received!" : "Welcome, Detective"}
+              {showSignInPrompt ? tCheckout("paymentReceived") : tCheckout("welcomeDetective")}
             </h1>
             <p className="text-amber-800 text-lg">
               {showSignInPrompt
-                ? "Sign in to activate your Detective License and unlock all cases."
+                ? tCheckout("signInToActivate")
                 : showClaimingState
-                ? "Activating your license..."
-                : "Your Detective License is now active. All 6 cases are unlocked and waiting for you."}
+                ? tCheckout("activatingLicense")
+                : tCheckout("licenseActive")}
             </p>
           </div>
 
@@ -109,7 +110,7 @@ export default function CheckoutSuccessPage() {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-amber-800 hover:bg-amber-700 text-amber-50 font-detective text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               <LogIn className="w-5 h-5" />
-              Sign In to Activate License
+              {tCheckout("signInButton")}
             </button>
           )}
 
@@ -123,24 +124,24 @@ export default function CheckoutSuccessPage() {
             <>
               <div className="bg-white border border-amber-200 rounded-xl p-6 shadow-sm space-y-3">
                 <p className="font-detective text-amber-900 text-lg">
-                  What you get:
+                  {tCheckout("whatYouGet")}
                 </p>
                 <ul className="text-amber-800 text-left space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                    Access to all 6 detective cases
+                    {tCheckout("accessAllCases")}
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                    Beginner through Advanced difficulty
+                    {tCheckout("allDifficulties")}
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                    Unlimited SQL practice with real schemas
+                    {tCheckout("unlimitedPractice")}
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                    XP tracking and progress badges
+                    {tCheckout("xpTracking")}
                   </li>
                 </ul>
               </div>
@@ -149,7 +150,7 @@ export default function CheckoutSuccessPage() {
                 href="/cases"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-amber-800 hover:bg-amber-700 text-amber-50 font-detective text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                Open the Case Files
+                {tCheckout("openCaseFiles")}
               </Link>
             </>
           )}

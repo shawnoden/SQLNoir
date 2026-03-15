@@ -40,10 +40,10 @@ export function Dashboard({
           <div className="mb-8 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
             <div className="space-y-1">
               <p className="font-detective text-xl text-amber-900">
-                Unlock all cases with a Detective License
+                {t('license.unlockAllCases')}
               </p>
               <p className="text-amber-700 text-sm">
-                One-time purchase. Full access to all 6 cases, every difficulty tier, unlimited practice.
+                {t('license.unlockAllCasesDesc')}
               </p>
             </div>
             <GetLicenseButton source="dashboard-banner" />
@@ -68,7 +68,7 @@ export function Dashboard({
                       <div className="flex items-center text-amber-600 text-sm">
                         <Lock className="w-4 h-4 mr-1" />
                         <span className="font-detective text-xs">
-                          Detective License Required
+                          {t('license.licenseRequired')}
                         </span>
                       </div>
                     )}

@@ -282,6 +282,49 @@
       "title": "Análise SQL"
     }
   },
+  "license": {
+    "upgradeTitle": "Upgrade para Licenca de Detetive",
+    "upgradeSubtitle": "Os misterios mais profundos aguardam, detetive...",
+    "unlockCases": "Desbloqueie 4 casos avancados",
+    "unlockCasesDesc": "Investigacoes intermediarias e avancadas com desafios complexos de SQL",
+    "earnBadges": "Ganhe badges exclusivos de XP",
+    "earnBadgesDesc": "Mostre seu dominio de SQL com conquistas exclusivas para licenciados",
+    "supportDev": "Apoie o desenvolvimento indie",
+    "supportDevDesc": "Ajude-nos a criar mais casos e manter o SQLNoir crescendo",
+    "oneTimePayment": "Pagamento unico, seu para sempre",
+    "getYourLicense": "Obter sua Licenca",
+    "continueWithFree": "Continuar com casos gratuitos",
+    "getLicense": "Obter Licenca de Detetive",
+    "redirecting": "Redirecionando...",
+    "somethingWentWrong": "Algo deu errado. Tente novamente.",
+    "checkingCredentials": "Verificando credenciais...",
+    "caseClassified": "Caso Classificado",
+    "caseClassifiedDesc": "Esta investigacao requer uma Licenca de Detetive. Faca o upgrade para acessar todos os casos intermediarios e avancados.",
+    "backToCaseFiles": "Voltar aos Arquivos de Caso",
+    "licenseRequired": "Licenca de Detetive Necessaria",
+    "unlockAllCases": "Desbloqueie todos os casos com uma Licenca de Detetive",
+    "unlockAllCasesDesc": "Compra unica. Acesso total a todos os 6 casos, todos os niveis de dificuldade, pratica ilimitada."
+  },
+  "checkout": {
+    "paymentReceived": "Pagamento Recebido!",
+    "welcomeDetective": "Bem-vindo, Detetive",
+    "signInToActivate": "Entre para ativar sua Licenca de Detetive e desbloquear todos os casos.",
+    "activatingLicense": "Ativando sua licenca...",
+    "licenseActive": "Sua Licenca de Detetive esta ativa. Todos os 6 casos estao desbloqueados e esperando por voce.",
+    "signInButton": "Entrar para Ativar Licenca",
+    "whatYouGet": "O que voce recebe:",
+    "accessAllCases": "Acesso a todos os 6 casos de detetive",
+    "allDifficulties": "Do iniciante ao avancado",
+    "unlimitedPractice": "Pratica ilimitada de SQL com esquemas reais",
+    "xpTracking": "Rastreamento de XP e badges de progresso",
+    "openCaseFiles": "Abrir os Arquivos de Caso"
+  },
+  "localeSwitcher": {
+    "switchToPortuguese": "Mudar para Portugues",
+    "switchToEnglish": "Mudar para Ingles",
+    "portuguese": "Portugues",
+    "english": "English"
+  },
   "metadata": {
     "siteTitle": "Jogo Interativo de SQL | Aprenda SQL Resolvendo Casos de Detetive | SQLNoir",
     "siteDescription": "SQLNoir é um jogo interativo de SQL onde você soluciona crimes e mistérios usando consultas SQL. Aprenda SQL sendo detetive neste envolvente jogo de aprendizado.",

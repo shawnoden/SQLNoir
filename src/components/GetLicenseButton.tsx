@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Shield } from "lucide-react";
 import { track } from "@vercel/analytics/react";
+import { useTranslations } from "next-intl";
 
 interface GetLicenseButtonProps {
   className?: string;
@@ -13,6 +14,7 @@ export function GetLicenseButton({
   className,
   source = "dashboard",
 }: GetLicenseButtonProps) {
+  const t = useTranslations("license");
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
@@ -36,7 +38,7 @@ export function GetLicenseButton({
         window.location.href = data.url;
       }
     } catch {
-      alert("Something went wrong. Please try again.");
+      alert(t('somethingWentWrong'));
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,7 @@ export function GetLicenseButton({
       }
     >
       <Shield className="w-5 h-5" />
-      {loading ? "Redirecting..." : "Get Detective License"}
+      {loading ? t('redirecting') : t('getLicense')}
     </button>
   );
 }

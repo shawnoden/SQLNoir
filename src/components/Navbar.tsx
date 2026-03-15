@@ -203,7 +203,7 @@ export function Navbar({
             type="button"
             onClick={() => switchLocale(currentLocale === "en" ? "pt-br" : "en")}
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-detective text-sm bg-amber-100 hover:bg-amber-200 text-amber-900 border border-transparent transition-colors duration-200"
-            title={currentLocale === "en" ? "Switch to Portuguese" : "Switch to English"}
+            title={currentLocale === "en" ? "Mudar para Portugues" : "Switch to English"}
           >
             <Globe className="w-3.5 h-3.5" />
             <span>{localeLabel}</span>
@@ -293,7 +293,7 @@ export function Navbar({
             >
               <span className="inline-flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                <span>{currentLocale === "en" ? "Portugues" : "English"}</span>
+                <span>{currentLocale === "en" ? "Portugues (BR)" : "English"}</span>
               </span>
               <span className="text-xs opacity-70">{localeLabel}</span>
             </button>
