@@ -12,6 +12,15 @@ function getSupabaseAdmin() {
 
 export async function POST(req: NextRequest) {
   try {
+    const { stripeSessionId } = await req.json();
+
+    if (!stripeSessionId) {
+      return NextResponse.json(
+        { error: "Missing stripe session ID" },
+        { status: 400 }
+      );
+    }
+
     // User must be signed in to claim
     const supabase = createServerSupabaseClient();
     const {
@@ -33,21 +42,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const userEmail = session.user.email;
-
-    // Check for pending license matching this email
+    // Look up pending license by Stripe session ID — no email matching needed
     const { data: pending, error: fetchError } = await supabaseAdmin
       .from("pending_licenses")
       .select("*")
-      .eq("email", userEmail)
+      .eq("stripe_session_id", stripeSessionId)
       .is("claimed_at", null)
-      .order("created_at", { ascending: false })
-      .limit(1)
       .single();
 
     if (fetchError || !pending) {
       return NextResponse.json(
-        { error: "No pending license found for this email" },
+        { error: "No pending license found for this purchase" },
         { status: 404 }
       );
     }

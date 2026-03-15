@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { AuthModal } from "@/components/auth/AuthModal";
@@ -8,6 +9,9 @@ import { supabase } from "@/lib/supabase";
 import { CheckCircle, LogIn } from "lucide-react";
 
 export default function CheckoutSuccessPage() {
+  const searchParams = useSearchParams();
+  const stripeSessionId = searchParams.get("session_id");
+
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [claimed, setClaimed] = useState(false);
@@ -36,18 +40,23 @@ export default function CheckoutSuccessPage() {
 
   // Auto-claim license when user signs in
   useEffect(() => {
-    if (user && !claimed) {
+    if (user && !claimed && stripeSessionId) {
       claimLicense();
     }
-  }, [user, claimed]);
+  }, [user, claimed, stripeSessionId]);
 
   const claimLicense = async () => {
+    if (!stripeSessionId) return;
     setClaiming(true);
     try {
-      const res = await fetch("/api/claim-license", { method: "POST" });
+      const res = await fetch("/api/claim-license", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stripeSessionId }),
+      });
       const data = await res.json();
-      if (data.success || data.error === "No pending license found for this email") {
-        // Either claimed successfully or was already granted via webhook
+      if (data.success || data.error === "No pending license found for this purchase") {
+        // Either claimed successfully or was already granted via webhook (signed-in purchase)
         setClaimed(true);
       }
     } catch {
