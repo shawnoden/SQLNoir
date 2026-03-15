@@ -14,9 +14,10 @@ interface HomepageCTAProps {
   ctaId: string;
   source: string;
   className: string;
+  children?: React.ReactNode;
 }
 
-export function HomepageCTA({ ctaId, source, className }: HomepageCTAProps) {
+export function HomepageCTA({ ctaId, source, className, children }: HomepageCTAProps) {
   const [ctaText, setCtaText] = useState("Start Investigation");
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function HomepageCTA({ ctaId, source, className }: HomepageCTAProps) {
       }}
       className={className}
     >
-      {ctaText}
+      {children || ctaText}
     </TrackedLink>
   );
 }

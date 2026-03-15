@@ -3,6 +3,8 @@ import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/react";
+import { CookieConsent } from "@/components/CookieConsent";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import { routing } from "@/i18n/routing";
 
 const siteUrl = "https://www.sqlnoir.com";
@@ -153,9 +155,12 @@ export default async function LocaleLayout({
         />
       </head>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <PostHogProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </PostHogProvider>
+        <CookieConsent />
         <Analytics />
       </body>
     </html>
