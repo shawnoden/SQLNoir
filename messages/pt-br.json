@@ -66,7 +66,16 @@
     "intermediate": "Intermediate Cases",
     "intermediateDesc": "For investigators with basic SQL knowledge. Tackle more complex queries and optimizations.",
     "advanced": "Advanced Cases",
-    "advancedDesc": "Expert-level cases requiring deep SQL knowledge and problem-solving skills."
+    "advancedDesc": "Expert-level cases requiring deep SQL knowledge and problem-solving skills.",
+    "metadata": {
+      "title": "Case Files | Play interactive SQL detective scenarios",
+      "description": "Browse SQLNoir cases across skill levels. Solve interactive detective scenarios, earn XP, and sharpen your SQL skills.",
+      "ogTitle": "Case Files | Play interactive SQL detective scenarios",
+      "ogDescription": "Pick a case, question suspects with SQL, and earn XP as you solve each investigation.",
+      "ogAlt": "SQLNoir case files",
+      "collectionName": "SQLNoir Case Files",
+      "collectionDescription": "Interactive SQL detective cases with XP tiers across beginner to advanced difficulty."
+    }
   },
   "caseStudy": {
     "caseBrief": "Case Brief",
@@ -188,11 +197,26 @@
     "faqBugQ": "Found a bug in the code?",
     "faqBugA": "Found a bug or glitch? Report it on GitHub and we'll investigate.",
     "faqContributeQ": "Want to join the force?",
-    "faqContributeA": "Pull requests welcome. Grab an open issue or pitch us a new case idea."
+    "faqContributeA": "Pull requests welcome. Grab an open issue or pitch us a new case idea.",
+    "metadata": {
+      "title": "Help & Support",
+      "description": "Get help with SQLNoir cases, join the community, or report bugs. Find answers, Discord, and GitHub support links."
+    }
   },
   "blog": {
     "title": "Detective's Journal",
     "subtitle": "SQL Blog",
-    "pageTitle": "Detective's Journal - Page {pageNum}"
+    "pageTitle": "Detective's Journal - Page {pageNum}",
+    "readFullArticle": "Read full article",
+    "previous": "Previous",
+    "next": "Next",
+    "paginationLabel": "Blog pagination",
+    "metadata": {
+      "title": "Detective's Journal | SQL Blog",
+      "description": "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
+      "ogAlt": "SQLNoir blog",
+      "rssTitle": "SQLNoir - Detective's Journal",
+      "rssDescription": "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal."
+    }
   }
 }

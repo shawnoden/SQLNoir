@@ -1,4 +1,7 @@
+"use client";
+
 import { Case } from "../types";
+import { useTranslations } from "next-intl";
 
 interface CaseFileProps {
   caseData: Case;
@@ -7,6 +10,7 @@ interface CaseFileProps {
 }
 
 export function CaseFile({ caseData, onClick, isSolved }: CaseFileProps) {
+  const t = useTranslations();
   return (
     <div
       onClick={onClick}
@@ -25,7 +29,7 @@ export function CaseFile({ caseData, onClick, isSolved }: CaseFileProps) {
                   "2px 2px 4px rgba(0,0,0,0.2), -1px -1px 2px rgba(255,255,255,0.1) inset",
               }}
             >
-              <span className="text-sm tracking-wider">NEW</span>
+              <span className="text-sm tracking-wider">{t('common.new')}</span>
             </div>
           </div>
         </div>
@@ -42,7 +46,7 @@ export function CaseFile({ caseData, onClick, isSolved }: CaseFileProps) {
                 "4px 4px 8px rgba(0,0,0,0.2), -2px -2px 4px rgba(255,255,255,0.1) inset",
             }}
           >
-            <div className="text-2xl tracking-[0.2em] font-bold">SOLVED</div>
+            <div className="text-2xl tracking-[0.2em] font-bold">{t('common.solved')}</div>
           </div>
         </div>
       )}
@@ -52,7 +56,7 @@ export function CaseFile({ caseData, onClick, isSolved }: CaseFileProps) {
       <p className="text-amber-800/80 text-sm mb-4">{caseData.description}</p>
       <div className="flex justify-between items-center">
         <span className="text-xs font-mono bg-amber-100/80 backdrop-blur-sm px-2 py-1 rounded">
-          XP: {caseData.xpReward}
+          {t('common.xpLabel', { amount: caseData.xpReward })}
         </span>
       </div>
     </div>

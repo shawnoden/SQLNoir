@@ -5,8 +5,11 @@ import { Navbar } from "@/components/Navbar";
 import { MessageCircle, Bug } from "lucide-react";
 import Link from "next/link";
 import { track } from "@vercel/analytics/react";
+import { useTranslations } from "next-intl";
 
 export function HelpPageClient() {
+  const t = useTranslations();
+
   useEffect(() => {
     track("help_view", { page: "/help" });
   }, []);
@@ -17,9 +20,9 @@ export function HelpPageClient() {
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: "Home", href: "/", activeMatch: "/" },
-          { label: "Cases", href: "/cases", activeMatch: "/cases" },
-          { label: "Help", href: "/help", activeMatch: "/help" },
+          { label: t('help.navHome'), href: "/", activeMatch: "/" },
+          { label: t('help.navCases'), href: "/cases", activeMatch: "/cases" },
+          { label: t('help.navHelp'), href: "/help", activeMatch: "/help" },
         ]}
         showShare
       />
@@ -27,28 +30,27 @@ export function HelpPageClient() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 space-y-10">
           <header className="space-y-3">
             <h1 className="text-4xl sm:text-5xl font-detective text-amber-900 leading-tight">
-              Hit a dead end on a case?
+              {t('help.title')}
             </h1>
             <p className="text-amber-800 text-lg max-w-2xl">
-              Every detective needs a network. Got a lead to share or need
-              assistance cracking a tough case?
+              {t('help.subtitle')}
             </p>
             <p className="text-amber-800">
-              Start a new investigation in
+              {t('help.startInvestigation')}
               <Link
                 href="/cases"
                 className="underline ml-1"
                 onClick={() => track("help_action", { action: "cases", page: "/help" })}
               >
-                the case files
+                {t('help.caseFiles')}
               </Link>{" "}
-              or browse tips in the{" "}
+              {t('help.orBrowseTips')}{" "}
               <Link
                 href="/blog"
                 className="underline"
                 onClick={() => track("help_action", { action: "blog", page: "/help" })}
               >
-                Detective&apos;s Journal
+                {t('help.detectivesJournal')}
               </Link>
               .
             </p>
@@ -59,19 +61,18 @@ export function HelpPageClient() {
               <div className="flex items-center gap-3">
                 <MessageCircle className="w-6 h-6 text-amber-800" />
                 <h2 className="font-detective text-2xl text-amber-900">
-                  Discord HQ
+                  {t('help.discordTitle')}
                 </h2>
               </div>
               <p className="text-amber-800">
-                Join the community, swap query tips, or ask for a nudge on a
-                tricky clue.
+                {t('help.discordDescription')}
               </p>
               <Link
                 href="https://discord.gg/rMQRwrRYHH"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-800 text-amber-50 font-detective hover:bg-amber-700 transition-colors"
                 onClick={() => track("help_action", { action: "discord", page: "/help" })}
               >
-                Enter Discord
+                {t('help.enterDiscord')}
               </Link>
             </div>
 
@@ -79,52 +80,49 @@ export function HelpPageClient() {
               <div className="flex items-center gap-3">
                 <Bug className="w-6 h-6 text-amber-800" />
                 <h2 className="font-detective text-2xl text-amber-900">
-                  GitHub Issues
+                  {t('help.githubTitle')}
                 </h2>
               </div>
               <p className="text-amber-800">
-                Found a bug or want to propose a feature? Open an issue and
-                we&apos;ll investigate.
+                {t('help.githubDescription')}
               </p>
               <Link
                 href="https://github.com/hristo2612/SQLNoir/issues"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-800 text-amber-50 font-detective hover:bg-amber-700 transition-colors"
                 onClick={() => track("help_action", { action: "github_issues", page: "/help" })}
               >
-                Report on GitHub
+                {t('help.reportOnGithub')}
               </Link>
             </div>
           </div>
 
           <section className="bg-white border border-amber-100 rounded-2xl shadow-sm p-6 space-y-4">
             <h3 className="font-detective text-2xl text-amber-900">
-              Quick answers
+              {t('help.quickAnswers')}
             </h3>
             <div className="space-y-3 text-amber-800">
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  • Need a clue?
+                  {t('help.needClueTitle')}
                 </p>
                 <p>
-                  Check the Schema tab first, then drop by Discord for a nudge.
+                  {t('help.needClueDescription')}
                 </p>
               </div>
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  • Found a bug in the code?
+                  {t('help.foundBugTitle')}
                 </p>
                 <p>
-                  Found a bug or glitch? Report it on GitHub and we&apos;ll
-                  investigate.
+                  {t('help.foundBugDescription')}
                 </p>
               </div>
               <div>
                 <p className="font-detective text-lg text-amber-900">
-                  • Want to join the force?
+                  {t('help.joinForceTitle')}
                 </p>
                 <p>
-                  Pull requests welcome. Grab an open issue or pitch us a new
-                  case idea.
+                  {t('help.joinForceDescription')}
                 </p>
               </div>
             </div>

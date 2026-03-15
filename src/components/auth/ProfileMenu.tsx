@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { LogOut, Award } from "lucide-react";
 import { supabase } from "../../lib/supabase";
+import { useTranslations } from "next-intl";
 
 interface ProfileMenuProps {
   isOpen: boolean;
@@ -15,6 +18,7 @@ export function ProfileMenu({
   onSignOut,
   user,
 }: ProfileMenuProps) {
+  const t = useTranslations();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -65,7 +69,7 @@ export function ProfileMenu({
     >
       <div className="p-4 border-b border-amber-200">
         <h3 className="font-detective text-lg text-amber-900 mb-1">
-          Detective Profile
+          {t('auth.detectiveProfile')}
         </h3>
         <p className="text-sm font-medium text-amber-900 truncate">
           {user.email}
@@ -77,7 +81,7 @@ export function ProfileMenu({
           <Award className="w-5 h-5 text-amber-500" />
           <div>
             <p className="text-sm font-medium text-amber-900">
-              Experience Points
+              {t('auth.experiencePoints')}
             </p>
             <p className="text-lg font-detective text-amber-700">
               {loading ? "..." : userInfo?.xp || 0} XP
@@ -86,7 +90,7 @@ export function ProfileMenu({
         </div>
 
         <div className="mt-2 text-xs text-amber-700">
-          Cases Solved: {loading ? "..." : userInfo?.completed_cases?.length || 0}
+          {t('auth.casesSolved', { count: loading ? "..." : userInfo?.completed_cases?.length || 0 })}
         </div>
       </div>
 
@@ -96,7 +100,7 @@ export function ProfileMenu({
                  flex items-center gap-2"
       >
         <LogOut className="w-4 h-4" />
-        Sign Out
+        {t('auth.signOut')}
       </button>
     </div>
   );

@@ -3,33 +3,32 @@ import { Github, BookOpen } from "lucide-react";
 import { BsIncognito } from "react-icons/bs";
 import { Navbar } from "@/components/Navbar";
 import { TrackedLink } from "@/components/TrackedLink";
+import { getTranslations } from "next-intl/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations("home");
+  const tNav = await getTranslations("nav");
+
   const faqItems = [
     {
-      question: "Do I need an account to play?",
-      answer:
-        "You can open and solve cases without creating an account. Sign in to track XP, progress, and solved cases across devices.",
+      question: t("faqAccountQ"),
+      answer: t("faqAccountA"),
     },
     {
-      question: "How does access work?",
-      answer:
-        "You can jump into the world and try cases. Some cases may require unlocking, so pick a starting case that matches your skill level and build momentum from there.",
+      question: t("faqAccessQ"),
+      answer: t("faqAccessA"),
     },
     {
-      question: "What SQL do I need to know?",
-      answer:
-        "Beginners can start with simple SELECTs. Intermediate and advanced cases introduce joins, grouping, filters, and subqueries as you progress.",
+      question: t("faqSqlQ"),
+      answer: t("faqSqlA"),
     },
     {
-      question: "Will this help with interviews?",
-      answer:
-        "Yes. Cases mimic realistic data puzzles you might see in data and engineering interviews. It's great for practicing under a narrative without rote question banks.",
+      question: t("faqInterviewQ"),
+      answer: t("faqInterviewA"),
     },
     {
-      question: "Can I get hints if I'm stuck?",
-      answer:
-        "Each case includes a schema view and objectives. If you need more help, join the community Discord or check the help page for guidance.",
+      question: t("faqHintsQ"),
+      answer: t("faqHintsA"),
     },
   ];
 
@@ -67,9 +66,9 @@ export default function HomePage() {
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: "Home", href: "/", activeMatch: "/" },
-          { label: "Cases", href: "/cases", activeMatch: "/cases" },
-          { label: "Help", href: "/help", activeMatch: "/help" },
+          { label: tNav("home"), href: "/", activeMatch: "/" },
+          { label: tNav("cases"), href: "/cases", activeMatch: "/cases" },
+          { label: tNav("help"), href: "/help", activeMatch: "/help" },
         ]}
         showShare
       />
@@ -78,11 +77,10 @@ export default function HomePage() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="font-detective text-5xl md:text-6xl text-amber-900 leading-tight drop-shadow-sm">
-                Solve mysteries through SQL.
+                {t("heroTitle")}
               </h1>
               <p className="text-amber-800 text-lg md:text-xl max-w-2xl">
-                Step into a smoky 80s detective agency, question suspects with
-                SQL queries, and crack the case one statement at a time.
+                {t("heroSubtitle")}
               </p>
             </div>
 
@@ -97,7 +95,7 @@ export default function HomePage() {
                 }}
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-amber-800 hover:bg-amber-700 text-amber-50 font-detective text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                Start Investigation
+                {t("startInvestigation")}
               </TrackedLink>
               <div className="flex items-center gap-3 text-amber-800">
                 <TrackedLink
@@ -111,9 +109,9 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 transition-colors duration-200"
                 >
                   <BookOpen className="w-5 h-5" />
-                  <span className="lg:hidden">Journal</span>
+                  <span className="lg:hidden">{tNav("journal")}</span>
                   <span className="hidden lg:inline">
-                    Detective&apos;s Journal
+                    {tNav("journalFull")}
                   </span>
                 </TrackedLink>
                 <a
@@ -123,7 +121,7 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 transition-colors duration-200"
                 >
                   <Github className="w-5 h-5" />
-                  GitHub
+                  {tNav("github")}
                 </a>
               </div>
             </div>
@@ -131,27 +129,24 @@ export default function HomePage() {
             <div className="grid gap-4 sm:grid-cols-3 max-w-3xl">
               <div className="bg-white border border-amber-100 rounded-lg p-4 shadow-sm">
                 <p className="font-detective text-amber-900">
-                  Query-driven cases
+                  {t("featureQueryDriven")}
                 </p>
                 <p className="text-sm text-amber-700 mt-1">
-                  Every clue is hidden in a database. Use SQL to interrogate the
-                  data and expose the culprit.
+                  {t("featureQueryDrivenDesc")}
                 </p>
               </div>
               <div className="bg-white border border-amber-100 rounded-lg p-4 shadow-sm">
-                <p className="font-detective text-amber-900">No setup needed</p>
+                <p className="font-detective text-amber-900">{t("featureNoSetup")}</p>
                 <p className="text-sm text-amber-700 mt-1">
-                  Built-in SQL workspace powered by SQL.js. Just open a case and
-                  start digging.
+                  {t("featureNoSetupDesc")}
                 </p>
               </div>
               <div className="bg-white border border-amber-100 rounded-lg p-4 shadow-sm">
                 <p className="font-detective text-amber-900">
-                  Earn detective XP
+                  {t("featureEarnXP")}
                 </p>
                 <p className="text-sm text-amber-700 mt-1">
-                  Solve cases to level up your badge and unlock tougher
-                  investigations.
+                  {t("featureEarnXPDesc")}
                 </p>
               </div>
             </div>
@@ -165,10 +160,10 @@ export default function HomePage() {
               </div>
               <div className="text-center space-y-2">
                 <p className="font-detective text-2xl text-amber-900">
-                  Welcome, Detective
+                  {t("welcomeDetective")}
                 </p>
                 <p className="text-amber-800">
-                  The city is buzzing. New evidence just landed on your desk.
+                  {t("welcomeMessage")}
                 </p>
               </div>
               <TrackedLink
@@ -181,7 +176,7 @@ export default function HomePage() {
                 }}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-amber-900 text-amber-50 font-detective hover:bg-amber-800 transition-colors duration-200"
               >
-                Open the Case Files
+                {t("openCaseFiles")}
               </TrackedLink>
             </div>
           </div>
@@ -190,7 +185,7 @@ export default function HomePage() {
           href="#learn-more"
           className="hidden lg:flex items-center gap-2 font-detective text-amber-900 hover:text-amber-700 underline underline-offset-4 absolute bottom-20 left-1/2 -translate-x-1/2"
         >
-          ↓ Learn More ↓
+          {t("learnMore")}
         </a>
       </main>
       <section
@@ -201,25 +196,16 @@ export default function HomePage() {
           <div className="grid gap-10 lg:grid-cols-2 items-start">
             <div className="space-y-4">
               <h2 className="font-detective text-3xl text-amber-900">
-                How SQLNoir works
+                {t("howItWorksTitle")}
               </h2>
               <p className="text-amber-800 leading-relaxed">
-                Each case drops you into a story-driven investigation. You read
-                the brief, study the database schema, and run SQL queries in a
-                built-in editor to surface clues. As you connect tables,
-                eliminate suspects, and validate alibis, you practice real SQL
-                patterns: filtering, joins, aggregates, and subqueries. No setup
-                or installs. Just open a case file and start interrogating the
-                data.
+                {t("howItWorksP1")}
               </p>
               <p className="text-amber-800 leading-relaxed">
-                Progression is tracked with XP and difficulty tiers, so you can
-                start as a rookie and grow into a seasoned investigator.
-                Beginner cases teach fundamentals, while advanced cases push you
-                with layered joins and trickier conditions.
+                {t("howItWorksP2")}
               </p>
               <p className="text-amber-800 leading-relaxed">
-                Ready to see it in action?
+                {t("howItWorksP3")}
             </p>
             <div className="pt-4">
               <TrackedLink
@@ -232,30 +218,26 @@ export default function HomePage() {
                 }}
                 className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-amber-900 text-amber-50 font-detective text-lg transition-colors duration-200 hover:bg-amber-800 shadow-md"
               >
-                Start Solving Cases
+                {t("startSolvingCases")}
               </TrackedLink>
             </div>
             </div>
             <div className="space-y-4">
               <h2 className="font-detective text-3xl text-amber-900">
-                Who this is for
+                {t("whoIsThisFor")}
               </h2>
               <div className="bg-white border border-amber-200 rounded-2xl shadow-sm p-6 space-y-4">
                 <p className="text-amber-800 leading-relaxed">
-                  • Developers wanting a hands-on, story-first way to practice
-                  SQL fundamentals and joins.
+                  • {t("audienceDevelopers")}
                 </p>
                 <p className="text-amber-800 leading-relaxed">
-                  • Data analysts preparing for interviews who need realistic
-                  querying scenarios.
+                  • {t("audienceAnalysts")}
                 </p>
                 <p className="text-amber-800 leading-relaxed">
-                  • Students who learn faster through narrative and immediate
-                  feedback instead of dry textbooks.
+                  • {t("audienceStudents")}
                 </p>
                 <p className="text-amber-800 leading-relaxed">
-                  • Instructors looking for engaging SQL exercises without any
-                  environment setup for learners.
+                  • {t("audienceInstructors")}
                 </p>
               </div>
             </div>
@@ -264,59 +246,51 @@ export default function HomePage() {
           <div className="bg-white border border-amber-200 rounded-2xl shadow-sm p-8 space-y-6">
             <div className="space-y-2">
               <h2 className="font-detective text-3xl text-amber-900">
-                Frequently asked questions
+                {t("faqTitle")}
               </h2>
               <p className="text-amber-800">
-                Quick answers before you start your first case.
+                {t("faqSubtitle")}
               </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="bg-amber-50/80 border border-amber-100 rounded-xl p-4 space-y-2">
                 <h3 className="font-detective text-xl text-amber-900">
-                  Do I need an account to play?
+                  {t("faqAccountQ")}
                 </h3>
                 <p className="text-amber-800 leading-relaxed">
-                  You can open and solve cases without creating an account. Sign
-                  in to track XP, progress, and solved cases across devices.
+                  {t("faqAccountA")}
                 </p>
               </div>
               <div className="bg-amber-50/80 border border-amber-100 rounded-xl p-4 space-y-2">
                 <h3 className="font-detective text-xl text-amber-900">
-                  How does access work?
+                  {t("faqAccessQ")}
                 </h3>
                 <p className="text-amber-800 leading-relaxed">
-                  Intermediate and advanced cases require XP to unlock, so pick
-                  a starting case and build momentum from there.
+                  {t("faqAccessA")}
                 </p>
               </div>
               <div className="bg-amber-50/80 border border-amber-100 rounded-xl p-4 space-y-2">
                 <h3 className="font-detective text-xl text-amber-900">
-                  What SQL do I need to know?
+                  {t("faqSqlQ")}
                 </h3>
                 <p className="text-amber-800 leading-relaxed">
-                  Beginners can start with simple SELECTs. Intermediate and
-                  advanced cases introduce joins, grouping, filters, and
-                  subqueries as you progress.
+                  {t("faqSqlA")}
                 </p>
               </div>
               <div className="bg-amber-50/80 border border-amber-100 rounded-xl p-4 space-y-2">
                 <h3 className="font-detective text-xl text-amber-900">
-                  Will this help with interviews?
+                  {t("faqInterviewQ")}
                 </h3>
                 <p className="text-amber-800 leading-relaxed">
-                  Yes. Cases mimic realistic data puzzles you might see in data
-                  and engineering interviews. It&apos;s great for practicing under a
-                  narrative without rote question banks.
+                  {t("faqInterviewA")}
                 </p>
               </div>
               <div className="bg-amber-50/80 border border-amber-100 rounded-xl p-4 space-y-2">
                 <h3 className="font-detective text-xl text-amber-900">
-                  Can I get hints if I&apos;m stuck?
+                  {t("faqHintsQ")}
                 </h3>
                 <p className="text-amber-800 leading-relaxed">
-                  Each case includes a schema view and objectives. If you need
-                  more help, join the community Discord or check the help page
-                  for guidance.
+                  {t("faqHintsA")}
                 </p>
               </div>
             </div>

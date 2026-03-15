@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PaginationProps {
   currentPage: number;
@@ -7,6 +10,8 @@ interface PaginationProps {
 }
 
 export function Pagination({ currentPage, totalPages }: PaginationProps) {
+  const t = useTranslations();
+
   if (totalPages <= 1) return null;
 
   const getPageUrl = (page: number) => {
@@ -52,7 +57,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
 
   return (
     <nav
-      aria-label="Blog pagination"
+      aria-label={t('blog.paginationLabel')}
       className="mt-12 flex items-center justify-center gap-2"
     >
       {/* Previous */}
@@ -62,12 +67,12 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
           className="flex items-center gap-1 rounded-lg border border-amber-300/50 bg-white/80 px-3 py-2 text-sm font-detective text-amber-900 transition-colors hover:bg-amber-100/80"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">Previous</span>
+          <span className="hidden sm:inline">{t('blog.previous')}</span>
         </Link>
       ) : (
         <span className="flex items-center gap-1 rounded-lg border border-amber-200/30 bg-amber-50/50 px-3 py-2 text-sm font-detective text-amber-400 cursor-not-allowed">
           <ChevronLeft className="h-4 w-4" />
-          <span className="hidden sm:inline">Previous</span>
+          <span className="hidden sm:inline">{t('blog.previous')}</span>
         </span>
       )}
 
@@ -103,12 +108,12 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
           href={getPageUrl(currentPage + 1)}
           className="flex items-center gap-1 rounded-lg border border-amber-300/50 bg-white/80 px-3 py-2 text-sm font-detective text-amber-900 transition-colors hover:bg-amber-100/80"
         >
-          <span className="hidden sm:inline">Next</span>
+          <span className="hidden sm:inline">{t('blog.next')}</span>
           <ChevronRight className="h-4 w-4" />
         </Link>
       ) : (
         <span className="flex items-center gap-1 rounded-lg border border-amber-200/30 bg-amber-50/50 px-3 py-2 text-sm font-detective text-amber-400 cursor-not-allowed">
-          <span className="hidden sm:inline">Next</span>
+          <span className="hidden sm:inline">{t('blog.next')}</span>
           <ChevronRight className="h-4 w-4" />
         </span>
       )}

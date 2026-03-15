@@ -1,7 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Facebook, Linkedin, Link2, Twitter, X } from "lucide-react";
 import { track } from "@vercel/analytics/react";
+import { useTranslations } from "next-intl";
 
 interface SharePopupProps {
   isOpen: boolean;
@@ -14,6 +17,7 @@ export function SharePopup({
   onClose,
   context = "unknown",
 }: SharePopupProps) {
+  const t = useTranslations();
   const [copyStatus, setCopyStatus] = useState("");
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const shareUrl = "https://www.sqlnoir.com";
@@ -21,7 +25,8 @@ export function SharePopup({
 
   const shareOptions = [
     {
-      name: "Twitter",
+      id: "twitter",
+      name: t('share.twitter'),
       icon: Twitter,
       onClick: () => {
         track("share_option_click", { option: "twitter", context, url: shareUrl });
@@ -34,7 +39,8 @@ export function SharePopup({
       },
     },
     {
-      name: "Facebook",
+      id: "facebook",
+      name: t('share.facebook'),
       icon: Facebook,
       onClick: () => {
         track("share_option_click", { option: "facebook", context, url: shareUrl });
@@ -47,7 +53,8 @@ export function SharePopup({
       },
     },
     {
-      name: "LinkedIn",
+      id: "linkedin",
+      name: t('share.linkedin'),
       icon: Linkedin,
       onClick: () => {
         track("share_option_click", { option: "linkedin", context, url: shareUrl });
@@ -60,7 +67,8 @@ export function SharePopup({
       },
     },
     {
-      name: "Copy Link",
+      id: "copy_link",
+      name: t('share.copyLink'),
       icon: Link2,
       onClick: async () => {
         await navigator.clipboard.writeText(shareUrl);
@@ -69,7 +77,7 @@ export function SharePopup({
           context,
           url: shareUrl,
         });
-        setCopyStatus("Link copied!");
+        setCopyStatus(t('share.linkCopied'));
         setTimeout(() => setCopyStatus(""), 2000);
       },
     },
@@ -108,7 +116,7 @@ export function SharePopup({
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-detective text-lg text-amber-900">
-            Solve crimes together!
+            {t('share.title')}
           </h3>
           <button
             onClick={onClose}
@@ -120,13 +128,13 @@ export function SharePopup({
         <div className="grid grid-cols-2 gap-3">
           {shareOptions.map((option) => (
             <button
-              key={option.name}
+              key={option.id}
               onClick={option.onClick}
               className="flex items-center justify-center gap-2 p-3 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 transition-colors duration-200"
             >
               <option.icon className="w-5 h-5" />
               <span className="font-medium">
-                {option.name === "Copy Link" && copyStatus
+                {option.id === "copy_link" && copyStatus
                   ? copyStatus
                   : option.name}
               </span>

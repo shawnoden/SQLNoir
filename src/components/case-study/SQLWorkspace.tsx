@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import {
   Play,
@@ -10,12 +12,14 @@ import {
 import { SQLEditor } from "./SQLEditor";
 import { useDatabase } from "../../hooks/useDatabase";
 import type { QueryResult } from "../../services/DatabaseService";
+import { useTranslations } from "next-intl";
 
 interface SQLWorkspaceProps {
   caseId: string;
 }
 
 export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
+  const t = useTranslations();
   const [query, setQuery] = useState("");
   const [selectedQuery, setSelectedQuery] = useState("");
   const [error, setError] = useState("");
@@ -68,7 +72,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
 
     try {
       if (!sanitizedQuery) {
-        setError("Query cannot be empty");
+        setError(t('caseStudy.queryEmpty'));
         setResults({ columns: [], values: [] });
         return;
       }
@@ -114,7 +118,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="w-6 h-6 text-amber-700 animate-spin" />
-        <span className="ml-2 text-amber-900">Loading database...</span>
+        <span className="ml-2 text-amber-900">{t('caseStudy.loadingDatabase')}</span>
       </div>
     );
   }
@@ -122,7 +126,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
   if (dbError) {
     return (
       <div className="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded">
-        <p className="font-bold">Failed to load database</p>
+        <p className="font-bold">{t('caseStudy.failedToLoadDatabase')}</p>
         <p className="text-sm">{dbError}</p>
       </div>
     );
@@ -132,14 +136,14 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
     <div className="space-y-4">
       <div className="bg-amber-900 rounded-lg overflow-hidden">
         <div className="bg-amber-800 px-4 py-2 flex justify-between items-center">
-          <span className="text-amber-100 font-detective">SQL Query</span>
+          <span className="text-amber-100 font-detective">{t('caseStudy.sqlQuery')}</span>
           <button
             onClick={handleExecute}
             disabled={isExecuting}
             title={
               hasSelection
-                ? "Executes only the highlighted text"
-                : "Executes the full editor contents"
+                ? t('caseStudy.executesSelection')
+                : t('caseStudy.executesAll')
             }
             className={`flex items-center px-4 py-1 rounded text-sm transition-colors ${
               isExecuting
@@ -152,16 +156,16 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
             ) : (
               <Play className="w-4 h-4 mr-1" />
             )}
-            {isExecuting ? "Executing..." : "Execute"}
+            {isExecuting ? t('caseStudy.executing') : t('caseStudy.execute')}
             {!isMobileViewport && (
               <span className="hidden md:flex items-center ml-2 text-xs opacity-75">
                 {platform === "mac" ? (
                   <>
                     <Command className="w-3 h-3 mr-1" />
-                    Enter
+                    {t('caseStudy.enter')}
                   </>
                 ) : (
-                  <>Ctrl + Enter</>
+                  <>{t('caseStudy.ctrlEnter')}</>
                 )}
               </span>
             )}
@@ -173,7 +177,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
             onChangeQuery={setQuery}
             onChangeSelectedQuery={setSelectedQuery}
             onExecute={handleExecute}
-            placeholder="SELECT * FROM some_table WHERE..."
+            placeholder={t('caseStudy.editorPlaceholder')}
             caseId={caseId}
           />
         </div>
@@ -183,7 +187,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
         <div className="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded flex items-start">
           <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold">Error in query</p>
+            <p className="font-bold">{t('caseStudy.errorInQuery')}</p>
             <p className="text-sm">{error}</p>
           </div>
         </div>
@@ -194,7 +198,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
           onClick={() => setIsResultsExpanded(!isResultsExpanded)}
           className="w-full bg-amber-100 px-4 py-2 flex items-center justify-between hover:bg-amber-200/50 transition-colors"
         >
-          <span className="text-amber-900 font-detective">Results</span>
+          <span className="text-amber-900 font-detective">{t('caseStudy.results')}</span>
           {isResultsExpanded ? (
             <ChevronUp className="w-4 h-4 text-amber-700" />
           ) : (
@@ -240,7 +244,7 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
                       colSpan={Math.max(1, results.columns.length)}
                       className="px-6 py-4 whitespace-nowrap text-sm text-amber-900 italic"
                     >
-                      No results yet. Execute a query to see the results.
+                      {t('caseStudy.noResults')}
                     </td>
                   </tr>
                 )}

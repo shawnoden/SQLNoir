@@ -1,11 +1,15 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Save } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CaseNotesProps {
   caseId: string;
 }
 
 export function CaseNotes({ caseId }: CaseNotesProps) {
+  const t = useTranslations();
   const [notes, setNotes] = useState("");
 
   // Load saved notes from localStorage when component mounts
@@ -30,7 +34,7 @@ export function CaseNotes({ caseId }: CaseNotesProps) {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h3 className="font-detective text-xl text-amber-900">
-          Investigation Notes
+          {t('notes.title')}
         </h3>
       </div>
 
@@ -38,7 +42,7 @@ export function CaseNotes({ caseId }: CaseNotesProps) {
         <textarea
           value={notes}
           onChange={handleChange}
-          placeholder="Take notes about your investigation here..."
+          placeholder={t('notes.placeholder')}
           className="w-full h-[calc(100vh-400px)] min-h-[300px] p-4 rounded-lg bg-transparent font-mono text-amber-900 
                    focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
           style={{
@@ -48,8 +52,7 @@ export function CaseNotes({ caseId }: CaseNotesProps) {
       </div>
 
       <div className="text-sm text-amber-700/70 italic">
-        Your notes are automatically saved locally and will persist between
-        sessions.
+        {t('notes.autoSaveMessage')}
       </div>
     </div>
   );

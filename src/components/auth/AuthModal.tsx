@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../../lib/supabase";
+import { useTranslations } from "next-intl";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const t = useTranslations();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -140,7 +142,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       <div className="relative bg-amber-50 rounded-xl shadow-2xl border border-amber-200 w-full max-w-md overflow-hidden">
         <div className="px-5 py-4 border-b border-amber-200 flex justify-between items-center">
           <h2 className="text-xl font-detective text-amber-900">
-            {isLogin ? "Welcome Back, Detective" : "Join the Investigation"}
+            {isLogin ? t('auth.welcomeBack') : t('auth.joinInvestigation')}
           </h2>
           <button
             onClick={onClose}
@@ -181,7 +183,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <FcGoogle className="w-6 h-6" />
             )}
             <span className="text-gray-700 text-base">
-              {isLogin ? "Sign in with Google" : "Sign up with Google"}
+              {isLogin ? t('auth.signInWithGoogle') : t('auth.signUpWithGoogle')}
             </span>
           </button>
 
@@ -191,7 +193,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-3 bg-amber-50 text-amber-700 font-medium">
-                Or continue with email
+                {t('auth.orContinueWithEmail')}
               </span>
             </div>
           </div>
@@ -199,7 +201,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-detective text-amber-800 mb-1">
-                Email
+                {t('auth.email')}
               </label>
               <input
                 type="email"
@@ -213,7 +215,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
             <div>
               <label className="block text-sm font-detective text-amber-800 mb-1">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 type="password"
@@ -225,7 +227,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 minLength={6}
               />
               <p className="mt-1 text-xs text-amber-700">
-                {!isLogin && "Password must be at least 6 characters long"}
+                {!isLogin && t('auth.passwordMinLength')}
               </p>
             </div>
 
@@ -242,11 +244,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing...
+                  {t('auth.processing')}
                 </span>
               ) : (
                 <span>
-                  {isLogin ? "Sign In with Email" : "Sign Up with Email"}
+                  {isLogin ? t('auth.signInWithEmail') : t('auth.signUpWithEmail')}
                 </span>
               )}
             </button>
@@ -262,8 +264,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 className="text-amber-700 hover:text-amber-600 text-sm underline-offset-2 hover:underline"
               >
                 {isLogin
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
+                  ? t('auth.dontHaveAccount')
+                  : t('auth.alreadyHaveAccount')}
               </button>
             </div>
           </form>

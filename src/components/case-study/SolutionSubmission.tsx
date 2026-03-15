@@ -1,9 +1,12 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Send, CheckCircle, XCircle, Loader2, Share2 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import type { Case } from "../../types";
 import { SharePopup } from "../SharePopup";
 import { track } from "@vercel/analytics/react";
+import { useTranslations } from "next-intl";
 
 interface SolutionSubmissionProps {
   caseData: Case;
@@ -14,6 +17,7 @@ export function SolutionSubmission({
   caseData,
   onSolve,
 }: SolutionSubmissionProps) {
+  const t = useTranslations();
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -126,7 +130,7 @@ export function SolutionSubmission({
             <div className="flex items-center justify-center gap-3">
               <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0" />
               <h3 className="font-detective text-2xl text-green-900">
-                Case Solved!
+                {t('solution.caseSolved')}
               </h3>
             </div>
             <p className="text-green-800 mt-1">
@@ -136,7 +140,7 @@ export function SolutionSubmission({
 
           <div className="pt-4 border-t border-green-200">
             <h4 className="font-detective text-lg text-green-900 mb-2">
-              Explanation
+              {t('solution.explanation')}
             </h4>
             <p className="text-green-800 leading-relaxed">
               {caseData.solution.explanation}
@@ -146,8 +150,7 @@ export function SolutionSubmission({
           {!user && (
             <div className="bg-white border border-amber-200 rounded-lg p-4">
               <p className="text-amber-800 text-sm font-medium">
-                Note: Create an account to save your XP rewards for solved
-                cases.
+                {t('solution.createAccountNote')}
               </p>
             </div>
           )}
@@ -155,11 +158,10 @@ export function SolutionSubmission({
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 space-y-3 sm:flex sm:items-center sm:justify-between sm:space-y-0 gap-4">
             <div>
               <p className="font-detective text-amber-900">
-                Enjoyed the mystery?
+                {t('solution.enjoyedMystery')}
               </p>
               <p className="text-amber-700 text-sm">
-                Share SQLNoir with another detective and see if they can solve
-                it too.
+                {t('solution.sharePrompt')}
               </p>
             </div>
             <div className="flex sm:block">
@@ -173,7 +175,7 @@ export function SolutionSubmission({
                 className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-amber-700 text-amber-50 hover:bg-amber-600 transition-colors duration-200 text-sm sm:text-base whitespace-nowrap"
               >
                 <Share2 className="w-4 h-4" />
-                <span>Share SQLNoir</span>
+                <span>{t('solution.shareSQLNoir')}</span>
               </button>
             </div>
           </div>
@@ -191,7 +193,7 @@ export function SolutionSubmission({
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="bg-amber-50 p-4 sm:p-6 rounded-xl border border-amber-900/10 space-y-4">
         <h3 className="font-detective text-2xl text-amber-900">
-          Submit Your Findings
+          {t('solution.submitFindings')}
         </h3>
         {showIncorrect ? (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 sm:p-5 space-y-3">
@@ -199,10 +201,10 @@ export function SolutionSubmission({
               <XCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
               <div>
                 <h4 className="font-detective text-xl text-red-800">
-                  Not Quite Right
+                  {t('solution.notQuiteRight')}
                 </h4>
                 <p className="text-red-700 mt-1">
-                  Try again with a different answer.
+                  {t('solution.tryDifferentAnswer')}
                 </p>
               </div>
             </div>
@@ -211,13 +213,12 @@ export function SolutionSubmission({
               onClick={() => setSubmitted(false)}
               className="text-red-700 hover:text-red-800 font-detective"
             >
-              Try Again
+              {t('solution.tryAgain')}
             </button>
           </div>
         ) : (
           <p className="text-amber-700">
-            Submit the suspect you discovered through your investigation to see
-            if you cracked the case.
+            {t('solution.submitDescription')}
           </p>
         )}
 
@@ -225,18 +226,18 @@ export function SolutionSubmission({
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block font-detective text-amber-800 mb-2">
-                Your Answer
+                {t('solution.yourAnswer')}
               </label>
               <input
                 type="text"
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 className="w-full bg-white border border-amber-300 rounded-lg p-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                placeholder="Enter your answer..."
+                placeholder={t('solution.answerPlaceholder')}
                 disabled={isLoading}
               />
               <p className="mt-2 text-sm text-amber-700">
-                Enter the specific name you found through your investigation.
+                {t('solution.answerHint')}
               </p>
             </div>
 
@@ -259,12 +260,12 @@ export function SolutionSubmission({
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Submitting...
+                    {t('solution.submitting')}
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4 mr-2" />
-                    Submit Solution
+                    {t('solution.submitSolution')}
                   </>
                 )}
               </button>

@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { Blog } from "@/components/Blog";
 import { getPostsForPage, getTotalPages, isValidPage } from "@/lib/pagination";
+import { getTranslations } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{ page: string }>;
@@ -20,9 +21,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { page } = await params;
   const pageNum = parseInt(page, 10);
 
-  const title = `Detective's Journal - Page ${pageNum} | SQL Blog`;
-  const description =
-    "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.";
+  const tBlog = await getTranslations("blog");
+  const tMeta = await getTranslations("blog.metadata");
+
+  const title = `${tBlog("pageTitle", { pageNum })} | ${tBlog("subtitle")}`;
+  const description = tMeta("description");
 
   return {
     title,
@@ -40,7 +43,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: "/open-graph-image.png",
           width: 1200,
           height: 630,
-          alt: "SQLNoir blog",
+          alt: tMeta("ogAlt"),
         },
       ],
     },
@@ -67,6 +70,8 @@ export default async function BlogPaginatedPage({ params }: PageProps) {
     notFound();
   }
 
+  const tNav = await getTranslations("nav");
+
   const posts = getPostsForPage(pageNum);
   const totalPages = getTotalPages();
 
@@ -77,13 +82,13 @@ export default async function BlogPaginatedPage({ params }: PageProps) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: tNav("home"),
         item: "https://www.sqlnoir.com/",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Blog",
+        name: tNav("blog"),
         item: "https://www.sqlnoir.com/blog",
       },
       {

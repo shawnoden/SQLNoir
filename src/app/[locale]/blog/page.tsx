@@ -2,42 +2,48 @@ import type { Metadata } from "next";
 import { Blog } from "@/components/Blog";
 import { blogPostsMeta } from "@/lib/blog-posts";
 import { getPostsForPage, getTotalPages } from "@/lib/pagination";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Detective's Journal | SQL Blog",
-  description:
-    "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
-  alternates: {
-    canonical: "/blog",
-    types: {
-      "application/rss+xml": "/blog/rss.xml",
-    },
-  },
-  openGraph: {
-    type: "website",
-    title: "Detective's Journal | SQL Blog",
-    description:
-      "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
-    url: "https://www.sqlnoir.com/blog",
-    images: [
-      {
-        url: "/open-graph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "SQLNoir blog",
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("blog.metadata");
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical: "/blog",
+      types: {
+        "application/rss+xml": "/blog/rss.xml",
       },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Detective's Journal | SQL Blog",
-    description:
-      "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
-    images: ["/open-graph-image.png"],
-  },
-};
+    },
+    openGraph: {
+      type: "website",
+      title: t("title"),
+      description: t("description"),
+      url: "https://www.sqlnoir.com/blog",
+      images: [
+        {
+          url: "/open-graph-image.png",
+          width: 1200,
+          height: 630,
+          alt: t("ogAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: ["/open-graph-image.png"],
+    },
+  };
+}
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const tNav = await getTranslations("nav");
+  const tBlog = await getTranslations("blog");
+  const tMeta = await getTranslations("blog.metadata");
+
   const baseUrl = "https://www.sqlnoir.com";
   const posts = getPostsForPage(1);
   const totalPages = getTotalPages();
@@ -51,22 +57,21 @@ export default function BlogPage() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Home",
+            name: tNav("home"),
             item: "https://www.sqlnoir.com/",
           },
           {
             "@type": "ListItem",
             position: 2,
-            name: "Blog",
+            name: tNav("blog"),
             item: "https://www.sqlnoir.com/blog",
           },
         ],
       },
       {
         "@type": "Blog",
-        name: "Detective's Journal",
-        description:
-          "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
+        name: tBlog("title"),
+        description: tMeta("description"),
         url: "https://www.sqlnoir.com/blog",
         blogPost: blogPostsMeta.map((post) => ({
           "@type": "BlogPosting",

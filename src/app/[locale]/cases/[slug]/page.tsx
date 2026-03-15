@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { CasePageClient } from "@/components/CasePageClient";
 import { findCaseBySlug, getAllCases, getCaseSlug } from "@/lib/case-utils";
+import { getTranslations } from "next-intl/server";
 
 interface CasePageProps {
   params: { slug: string };
@@ -52,13 +53,14 @@ export function generateMetadata({ params }: CasePageProps): Metadata {
   };
 }
 
-export default function CasePage({ params }: CasePageProps) {
+export default async function CasePage({ params }: CasePageProps) {
   const caseData = findCaseBySlug(params.slug);
 
   if (!caseData) {
     return notFound();
   }
 
+  const tNav = await getTranslations("nav");
   const slugUrl = `https://www.sqlnoir.com/cases/${params.slug}`;
 
   return (
@@ -77,13 +79,13 @@ export default function CasePage({ params }: CasePageProps) {
                   {
                     "@type": "ListItem",
                     position: 1,
-                    name: "Home",
+                    name: tNav("home"),
                     item: "https://www.sqlnoir.com/",
                   },
                   {
                     "@type": "ListItem",
                     position: 2,
-                    name: "Cases",
+                    name: tNav("cases"),
                     item: "https://www.sqlnoir.com/cases",
                   },
                   {
