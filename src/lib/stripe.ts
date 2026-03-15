@@ -11,7 +11,7 @@ export const stripe = stripeSecretKey
   : null;
 
 export const STRIPE_CONFIG = {
-  priceId: process.env.STRIPE_PRICE_ID || "price_1TB40fGn1qZYmxbBlUrJvwId",
+  priceId: process.env.STRIPE_PRICE_ID || "price_1TB3yzGn1qZYmxbB4k6Z6mfu",
   publishableKey:
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "",
 } as const;
