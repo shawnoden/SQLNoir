@@ -4,6 +4,7 @@ import { supabase } from "../../lib/supabase";
 import type { Case } from "../../types";
 import { SharePopup } from "../SharePopup";
 import { track } from "@vercel/analytics/react";
+import { capture } from "../../lib/analytics";
 
 interface SolutionSubmissionProps {
   caseData: Case;
@@ -87,11 +88,20 @@ export function SolutionSubmission({
           attempts: attemptsNext,
           auth: Boolean(user),
         });
+        capture("case_completed", {
+          case_id: caseData.id,
+          time_spent_seconds: 0,
+          query_count: attemptsNext,
+        });
       } else {
         track("case_solve_failure", {
           case_slug: caseData.id,
           attempts: attemptsNext,
           auth: Boolean(user),
+        });
+        capture("case_abandoned", {
+          case_id: caseData.id,
+          progress_percentage: 0,
         });
       }
     } catch (err) {

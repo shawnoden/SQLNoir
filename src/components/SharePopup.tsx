@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Facebook, Linkedin, Link2, Twitter, X } from "lucide-react";
 import { track } from "@vercel/analytics/react";
+import { capture } from "../lib/analytics";
 
 interface SharePopupProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export function SharePopup({
       icon: Twitter,
       onClick: () => {
         track("share_option_click", { option: "twitter", context, url: shareUrl });
+        capture("share_clicked", { platform: "twitter" });
         window.open(
           `https://x.com/intent/tweet?text=${encodeURIComponent(
             shareTitle
@@ -38,6 +40,7 @@ export function SharePopup({
       icon: Facebook,
       onClick: () => {
         track("share_option_click", { option: "facebook", context, url: shareUrl });
+        capture("share_clicked", { platform: "facebook" });
         window.open(
           `https://www.facebook.com/sharer.php?u=${encodeURIComponent(
             shareUrl
@@ -51,6 +54,7 @@ export function SharePopup({
       icon: Linkedin,
       onClick: () => {
         track("share_option_click", { option: "linkedin", context, url: shareUrl });
+        capture("share_clicked", { platform: "linkedin" });
         window.open(
           `https://www.linkedin.com/feed/?linkOrigin=LI_BADGE&shareActive=true&shareUrl=${encodeURIComponent(
             shareUrl
@@ -64,6 +68,7 @@ export function SharePopup({
       icon: Link2,
       onClick: async () => {
         await navigator.clipboard.writeText(shareUrl);
+        capture("share_clicked", { platform: "copy_link" });
         track("share_option_click", {
           option: "copy_link",
           context,
