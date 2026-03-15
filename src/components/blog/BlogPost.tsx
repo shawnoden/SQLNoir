@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { BsIncognito } from "react-icons/bs";
 import { Navbar } from "@/components/Navbar";
 import { track } from "@vercel/analytics/react";
+import { trackBlogPostViewed } from "@/lib/posthog-events";
 import { getBlogPostMeta } from "@/lib/blog-posts";
 
 interface BlogPostProps {
@@ -50,6 +51,10 @@ export function BlogPost({ slug }: BlogPostProps) {
     track("blog_view", {
       post_slug: metadata.slug,
       title: metadata.title,
+    });
+    trackBlogPostViewed({
+      post_slug: metadata.slug,
+      referrer: typeof document !== "undefined" ? (document.referrer || "direct") : "direct",
     });
 
     const depths = [25, 50, 75, 100];

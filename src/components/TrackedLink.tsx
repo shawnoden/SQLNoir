@@ -2,6 +2,7 @@
 
 import Link, { type LinkProps } from "next/link";
 import { track } from "@vercel/analytics/react";
+import { capture } from "@/lib/analytics";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
 type TrackedLinkProps = LinkProps &
@@ -27,6 +28,10 @@ export function TrackedLink({
           rest.onClick(e);
         }
         track(event, eventProps ?? {});
+        capture("cta_clicked", {
+          cta_name: event,
+          location: (eventProps?.source as string) ?? "",
+        });
       }}
     >
       {children}

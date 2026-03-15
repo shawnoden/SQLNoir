@@ -16,6 +16,7 @@ import { DatabaseSchema } from "./case-study/DatabaseSchema";
 import { CaseNotes } from "./case-study/CaseNotes";
 import type { Case } from "../types";
 import { track } from "@vercel/analytics/react";
+import { capture } from "../lib/analytics";
 
 const tabs = [
   { id: "brief", label: "Case Brief", icon: Book },
@@ -45,6 +46,11 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
       difficulty: caseData.difficulty,
       category: caseData.category,
       xp_reward: caseData.xpReward,
+    });
+    capture("case_started", {
+      case_id: caseData.id,
+      case_name: caseData.title,
+      difficulty: caseData.difficulty,
     });
   }, [caseData]);
 

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { CookieConsent } from "@/components/CookieConsent";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
 const siteUrl = "https://www.sqlnoir.com";
@@ -132,7 +133,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <PostHogProvider>
+          {children}
+        </PostHogProvider>
         <CookieConsent />
         <Analytics />
       </body>

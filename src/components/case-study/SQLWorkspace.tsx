@@ -10,6 +10,7 @@ import {
 import { SQLEditor } from "./SQLEditor";
 import { useDatabase } from "../../hooks/useDatabase";
 import type { QueryResult } from "../../services/DatabaseService";
+import { trackSqlQuerySubmitted } from "../../lib/posthog-events";
 
 interface SQLWorkspaceProps {
   caseId: string;
@@ -81,6 +82,12 @@ export function SQLWorkspace({ caseId }: SQLWorkspaceProps) {
       setResults({ columns: [], values: [] });
 
       const result = await executeQuery(sanitizedQuery);
+
+      trackSqlQuerySubmitted({
+        case_id: caseId,
+        is_correct: !result.error,
+        query_length: sanitizedQuery.length,
+      });
 
       if (result.error) {
         setError(result.error);

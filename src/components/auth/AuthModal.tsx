@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../../lib/supabase";
+import { trackSignUpCompleted } from "../../lib/posthog-events";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -114,6 +115,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           }
         } else {
           // Show success message for sign up
+          trackSignUpCompleted();
           setError("success:Account created! You can now sign in.");
           setIsLogin(true);
           setPassword("");
