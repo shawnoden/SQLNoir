@@ -1,0 +1,287 @@
+{
+  "common": {
+    "appName": "SQLNoir",
+    "xp": "XP",
+    "xpLabel": "XP: {amount}",
+    "xpRequired": "{amount} XP required",
+    "new": "NEW",
+    "solved": "SOLVED",
+    "locked": "Locked",
+    "menu": "Menu",
+    "share": "Share",
+    "loading": "Loading...",
+    "null": "NULL",
+    "error": "An error occurred",
+    "close": "Close",
+    "back": "Back",
+    "blog": "Blog"
+  },
+  "nav": {
+    "home": "Home",
+    "cases": "Cases",
+    "help": "Help",
+    "blog": "Detective's Journal",
+    "journal": "Journal",
+    "journalFull": "Detective's Journal",
+    "github": "GitHub",
+    "startInvestigation": "Start Investigation"
+  },
+  "home": {
+    "heroTitle": "Solve mysteries through SQL.",
+    "heroSubtitle": "Step into a smoky 80s detective agency, question suspects with SQL queries, and crack the case one statement at a time.",
+    "startInvestigation": "Start Investigation",
+    "welcomeDetective": "Welcome, Detective",
+    "welcomeMessage": "The city is buzzing. New evidence just landed on your desk.",
+    "openCaseFiles": "Open the Case Files",
+    "learnMore": "↓ Learn More ↓",
+    "featureQueryDriven": "Query-driven cases",
+    "featureQueryDrivenDesc": "Every clue is hidden in a database. Use SQL to interrogate the data and expose the culprit.",
+    "featureNoSetup": "No setup needed",
+    "featureNoSetupDesc": "Built-in SQL workspace powered by SQL.js. Just open a case and start digging.",
+    "featureEarnXP": "Earn detective XP",
+    "featureEarnXPDesc": "Solve cases to level up your badge and unlock tougher investigations.",
+    "howItWorksTitle": "How SQLNoir works",
+    "howItWorksP1": "Each case drops you into a story-driven investigation. You read the brief, study the database schema, and run SQL queries in a built-in editor to surface clues. As you connect tables, eliminate suspects, and validate alibis, you practice real SQL patterns: filtering, joins, aggregates, and subqueries. No setup or installs. Just open a case file and start interrogating the data.",
+    "howItWorksP2": "Progression is tracked with XP and difficulty tiers, so you can start as a rookie and grow into a seasoned investigator. Beginner cases teach fundamentals, while advanced cases push you with layered joins and trickier conditions.",
+    "howItWorksP3": "Ready to see it in action?",
+    "startSolvingCases": "Start Solving Cases",
+    "whoIsThisFor": "Who this is for",
+    "audienceDevelopers": "Developers wanting a hands-on, story-first way to practice SQL fundamentals and joins.",
+    "audienceAnalysts": "Data analysts preparing for interviews who need realistic querying scenarios.",
+    "audienceStudents": "Students who learn faster through narrative and immediate feedback instead of dry textbooks.",
+    "audienceInstructors": "Instructors looking for engaging SQL exercises without any environment setup for learners.",
+    "faqTitle": "Frequently asked questions",
+    "faqSubtitle": "Quick answers before you start your first case.",
+    "faqAccountQ": "Do I need an account to play?",
+    "faqAccountA": "You can open and solve cases without creating an account. Sign in to track XP, progress, and solved cases across devices.",
+    "faqAccessQ": "How does access work?",
+    "faqAccessA": "Intermediate and advanced cases require XP to unlock, so pick a starting case and build momentum from there.",
+    "faqSqlQ": "What SQL do I need to know?",
+    "faqSqlA": "Beginners can start with simple SELECTs. Intermediate and advanced cases introduce joins, grouping, filters, and subqueries as you progress.",
+    "faqInterviewQ": "Will this help with interviews?",
+    "faqInterviewA": "Yes. Cases mimic realistic data puzzles you might see in data and engineering interviews. It's great for practicing under a narrative without rote question banks.",
+    "faqHintsQ": "Can I get hints if I'm stuck?",
+    "faqHintsA": "Each case includes a schema view and objectives. If you need more help, join the community Discord or check the help page for guidance."
+  },
+  "cases": {
+    "caseFiles": "Case Files",
+    "beginner": "Beginner Cases",
+    "beginnerDesc": "Perfect for SQL newcomers. Learn the basics of querying and data analysis.",
+    "intermediate": "Intermediate Cases",
+    "intermediateDesc": "For investigators with basic SQL knowledge. Tackle more complex queries and optimizations.",
+    "advanced": "Advanced Cases",
+    "advancedDesc": "Expert-level cases requiring deep SQL knowledge and problem-solving skills.",
+    "metadata": {
+      "title": "Case Files | Play interactive SQL detective scenarios",
+      "description": "Browse SQLNoir cases across skill levels. Solve interactive detective scenarios, earn XP, and sharpen your SQL skills.",
+      "ogTitle": "Case Files | Play interactive SQL detective scenarios",
+      "ogDescription": "Pick a case, question suspects with SQL, and earn XP as you solve each investigation.",
+      "ogAlt": "SQLNoir case files",
+      "collectionName": "SQLNoir Case Files",
+      "collectionDescription": "Interactive SQL detective cases with XP tiers across beginner to advanced difficulty."
+    }
+  },
+  "caseSolver": {
+    "caseBrief": "Case Brief",
+    "sqlWorkspace": "SQL Workspace",
+    "schema": "Schema",
+    "notes": "Notes",
+    "submit": "Submit",
+    "backToCases": "Back to Cases",
+    "back": "Back",
+    "sideBySide": "Side by Side",
+    "stackView": "Stack View",
+    "tab1": "Tab 1",
+    "tab2": "Tab 2"
+  },
+  "caseStudy": {
+    "objectives": "Objectives",
+    "sqlQuery": "SQL Query",
+    "executesHighlighted": "Executes only the highlighted text",
+    "executesFullEditor": "Executes the full editor contents",
+    "executing": "Executing...",
+    "execute": "Execute",
+    "enter": "Enter",
+    "ctrlEnter": "Ctrl + Enter",
+    "errorInQuery": "Error in query",
+    "results": "Results",
+    "noResults": "No results yet. Execute a query to see the results.",
+    "queryEmpty": "Query cannot be empty",
+    "queryResultInvalid": "Query result structure is invalid",
+    "loadingDatabase": "Loading database...",
+    "failedToLoadDatabase": "Failed to load database",
+    "primaryKey": "Primary Key",
+    "foreignKey": "Foreign Key",
+    "schemaTip": "Tip: You can drag and reposition tables to organize the schema view",
+    "loadingSchema": "Loading schema...",
+    "failedToLoadSchema": "Failed to load schema",
+    "noTablesFound": "No tables found in the database.",
+    "tableView": "Table View",
+    "graphView": "Graph View",
+    "copyTableName": "Copy table name",
+    "column": "Column",
+    "type": "Type",
+    "key": "Key",
+    "placeholder": "SELECT * FROM some_table WHERE..."
+  },
+  "solution": {
+    "caseSolved": "Case Solved!",
+    "explanation": "Explanation",
+    "saveXpNote": "Note: Create an account to save your XP rewards for solved cases.",
+    "enjoyedMystery": "Enjoyed the mystery?",
+    "shareMessage": "Share SQLNoir with another detective and see if they can solve it too.",
+    "shareSqlnoir": "Share SQLNoir",
+    "submitFindings": "Submit Your Findings",
+    "notQuiteRight": "Not Quite Right",
+    "tryAgainMessage": "Try again with a different answer.",
+    "tryAgain": "Try Again",
+    "submitDescription": "Submit the suspect you discovered through your investigation to see if you cracked the case.",
+    "yourAnswer": "Your Answer",
+    "enterAnswer": "Enter your answer...",
+    "answerHint": "Enter the specific name you found through your investigation.",
+    "submitting": "Submitting...",
+    "submitSolution": "Submit Solution",
+    "progressError": "An error occurred while updating progress"
+  },
+  "hints": {
+    "title": "Investigation Tips",
+    "checkNullTitle": "Check for NULL Values",
+    "checkNullDesc": "Use IS NULL to find records with missing information in critical fields.",
+    "joinTablesTitle": "Join Multiple Tables",
+    "joinTablesDesc": "Connect orders with customer information using JOIN operations.",
+    "filterDateTitle": "Filter by Date Range",
+    "filterDateDesc": "Use BETWEEN operator to find orders within specific dates."
+  },
+  "notes": {
+    "title": "Investigation Notes",
+    "placeholder": "Take notes about your investigation here...",
+    "autoSaveMessage": "Your notes are automatically saved locally and will persist between sessions."
+  },
+  "share": {
+    "title": "Solve crimes together!",
+    "shareTitle": "SQL Noir - Learn SQL by solving crimes",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied!"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back, Detective",
+    "joinInvestigation": "Join the Investigation",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "orContinueWithEmail": "Or continue with email",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "Password must be at least 6 characters long",
+    "processing": "Processing...",
+    "signInWithEmail": "Sign In with Email",
+    "signUpWithEmail": "Sign Up with Email",
+    "noAccount": "Don't have an account? Sign up",
+    "hasAccount": "Already have an account? Sign in",
+    "authNotAvailable": "Authentication is not available",
+    "googleSignInError": "An error occurred during Google sign-in",
+    "invalidCredentials": "Invalid email or password. Please try again.",
+    "emailNotConfirmed": "Please confirm your email address before signing in.",
+    "accountExists": "An account with this email already exists. Please sign in instead.",
+    "weakPassword": "Password must be at least 6 characters long.",
+    "accountCreated": "Account created! You can now sign in.",
+    "genericError": "An error occurred",
+    "detectiveProfile": "Detective Profile",
+    "experiencePoints": "Experience Points",
+    "casesSolved": "Cases Solved: {count}",
+    "signOut": "Sign Out"
+  },
+  "help": {
+    "title": "Hit a dead end on a case?",
+    "subtitle": "Every detective needs a network. Got a lead to share or need assistance cracking a tough case?",
+    "startNew": "Start a new investigation in",
+    "caseFiles": "the case files",
+    "orBrowse": "or browse tips in the",
+    "discordTitle": "Discord HQ",
+    "discordDesc": "Join the community, swap query tips, or ask for a nudge on a tricky clue.",
+    "enterDiscord": "Enter Discord",
+    "githubTitle": "GitHub Issues",
+    "githubDesc": "Found a bug or want to propose a feature? Open an issue and we'll investigate.",
+    "reportOnGithub": "Report on GitHub",
+    "quickAnswers": "Quick answers",
+    "faqClueQ": "Need a clue?",
+    "faqClueA": "Check the Schema tab first, then drop by Discord for a nudge.",
+    "faqBugQ": "Found a bug in the code?",
+    "faqBugA": "Found a bug or glitch? Report it on GitHub and we'll investigate.",
+    "faqContributeQ": "Want to join the force?",
+    "faqContributeA": "Pull requests welcome. Grab an open issue or pitch us a new case idea.",
+    "metadata": {
+      "title": "Help & Support",
+      "description": "Get help with SQLNoir cases, join the community, or report bugs. Find answers, Discord, and GitHub support links."
+    }
+  },
+  "blog": {
+    "title": "Detective's Journal",
+    "subtitle": "SQL Blog",
+    "pageTitle": "Detective's Journal - Page {pageNum}",
+    "readFullArticle": "Read full article",
+    "previous": "Previous",
+    "next": "Next",
+    "paginationLabel": "Blog pagination",
+    "metadata": {
+      "title": "Detective's Journal | SQL Blog",
+      "description": "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
+      "ogAlt": "SQLNoir blog",
+      "rssTitle": "SQLNoir - Detective's Journal",
+      "rssDescription": "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal."
+    }
+  },
+  "gameApp": {
+    "sqlNoir": "SQL Noir",
+    "solveMysteriesThroughSQL": "Solve mysteries through SQL.",
+    "startInvestigation": "Start Investigation",
+    "detectivesTip": "Detective's Tip: {tip}",
+    "starOnGitHub": "Star on GitHub",
+    "joinDiscord": "Join Discord",
+    "readDetectivesJournal": "Read Detective's Journal",
+    "sqlTips": {
+      "tip1": "Comment your complex SQL queries",
+      "tip2": "Use single quotes for text values: WHERE name = 'John'",
+      "tip3": "End your SQL statements with a semicolon (;)"
+    }
+  },
+  "blogComponents": {
+    "quickQuiz": {
+      "title": "Quick Quiz",
+      "correct": "Correct!",
+      "notQuite": "Not quite",
+      "tryAgain": "Try Again"
+    },
+    "detectiveTip": {
+      "detectivesNote": "Detective's Note",
+      "watchOut": "Watch Out",
+      "keyClue": "Key Clue"
+    },
+    "mysteryTeaser": {
+      "difficulty": "Difficulty",
+      "tryThisCase": "Try this case"
+    },
+    "difficultyBadge": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "beforeAfter": {
+      "before": "Before",
+      "after": "After"
+    },
+    "cheatSheet": {
+      "title": "Cheat Sheet"
+    },
+    "sqlBreakdown": {
+      "title": "SQL Breakdown"
+    }
+  },
+  "metadata": {
+    "siteTitle": "Interactive SQL Game | Learn SQL by Solving Detective Cases | SQLNoir",
+    "siteDescription": "SQLNoir is an interactive SQL game where you solve crimes and mysteries using SQL queries. Learn SQL by playing detective in this engaging SQL learning game.",
+    "ogAlt": "SQLNoir interactive SQL detective game"
+  }
+}
