@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { MessageCircle, Bug } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { track } from "@vercel/analytics/react";
 import { useTranslations } from "next-intl";
 

@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { ChevronRight, Github, Share2, BookOpen } from "lucide-react";
 import { BsIncognito } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Dashboard } from "./Dashboard";
 import { CaseSolver } from "./CaseSolver";
 import { PaywallModal } from "./PaywallModal";

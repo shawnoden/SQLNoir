@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, type ComponentType } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Share2, Home, FolderOpen, LifeBuoy, BookOpen, Globe } from "lucide-react";
 import { track } from "@vercel/analytics/react";
 import { supabase } from "@/lib/supabase";

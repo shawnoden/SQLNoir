@@ -1,11 +1,11 @@
 "use client";
 
-import Link, { type LinkProps } from "next/link";
+import { Link } from "@/i18n/navigation";
 import { track } from "@vercel/analytics/react";
 import { capture } from "@/lib/analytics";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ComponentProps, ReactNode } from "react";
 
-type TrackedLinkProps = LinkProps &
+type TrackedLinkProps = ComponentProps<typeof Link> &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "onClick"> & {
     event: string;
     eventProps?: Record<string, string | number | boolean | null>;

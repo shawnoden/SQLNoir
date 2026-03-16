@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import dynamic from "next/dynamic";
 import { Calendar, Clock, ExternalLink } from "lucide-react";
 import { useEffect } from "react";
