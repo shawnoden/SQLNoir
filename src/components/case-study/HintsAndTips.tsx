@@ -15,19 +15,19 @@ export function HintsAndTips() {
         <ul className="space-y-4">
           {[
             {
-              title: t('hints.tip1Title'),
-              description: t('hints.tip1Description'),
+              title: t('hints.checkNullTitle'),
+              description: t('hints.checkNullDesc'),
               example: "SELECT * FROM Orders WHERE ShipDate IS NULL;",
             },
             {
-              title: t('hints.tip2Title'),
-              description: t('hints.tip2Description'),
+              title: t('hints.joinTablesTitle'),
+              description: t('hints.joinTablesDesc'),
               example:
                 "SELECT o.*, c.CompanyName FROM Orders o JOIN Customers c ON o.CustomerID = c.CustomerID;",
             },
             {
-              title: t('hints.tip3Title'),
-              description: t('hints.tip3Description'),
+              title: t('hints.filterDateTitle'),
+              description: t('hints.filterDateDesc'),
               example:
                 "SELECT * FROM Orders WHERE OrderDate BETWEEN '1998-03-01' AND '1998-04-30';",
             },

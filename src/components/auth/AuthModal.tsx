@@ -266,8 +266,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 className="text-amber-700 hover:text-amber-600 text-sm underline-offset-2 hover:underline"
               >
                 {isLogin
-                  ? t('auth.dontHaveAccount')
-                  : t('auth.alreadyHaveAccount')}
+                  ? t('auth.noAccount')
+                  : t('auth.hasAccount')}
               </button>
             </div>
           </form>

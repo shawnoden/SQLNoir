@@ -173,7 +173,7 @@ export function SolutionSubmission({
           {!user && (
             <div className="bg-white border border-amber-200 rounded-lg p-4">
               <p className="text-amber-800 text-sm font-medium">
-                {t('solution.createAccountNote')}
+                {t('solution.saveXpNote')}
               </p>
             </div>
           )}
@@ -184,7 +184,7 @@ export function SolutionSubmission({
                 {t('solution.enjoyedMystery')}
               </p>
               <p className="text-amber-700 text-sm">
-                {t('solution.sharePrompt')}
+                {t('solution.shareMessage')}
               </p>
             </div>
             <div className="flex sm:block">
@@ -198,7 +198,7 @@ export function SolutionSubmission({
                 className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-amber-700 text-amber-50 hover:bg-amber-600 transition-colors duration-200 text-sm sm:text-base whitespace-nowrap"
               >
                 <Share2 className="w-4 h-4" />
-                <span>{t('solution.shareSQLNoir')}</span>
+                <span>{t('solution.shareSqlnoir')}</span>
               </button>
             </div>
           </div>
@@ -232,7 +232,7 @@ export function SolutionSubmission({
                   {t('solution.notQuiteRight')}
                 </h4>
                 <p className="text-red-700 mt-1">
-                  {t('solution.tryDifferentAnswer')}
+                  {t('solution.tryAgainMessage')}
                 </p>
               </div>
             </div>
@@ -261,7 +261,7 @@ export function SolutionSubmission({
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 className="w-full bg-white border border-amber-300 rounded-lg p-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                placeholder={t('solution.answerPlaceholder')}
+                placeholder={t('solution.enterAnswer')}
                 disabled={isLoading}
               />
               <p className="mt-2 text-sm text-amber-700">
