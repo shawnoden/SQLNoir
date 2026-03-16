@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ComponentType } from "react";
+import { useEffect, useState, useRef, type ComponentType } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Share2, Home, FolderOpen, LifeBuoy, BookOpen, Globe } from "lucide-react";
@@ -100,7 +100,18 @@ export function Navbar({
     router.push(newPath);
   };
 
-  const localeLabel = currentLocale === "en" ? "EN" : "PT";
+  const [isLocaleOpen, setIsLocaleOpen] = useState(false);
+  const localeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (localeRef.current && !localeRef.current.contains(e.target as Node)) {
+        setIsLocaleOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="bg-amber-50/80 border-b border-amber-200 backdrop-blur-sm relative z-50">
@@ -199,15 +210,34 @@ export function Navbar({
             </button>
           )}
 
-          <button
-            type="button"
-            onClick={() => switchLocale(currentLocale === "en" ? "pt-br" : "en")}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-detective text-sm bg-amber-100 hover:bg-amber-200 text-amber-900 border border-transparent transition-colors duration-200"
-            title={currentLocale === "en" ? "Mudar para Portugues" : "Switch to English"}
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span>{localeLabel}</span>
-          </button>
+          <div ref={localeRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setIsLocaleOpen(!isLocaleOpen)}
+              className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-detective bg-amber-100 hover:bg-amber-200 text-amber-900 border border-transparent transition-colors duration-200"
+              title="Change language"
+            >
+              <Globe className="w-4 h-4" />
+            </button>
+            {isLocaleOpen && (
+              <div className="absolute right-0 mt-1 w-36 bg-amber-50 border border-amber-200 rounded-lg shadow-lg overflow-hidden z-50">
+                <button
+                  type="button"
+                  onClick={() => { switchLocale("en"); setIsLocaleOpen(false); }}
+                  className={`w-full text-left px-3 py-2 text-sm font-detective transition-colors ${currentLocale === "en" ? "bg-amber-200 text-amber-900" : "text-amber-800 hover:bg-amber-100"}`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { switchLocale("pt-br"); setIsLocaleOpen(false); }}
+                  className={`w-full text-left px-3 py-2 text-sm font-detective transition-colors ${currentLocale === "pt-br" ? "bg-amber-200 text-amber-900" : "text-amber-800 hover:bg-amber-100"}`}
+                >
+                  Portugues (BR)
+                </button>
+              </div>
+            )}
+          </div>
 
           <UserMenu user={user} onSignOut={() => setUser(null)} />
         </nav>
@@ -288,14 +318,13 @@ export function Navbar({
 
             <button
               type="button"
-              onClick={() => switchLocale(currentLocale === "en" ? "pt-br" : "en")}
+              onClick={() => { switchLocale(currentLocale === "en" ? "pt-br" : "en"); setIsMenuOpen(false); }}
               className="w-full inline-flex items-center justify-between px-4 py-3 rounded-lg font-detective transition-colors duration-200 border shadow-sm bg-amber-100 text-amber-900 hover:bg-amber-200"
             >
               <span className="inline-flex items-center gap-2">
                 <Globe className="w-4 h-4" />
                 <span>{currentLocale === "en" ? "Portugues (BR)" : "English"}</span>
               </span>
-              <span className="text-xs opacity-70">{localeLabel}</span>
             </button>
           </div>
         </div>

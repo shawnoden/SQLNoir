@@ -65,11 +65,11 @@
   },
   "cases": {
     "caseFiles": "Case Files",
-    "beginner": "Beginner Cases",
+    "beginner": "Beginner",
     "beginnerDesc": "Perfect for SQL newcomers. Learn the basics of querying and data analysis.",
-    "intermediate": "Intermediate Cases",
+    "intermediate": "Intermediate",
     "intermediateDesc": "For investigators with basic SQL knowledge. Tackle more complex queries and optimizations.",
-    "advanced": "Advanced Cases",
+    "advanced": "Advanced",
     "advancedDesc": "Expert-level cases requiring deep SQL knowledge and problem-solving skills.",
     "metadata": {
       "title": "Case Files | Play interactive SQL detective scenarios",
@@ -301,7 +301,7 @@
     "caseClassified": "Case Classified",
     "caseClassifiedDesc": "This investigation requires a Detective License. Upgrade to access all intermediate and advanced cases.",
     "backToCaseFiles": "Back to Case Files",
-    "licenseRequired": "Detective License Required",
+    "licenseRequired": "License Required",
     "unlockAllCases": "Unlock all cases with a Detective License",
     "unlockAllCasesDesc": "One-time purchase. Full access to all 6 cases, every difficulty tier, unlimited practice."
   },

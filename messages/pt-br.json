@@ -65,11 +65,11 @@
   },
   "cases": {
     "caseFiles": "Arquivos de Caso",
-    "beginner": "Casos para Iniciantes",
+    "beginner": "Iniciante",
     "beginnerDesc": "Perfeito para quem está começando com SQL. Aprenda os fundamentos de consultas e análise de dados.",
-    "intermediate": "Casos Intermediários",
+    "intermediate": "Intermediário",
     "intermediateDesc": "Para investigadores com conhecimento básico de SQL. Enfrente consultas e otimizações mais complexas.",
-    "advanced": "Casos Avançados",
+    "advanced": "Avançado",
     "advancedDesc": "Casos de nível especialista que exigem conhecimento profundo de SQL e habilidades de resolução de problemas.",
     "metadata": {
       "title": "Arquivos de Caso | Jogue cenários interativos de detetive SQL",
@@ -301,7 +301,7 @@
     "caseClassified": "Caso Classificado",
     "caseClassifiedDesc": "Esta investigacao requer uma Licenca de Detetive. Faca o upgrade para acessar todos os casos intermediarios e avancados.",
     "backToCaseFiles": "Voltar aos Arquivos de Caso",
-    "licenseRequired": "Licenca de Detetive Necessaria",
+    "licenseRequired": "Licenca Necessaria",
     "unlockAllCases": "Desbloqueie todos os casos com uma Licenca de Detetive",
     "unlockAllCasesDesc": "Compra unica. Acesso total a todos os 6 casos, todos os niveis de dificuldade, pratica ilimitada."
   },
