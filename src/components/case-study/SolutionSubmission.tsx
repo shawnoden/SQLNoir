@@ -141,12 +141,14 @@ export function SolutionSubmission({
           query_count: attemptsNext,
         });
 
-        // Show paywall based on A/B test placement
-        const placement = posthog.getFeatureFlag("paywall-placement");
-        const triggerAfterCase1 = placement === "after-case-1" && caseData.id === "case-001";
-        const triggerAfterCase2 = placement !== "after-case-1" && caseData.id === "case-002";
-        if (triggerAfterCase1 || triggerAfterCase2) {
-          setTimeout(() => setIsPaywallOpen(true), 1500);
+        // Show paywall based on A/B test placement (only when monetization is enabled)
+        if (process.env.NEXT_PUBLIC_ENABLE_MONETIZATION === "1") {
+          const placement = posthog.getFeatureFlag("paywall-placement");
+          const triggerAfterCase1 = placement === "after-case-1" && caseData.id === "case-001";
+          const triggerAfterCase2 = placement !== "after-case-1" && caseData.id === "case-002";
+          if (triggerAfterCase1 || triggerAfterCase2) {
+            setTimeout(() => setIsPaywallOpen(true), 1500);
+          }
         }
       } else {
         track("case_solve_failure", {

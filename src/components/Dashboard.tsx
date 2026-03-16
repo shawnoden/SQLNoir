@@ -36,7 +36,7 @@ export function Dashboard({
           </h1>
         </div>
 
-        {!userInfo?.has_license && (
+        {process.env.NEXT_PUBLIC_ENABLE_MONETIZATION === "1" && !userInfo?.has_license && (
           <div className="mb-8 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
             <div className="space-y-1">
               <p className="font-detective text-xl text-amber-900">
