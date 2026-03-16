@@ -124,8 +124,8 @@
     "column": "Coluna",
     "type": "Tipo",
     "key": "Chave",
-    "placeholder": "SELECT * FROM alguma_tabela WHERE...",
-    "editorPlaceholder": "SELECT * FROM alguma_tabela WHERE..."
+    "placeholder": "SELECT * FROM crime_scene WHERE...",
+    "editorPlaceholder": "SELECT * FROM crime_scene WHERE..."
   },
   "solution": {
     "caseSolved": "Caso Resolvido!",
