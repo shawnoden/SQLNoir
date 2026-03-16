@@ -7,9 +7,19 @@ const sanitizeTitle = (title: string) =>
     .replace(/[^a-zA-Z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+// Build a map of case ID → English title for stable slug generation
+const englishTitleMap = new Map<string, string>();
+for (const caseList of Object.values(cases)) {
+  for (const c of caseList) {
+    englishTitleMap.set(c.id, c.title);
+  }
+}
+
 export const getCaseSlug = (caseData: Case) => {
   const caseNumber = caseData.id.replace(/[^0-9]/g, "");
-  const titleSlug = sanitizeTitle(caseData.title);
+  // Always use the English title for URL slugs so they're locale-independent
+  const englishTitle = englishTitleMap.get(caseData.id) || caseData.title;
+  const titleSlug = sanitizeTitle(englishTitle);
   return `${caseNumber}-${titleSlug}`;
 };
 
