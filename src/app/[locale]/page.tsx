@@ -43,7 +43,7 @@ export default async function HomePage() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Home",
+            name: tNav("home"),
             item: "https://www.sqlnoir.com/",
           },
         ],

@@ -10,6 +10,11 @@ import { identifyUser, resetUser } from "@/lib/analytics";
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     initPostHog();
+
+    // Re-init when cookie consent is granted
+    const handleConsent = () => initPostHog();
+    window.addEventListener("cookie-consent-granted", handleConsent);
+    return () => window.removeEventListener("cookie-consent-granted", handleConsent);
   }, []);
 
   // Track route changes for SPA navigation

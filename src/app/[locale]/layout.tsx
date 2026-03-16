@@ -81,53 +81,55 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: "SQLNoir",
-      url: siteUrl,
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteUrl}/open-graph-image.png`,
-        width: 1200,
-        height: 630,
-      },
-      sameAs: [
-        "https://github.com/hristo2612/SQLNoir",
-        "https://discord.gg/rMQRwrRYHH",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: "SQLNoir",
-      description: defaultDescription,
-      publisher: {
+function buildJsonLd(navNames: { home: string; cases: string; blog: string; help: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
         "@id": `${siteUrl}/#organization`,
+        name: "SQLNoir",
+        url: siteUrl,
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/open-graph-image.png`,
+          width: 1200,
+          height: 630,
+        },
+        sameAs: [
+          "https://github.com/hristo2612/SQLNoir",
+          "https://discord.gg/rMQRwrRYHH",
+        ],
       },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${siteUrl}/cases?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        url: siteUrl,
+        name: "SQLNoir",
+        description: defaultDescription,
+        publisher: {
+          "@id": `${siteUrl}/#organization`,
+        },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${siteUrl}/cases?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
       },
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "@id": `${siteUrl}/#site-navigation`,
-      name: ["Home", "Cases", "Blog", "Help"],
-      url: [
-        `${siteUrl}/`,
-        `${siteUrl}/cases`,
-        `${siteUrl}/blog`,
-        `${siteUrl}/help`,
-      ],
-    },
-  ],
-};
+      {
+        "@type": "SiteNavigationElement",
+        "@id": `${siteUrl}/#site-navigation`,
+        name: [navNames.home, navNames.cases, navNames.blog, navNames.help],
+        url: [
+          `${siteUrl}/`,
+          `${siteUrl}/cases`,
+          `${siteUrl}/blog`,
+          `${siteUrl}/help`,
+        ],
+      },
+    ],
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -143,6 +145,13 @@ export default async function LocaleLayout({
   }
 
   const messages = (await import(`../../../messages/${locale}.json`)).default;
+  const nav = messages.nav || {};
+  const jsonLd = buildJsonLd({
+    home: nav.home || "Home",
+    cases: nav.cases || "Cases",
+    blog: nav.blog || "Blog",
+    help: nav.help || "Help",
+  });
 
   return (
     <html lang={locale}>

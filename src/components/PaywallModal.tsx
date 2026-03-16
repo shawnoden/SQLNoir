@@ -42,7 +42,10 @@ export function PaywallModal({
   }, [isOpen, caseId, triggerLocation]);
 
   const handleCtaClick = async () => {
-    trackPaywallCtaClicked(caseId);
+    trackPaywallCtaClicked(caseId, {
+      trigger_location: triggerLocation,
+      price,
+    });
     setLoading(true);
     try {
       const res = await fetch("/api/checkout", { method: "POST" });

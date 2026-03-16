@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { CasePageClient } from "@/components/CasePageClient";
 import { findCaseBySlug, getAllCases, getCaseSlug, getLocalizedCase } from "@/lib/case-utils";
+import { isCaseFree } from "@/lib/license";
 import { getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
@@ -150,7 +151,12 @@ export default async function CasePage({ params }: CasePageProps) {
           }),
         }}
       />
-      <CasePageClient caseData={caseData} />
+      <CasePageClient
+        caseData={isCaseFree(baseCaseData)
+          ? caseData
+          : { ...caseData, solution: { answer: "", explanation: "", successMessage: "" } }
+        }
+      />
     </>
   );
 }

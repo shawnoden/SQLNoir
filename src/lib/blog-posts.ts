@@ -31,6 +31,11 @@ export interface BlogPostMeta {
   author: string;
   heroImage: StaticImageData;
   lastModified?: string;
+  locale?: string; // defaults to "en" if omitted
+}
+
+export function getBlogPostsForLocale(locale: string): BlogPostMeta[] {
+  return blogPostsMeta.filter((post) => (post.locale || "en") === locale);
 }
 
 export const blogPostsMeta: BlogPostMeta[] = [

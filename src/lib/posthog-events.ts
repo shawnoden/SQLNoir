@@ -5,7 +5,7 @@ import { capture } from "./analytics";
 export function trackCaseStarted(props: {
   case_id: string;
   case_name: string;
-  difficulty: string;
+  difficulty: string | number;
 }) {
   capture("case_started", props);
 }

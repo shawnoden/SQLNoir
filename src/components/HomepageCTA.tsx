@@ -21,10 +21,12 @@ export function HomepageCTA({ ctaId, source, className, children }: HomepageCTAP
   const [ctaText, setCtaText] = useState("Start Investigation");
 
   useEffect(() => {
-    const flag = posthog.getFeatureFlag("homepage-cta-copy");
-    if (typeof flag === "string" && CTA_COPY_MAP[flag]) {
-      setCtaText(CTA_COPY_MAP[flag]);
-    }
+    posthog.onFeatureFlags(() => {
+      const flag = posthog.getFeatureFlag("homepage-cta-copy");
+      if (typeof flag === "string" && CTA_COPY_MAP[flag]) {
+        setCtaText(CTA_COPY_MAP[flag]);
+      }
+    });
   }, []);
 
   return (
@@ -35,7 +37,7 @@ export function HomepageCTA({ ctaId, source, className, children }: HomepageCTAP
         cta_id: ctaId,
         page: "/",
         source,
-        cta_variant: posthog.getFeatureFlag("homepage-cta-copy") as string,
+        cta_variant: (posthog.getFeatureFlag("homepage-cta-copy") as string) ?? "default",
       }}
       className={className}
     >

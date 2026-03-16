@@ -2,13 +2,14 @@
 
 import { useEffect, useState, useRef, type ComponentType } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { Share2, Home, FolderOpen, LifeBuoy, BookOpen, Globe } from "lucide-react";
 import { track } from "@vercel/analytics/react";
 import { supabase } from "@/lib/supabase";
 import { SharePopup } from "./SharePopup";
 import { UserMenu } from "./auth/UserMenu";
 import { routing } from "@/i18n/routing";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 type NavLink = {
   label: string;
@@ -39,6 +40,7 @@ export function Navbar({
   showShare = false,
 }: NavbarProps) {
   const pathname = usePathname();
+  const t = useTranslations();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -79,25 +81,15 @@ export function Navbar({
   };
 
   const router = useRouter();
-
-  // Detect current locale from pathname
-  const currentLocale = routing.locales.find(
-    (l) => l !== routing.defaultLocale && pathname.startsWith(`/${l}`)
-  ) || routing.defaultLocale;
+  const currentLocale = useLocale();
 
   const handleNavClick = (target: string) => {
     track("nav_click", { target, page: pathname });
   };
 
   const switchLocale = (newLocale: string) => {
-    const pathWithoutLocale = currentLocale !== routing.defaultLocale
-      ? pathname.replace(`/${currentLocale}`, "") || "/"
-      : pathname;
-    const newPath = newLocale === routing.defaultLocale
-      ? pathWithoutLocale
-      : `/${newLocale}${pathWithoutLocale}`;
     track("locale_switch", { from: currentLocale, to: newLocale });
-    router.push(newPath);
+    router.replace(pathname, { locale: newLocale as "en" | "pt-br" });
   };
 
   const [isLocaleOpen, setIsLocaleOpen] = useState(false);
@@ -141,7 +133,7 @@ export function Navbar({
             onClick={() => setIsMenuOpen((v) => !v)}
             className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-200 text-amber-900 font-detective border border-amber-300 shadow-sm transition-colors duration-200"
           >
-            <span className="text-sm">Menu</span>
+            <span className="text-sm">{t('common.menu')}</span>
             <span className="text-lg leading-none">•••</span>
           </button>
         </div>
@@ -215,7 +207,7 @@ export function Navbar({
               type="button"
               onClick={() => setIsLocaleOpen(!isLocaleOpen)}
               className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-detective bg-amber-100 hover:bg-amber-200 text-amber-900 border border-transparent transition-colors duration-200"
-              title="Change language"
+              title={t('localeSwitcher.changeLanguage')}
             >
               <Globe className="w-4 h-4" />
             </button>
@@ -226,14 +218,14 @@ export function Navbar({
                   onClick={() => { switchLocale("en"); setIsLocaleOpen(false); }}
                   className={`w-full text-left px-3 py-2 text-sm font-detective transition-colors ${currentLocale === "en" ? "bg-amber-200 text-amber-900" : "text-amber-800 hover:bg-amber-100"}`}
                 >
-                  English
+                  {t('localeSwitcher.english')}
                 </button>
                 <button
                   type="button"
                   onClick={() => { switchLocale("pt-br"); setIsLocaleOpen(false); }}
                   className={`w-full text-left px-3 py-2 text-sm font-detective transition-colors ${currentLocale === "pt-br" ? "bg-amber-200 text-amber-900" : "text-amber-800 hover:bg-amber-100"}`}
                 >
-                  Portugues (BR)
+                  {t('localeSwitcher.portuguese')}
                 </button>
               </div>
             )}
@@ -311,7 +303,7 @@ export function Navbar({
               >
                 <span className="inline-flex items-center gap-2">
                   <Share2 className="w-4 h-4" />
-                  <span>Share</span>
+                  <span>{t('common.share')}</span>
                 </span>
               </button>
             )}
@@ -323,7 +315,7 @@ export function Navbar({
             >
               <span className="inline-flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                <span>{currentLocale === "en" ? "Portugues (BR)" : "English"}</span>
+                <span>{currentLocale === "en" ? t('localeSwitcher.portuguese') : t('localeSwitcher.english')}</span>
               </span>
             </button>
           </div>

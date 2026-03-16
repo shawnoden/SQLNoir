@@ -24,12 +24,17 @@ export function BlogIndex({ posts, currentPage, totalPages }: BlogIndexProps) {
         title={t('blog.title')}
         titleHref="/blog"
         links={[
-          { label: t('blog.navHome'), href: "/", activeMatch: "/" },
-          { label: t('blog.navJournal'), href: "/blog", activeMatch: "/blog" },
+          { label: t('nav.home'), href: "/", activeMatch: "/" },
+          { label: t('nav.journal'), href: "/blog", activeMatch: "/blog" },
         ]}
       />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <h1 className="font-detective text-3xl text-amber-900 mb-8">{t('blog.title')}</h1>
+        {posts.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="font-detective text-xl text-amber-800">{t('blog.noPosts')}</p>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {posts.map((post) => (
             <article key={post.slug} className="group">
@@ -90,7 +95,8 @@ export function BlogIndex({ posts, currentPage, totalPages }: BlogIndexProps) {
             </article>
           ))}
         </div>
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
+        )}
+        {posts.length > 0 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </main>
     </div>
   );

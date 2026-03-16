@@ -228,6 +228,7 @@
     "previous": "Previous",
     "next": "Next",
     "paginationLabel": "Blog pagination",
+    "noPosts": "No posts available yet. Check back soon!",
     "metadata": {
       "title": "Detective's Journal | SQL Blog",
       "description": "SQL tutorials, tips, and game recommendations from the SQLNoir detective's journal.",
@@ -303,7 +304,7 @@
     "backToCaseFiles": "Back to Case Files",
     "licenseRequired": "License Required",
     "unlockAllCases": "Unlock all cases with a Detective License",
-    "unlockAllCasesDesc": "One-time purchase. Full access to all 6 cases, every difficulty tier, unlimited practice."
+    "unlockAllCasesDesc": "One-time purchase. Full access to all cases, every difficulty tier, unlimited practice."
   },
   "checkout": {
     "paymentReceived": "Payment Received!",
@@ -322,7 +323,8 @@
   "localeSwitcher": {
     "switchToPortuguese": "Switch to Portuguese",
     "switchToEnglish": "Switch to English",
-    "portuguese": "Portugues",
+    "changeLanguage": "Change language",
+    "portuguese": "Português (BR)",
     "english": "English"
   },
   "metadata": {

@@ -8,7 +8,7 @@ import { AuthModal } from "./auth/AuthModal";
 import { supabase } from "@/lib/supabase";
 import { isCaseFree, getUserHasLicense } from "@/lib/license";
 import { track } from "@vercel/analytics/react";
-import { capture } from "@/lib/analytics";
+import { trackCaseStarted } from "@/lib/posthog-events";
 import { useTranslations } from "next-intl";
 import type { Case } from "@/types";
 
@@ -24,6 +24,7 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
   const [loading, setLoading] = useState(!isCaseFree(caseData));
   const [showPaywall, setShowPaywall] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [caseStartTime] = useState(() => Date.now());
 
   const hasLicense = getUserHasLicense(userInfo);
   const needsLicense = !isCaseFree(caseData);
@@ -54,7 +55,7 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
       category: caseData.category,
       xp_reward: caseData.xpReward,
     });
-    capture("case_started", {
+    trackCaseStarted({
       case_id: caseData.id,
       case_name: caseData.title,
       difficulty: caseData.difficulty,
@@ -159,6 +160,7 @@ export function CasePageClient({ caseData }: CasePageClientProps) {
       caseData={caseData}
       onBack={() => router.push("/cases")}
       onSolve={() => router.refresh()}
+      caseStartTime={caseStartTime}
     />
   );
 }

@@ -3,50 +3,57 @@ import { blogPostsMeta } from "@/lib/blog-posts";
 import { getAllCases, getCaseSlug } from "@/lib/case-utils";
 
 const baseUrl = "https://www.sqlnoir.com";
+const alternateLocales = ["pt-br"] as const;
+
+function withAlternates(url: string) {
+  return {
+    alternates: {
+      languages: Object.fromEntries(
+        alternateLocales.map((locale) => [locale, `${baseUrl}/${locale}${url === baseUrl ? "" : url.replace(baseUrl, "")}`])
+      ),
+    },
+  };
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/cases`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/help`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
+  const staticPaths = [
+    { path: "", priority: 1, changeFrequency: "weekly" as const },
+    { path: "/cases", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/help", priority: 0.6, changeFrequency: "monthly" as const },
   ];
 
-  const casePages: MetadataRoute.Sitemap = getAllCases().map((caseData) => ({
-    url: `${baseUrl}/cases/${getCaseSlug(caseData)}`,
+  const staticPages: MetadataRoute.Sitemap = staticPaths.map(({ path, priority, changeFrequency }) => ({
+    url: `${baseUrl}${path}`,
     lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
+    changeFrequency,
+    priority,
+    ...withAlternates(`${baseUrl}${path}`),
   }));
 
-  const blogPages: MetadataRoute.Sitemap = blogPostsMeta.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.lastModified ?? post.date),
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
+  const casePages: MetadataRoute.Sitemap = getAllCases().map((caseData) => {
+    const url = `${baseUrl}/cases/${getCaseSlug(caseData)}`;
+    return {
+      url,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      ...withAlternates(url),
+    };
+  });
+
+  const blogPages: MetadataRoute.Sitemap = blogPostsMeta.map((post) => {
+    const url = `${baseUrl}/blog/${post.slug}`;
+    return {
+      url,
+      lastModified: new Date(post.lastModified ?? post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+      ...withAlternates(url),
+    };
+  });
 
   return [...staticPages, ...casePages, ...blogPages];
 }

@@ -44,6 +44,14 @@ export async function POST(req: NextRequest) {
     const session = event.data.object;
     const userId = session.metadata?.user_id;
 
+    if (!session.id) {
+      console.error("Webhook received session without id");
+      return NextResponse.json(
+        { error: "Invalid session data" },
+        { status: 400 }
+      );
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
       console.error("Supabase admin client not configured");
@@ -54,13 +62,25 @@ export async function POST(req: NextRequest) {
     }
 
     if (userId) {
+      // Idempotency check: skip if this session was already processed
+      const { data: existing } = await supabaseAdmin
+        .from("user_info")
+        .select("stripe_session_id")
+        .eq("id", userId)
+        .single();
+
+      if (existing?.stripe_session_id === session.id) {
+        console.log(`License already granted for session ${session.id}, skipping`);
+        return NextResponse.json({ received: true });
+      }
+
       // Signed-in purchase: grant license immediately
       const { error } = await supabaseAdmin
         .from("user_info")
         .update({
           has_license: true,
           license_purchased_at: new Date().toISOString(),
-          stripe_customer_id: session.customer as string,
+          stripe_customer_id: typeof session.customer === "string" ? session.customer : null,
           stripe_session_id: session.id,
         })
         .eq("id", userId);
@@ -75,13 +95,34 @@ export async function POST(req: NextRequest) {
 
       console.log(`License granted to user ${userId}`);
     } else {
+      // Idempotency check: skip if this session was already stored
+      const { data: existingPending } = await supabaseAdmin
+        .from("pending_licenses")
+        .select("id")
+        .eq("stripe_session_id", session.id)
+        .maybeSingle();
+
+      if (existingPending) {
+        console.log(`Pending license already stored for session ${session.id}, skipping`);
+        return NextResponse.json({ received: true });
+      }
+
+      const email = session.customer_details?.email || session.customer_email;
+      if (!email) {
+        console.error("Webhook received session without customer email");
+        return NextResponse.json(
+          { error: "Missing customer email" },
+          { status: 400 }
+        );
+      }
+
       // Anonymous purchase: store as pending license to be claimed after sign-in
       const { error } = await supabaseAdmin
         .from("pending_licenses")
         .insert({
-          email: session.customer_details?.email || session.customer_email,
+          email,
           stripe_session_id: session.id,
-          stripe_customer_id: session.customer as string,
+          stripe_customer_id: typeof session.customer === "string" ? session.customer : null,
           created_at: new Date().toISOString(),
         });
 
@@ -93,7 +134,7 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      console.log(`Pending license stored for email: ${session.customer_details?.email}`);
+      console.log(`Pending license stored for email: ${email}`);
     }
   }
 

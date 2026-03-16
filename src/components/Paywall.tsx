@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import { X, Lock, Sparkles } from "lucide-react";
 import posthog from "posthog-js";
+import {
+  trackPaywallShown,
+  trackPaywallCtaClicked,
+  trackPaywallDismissed,
+} from "@/lib/posthog";
 
 const PRICING_MAP: Record<string, string> = {
   "9-99": "$9.99",
@@ -20,28 +25,42 @@ export function Paywall({ isOpen, onClose, caseSlug }: PaywallProps) {
   const [price, setPrice] = useState("$14.99");
 
   useEffect(() => {
-    const flag = posthog.getFeatureFlag("pricing-display");
-    if (typeof flag === "string" && PRICING_MAP[flag]) {
-      setPrice(PRICING_MAP[flag]);
+    posthog.onFeatureFlags(() => {
+      const flag = posthog.getFeatureFlag("pricing-display");
+      if (typeof flag === "string" && PRICING_MAP[flag]) {
+        setPrice(PRICING_MAP[flag]);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      trackPaywallShown(caseSlug, "post_solve");
     }
-  }, [isOpen]);
+  }, [isOpen, caseSlug]);
 
   if (!isOpen) return null;
 
   const handleCtaClick = () => {
-    posthog.capture("paywall_cta_clicked", {
-      case_slug: caseSlug,
+    const pricingVariant = posthog.getFeatureFlag("pricing-display");
+    const placementVariant = posthog.getFeatureFlag("paywall-placement");
+    trackPaywallCtaClicked(caseSlug, {
       price,
-      pricing_variant: posthog.getFeatureFlag("pricing-display"),
-      placement_variant: posthog.getFeatureFlag("paywall-placement"),
+      pricing_variant: typeof pricingVariant === "string" ? pricingVariant : "default",
+      placement_variant: typeof placementVariant === "string" ? placementVariant : "default",
     });
+  };
+
+  const handleDismiss = () => {
+    trackPaywallDismissed(caseSlug);
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="relative bg-amber-50 border border-amber-200 rounded-2xl shadow-2xl max-w-md w-full p-8 space-y-6">
         <button
-          onClick={onClose}
+          onClick={handleDismiss}
           className="absolute top-4 right-4 text-amber-600 hover:text-amber-800"
         >
           <X className="w-5 h-5" />
@@ -91,7 +110,7 @@ export function Paywall({ isOpen, onClose, caseSlug }: PaywallProps) {
         </button>
 
         <button
-          onClick={onClose}
+          onClick={handleDismiss}
           className="w-full text-center text-amber-600 hover:text-amber-800 text-sm"
         >
           Maybe later

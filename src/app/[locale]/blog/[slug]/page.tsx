@@ -3,7 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { BlogPost } from "@/components/blog/BlogPost";
 import { getBlogPostMeta } from "@/lib/blog-posts";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -14,8 +14,9 @@ const BASE_URL = "https://www.sqlnoir.com";
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPostMeta(slug);
+  const locale = await getLocale();
 
-  if (!post) {
+  if (!post || (post.locale || "en") !== locale) {
     return { title: "Post Not Found | SQLNoir" };
   }
 
@@ -59,8 +60,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = getBlogPostMeta(slug);
+  const locale = await getLocale();
 
-  if (!post) {
+  // 404 if post doesn't exist or doesn't match current locale
+  if (!post || (post.locale || "en") !== locale) {
     return notFound();
   }
 

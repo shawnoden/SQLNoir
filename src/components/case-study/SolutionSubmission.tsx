@@ -7,18 +7,21 @@ import type { Case } from "../../types";
 import { SharePopup } from "../SharePopup";
 import { Paywall } from "../Paywall";
 import { track } from "@vercel/analytics/react";
-import { capture } from "../../lib/analytics";
-import posthog from "posthog-js";
+import { trackCaseCompleted, trackCaseAbandoned } from "../../lib/posthog-events";
+import { posthog } from "../../lib/posthog";
 import { useTranslations } from "next-intl";
+import { isCaseFree } from "../../lib/license";
 
 interface SolutionSubmissionProps {
   caseData: Case;
   onSolve: () => void;
+  caseStartTime?: number;
 }
 
 export function SolutionSubmission({
   caseData,
   onSolve,
+  caseStartTime,
 }: SolutionSubmissionProps) {
   const t = useTranslations();
   const [answer, setAnswer] = useState("");
@@ -31,6 +34,8 @@ export function SolutionSubmission({
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [shareContext, setShareContext] = useState("case-solved");
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+  const [solutionExplanation, setSolutionExplanation] = useState(caseData.solution.explanation);
+  const [solutionSuccessMessage, setSolutionSuccessMessage] = useState(caseData.solution.successMessage);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,9 +45,35 @@ export function SolutionSubmission({
     setAttempts(attemptsNext);
 
     try {
-      // Check if the answer matches the solution (case-insensitive)
-      const isAnswerCorrect =
-        answer.trim().toLowerCase() === caseData.solution.answer.toLowerCase();
+      // For non-free cases, verify server-side; for free cases, check locally
+      let isAnswerCorrect: boolean;
+      let serverExplanation: string | undefined;
+      let serverSuccessMessage: string | undefined;
+
+      if (!isCaseFree(caseData)) {
+        // Server-side verification for paid cases
+        const session = supabase ? await supabase.auth.getSession() : null;
+        const token = session?.data?.session?.access_token;
+
+        const res = await fetch("/api/check-solution", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ caseId: caseData.id, answer: answer.trim() }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to verify solution");
+
+        isAnswerCorrect = data.correct;
+        serverExplanation = data.explanation;
+        serverSuccessMessage = data.successMessage;
+      } else {
+        isAnswerCorrect =
+          answer.trim().toLowerCase() === caseData.solution.answer.toLowerCase();
+      }
 
       if (isAnswerCorrect) {
         const user = supabase ? (await supabase.auth.getUser()).data.user : null;
@@ -81,6 +112,14 @@ export function SolutionSubmission({
         }
       }
 
+      // Update explanation/successMessage from server response for paid cases
+      if (isAnswerCorrect && serverExplanation) {
+        setSolutionExplanation(serverExplanation);
+      }
+      if (isAnswerCorrect && serverSuccessMessage) {
+        setSolutionSuccessMessage(serverSuccessMessage);
+      }
+
       setIsCorrect(isAnswerCorrect);
       setSubmitted(true);
 
@@ -95,12 +134,11 @@ export function SolutionSubmission({
           attempts: attemptsNext,
           auth: Boolean(user),
         });
-        capture("case_completed", {
+        const timeSpent = caseStartTime ? Math.round((Date.now() - caseStartTime) / 1000) : 0;
+        trackCaseCompleted({
           case_id: caseData.id,
-          time_spent_seconds: 0,
+          time_spent_seconds: timeSpent,
           query_count: attemptsNext,
-          difficulty: caseData.difficulty,
-          category: caseData.category,
         });
 
         // Show paywall based on A/B test placement
@@ -116,7 +154,7 @@ export function SolutionSubmission({
           attempts: attemptsNext,
           auth: Boolean(user),
         });
-        capture("case_abandoned", {
+        trackCaseAbandoned({
           case_id: caseData.id,
           progress_percentage: 0,
         });
@@ -157,7 +195,7 @@ export function SolutionSubmission({
               </h3>
             </div>
             <p className="text-green-800 mt-1">
-              {caseData.solution.successMessage}
+              {solutionSuccessMessage}
             </p>
           </div>
 
@@ -166,7 +204,7 @@ export function SolutionSubmission({
               {t('solution.explanation')}
             </h4>
             <p className="text-green-800 leading-relaxed">
-              {caseData.solution.explanation}
+              {solutionExplanation}
             </p>
           </div>
 

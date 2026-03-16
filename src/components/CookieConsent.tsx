@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
@@ -32,6 +32,7 @@ export function CookieConsent() {
         onClick={() => {
           localStorage.setItem("cookie-consent", "true");
           setVisible(false);
+          window.dispatchEvent(new Event("cookie-consent-granted"));
         }}
         className="px-3 py-0.5 rounded bg-amber-50 text-amber-900 font-medium hover:bg-amber-200 transition-colors"
       >

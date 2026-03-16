@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Blog } from "@/components/Blog";
-import { blogPostsMeta } from "@/lib/blog-posts";
+import { getBlogPostsForLocale } from "@/lib/blog-posts";
 import { getPostsForPage, getTotalPages } from "@/lib/pagination";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("blog.metadata");
@@ -43,10 +43,12 @@ export default async function BlogPage() {
   const tNav = await getTranslations("nav");
   const tBlog = await getTranslations("blog");
   const tMeta = await getTranslations("blog.metadata");
+  const locale = await getLocale();
 
   const baseUrl = "https://www.sqlnoir.com";
-  const posts = getPostsForPage(1);
-  const totalPages = getTotalPages();
+  const localePosts = getBlogPostsForLocale(locale);
+  const posts = getPostsForPage(1, locale);
+  const totalPages = getTotalPages(locale);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -73,7 +75,7 @@ export default async function BlogPage() {
         name: tBlog("title"),
         description: tMeta("description"),
         url: "https://www.sqlnoir.com/blog",
-        blogPost: blogPostsMeta.map((post) => ({
+        blogPost: localePosts.map((post) => ({
           "@type": "BlogPosting",
           headline: post.title,
           description: post.excerpt,

@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { Blog } from "@/components/Blog";
 import { getPostsForPage, getTotalPages, isValidPage } from "@/lib/pagination";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
 interface PageProps {
@@ -11,13 +11,14 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const totalPages = getTotalPages();
-  return routing.locales.flatMap((locale) =>
-    Array.from({ length: totalPages - 1 }, (_, i) => ({
+  return routing.locales.flatMap((locale) => {
+    const totalPages = getTotalPages(locale);
+    if (totalPages <= 1) return [];
+    return Array.from({ length: totalPages - 1 }, (_, i) => ({
       locale,
       page: String(i + 2),
-    }))
-  );
+    }));
+  });
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -62,6 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function BlogPaginatedPage({ params }: PageProps) {
   const { page } = await params;
   const pageNum = parseInt(page, 10);
+  const locale = await getLocale();
 
   // Redirect page 1 to /blog
   if (pageNum === 1) {
@@ -69,14 +71,15 @@ export default async function BlogPaginatedPage({ params }: PageProps) {
   }
 
   // 404 for invalid pages
-  if (isNaN(pageNum) || !isValidPage(pageNum)) {
+  if (isNaN(pageNum) || !isValidPage(pageNum, locale)) {
     notFound();
   }
 
   const tNav = await getTranslations("nav");
+  const tBlog = await getTranslations("blog");
 
-  const posts = getPostsForPage(pageNum);
-  const totalPages = getTotalPages();
+  const posts = getPostsForPage(pageNum, locale);
+  const totalPages = getTotalPages(locale);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,7 +100,7 @@ export default async function BlogPaginatedPage({ params }: PageProps) {
       {
         "@type": "ListItem",
         position: 3,
-        name: `Page ${pageNum}`,
+        name: tBlog("pageTitle", { pageNum }),
         item: `https://www.sqlnoir.com/blog/page/${pageNum}`,
       },
     ],

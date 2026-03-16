@@ -18,17 +18,17 @@ import { DatabaseSchema } from "./case-study/DatabaseSchema";
 import { CaseNotes } from "./case-study/CaseNotes";
 import type { Case } from "../types";
 import { track } from "@vercel/analytics/react";
-import { capture } from "../lib/analytics";
-import posthog from "posthog-js";
+import { trackCaseStarted } from "../lib/posthog-events";
 import { useTranslations } from "next-intl";
 
 interface CaseSolverProps {
   caseData: Case;
   onBack: () => void;
   onSolve: () => void;
+  caseStartTime?: number;
 }
 
-export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
+export function CaseSolver({ caseData, onBack, onSolve, caseStartTime }: CaseSolverProps) {
   const t = useTranslations();
 
   const tabs = [
@@ -53,11 +53,10 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
       category: caseData.category,
       xp_reward: caseData.xpReward,
     });
-    capture("case_started", {
+    trackCaseStarted({
       case_id: caseData.id,
       case_name: caseData.title,
       difficulty: caseData.difficulty,
-      category: caseData.category,
     });
   }, [caseData]);
 
@@ -84,7 +83,7 @@ export function CaseSolver({ caseData, onBack, onSolve }: CaseSolverProps) {
       schema: <DatabaseSchema caseId={caseData.id} />,
       notes: <CaseNotes caseId={caseData.id} />,
       submit: (
-        <SolutionSubmission caseData={caseData} onSolve={handleCaseSolved} />
+        <SolutionSubmission caseData={caseData} onSolve={handleCaseSolved} caseStartTime={caseStartTime} />
       ),
     }),
     [caseData]
