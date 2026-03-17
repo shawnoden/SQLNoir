@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import type { Session } from "@supabase/supabase-js";
 import { Dashboard } from "./Dashboard";
 import { PaywallModal } from "./PaywallModal";
