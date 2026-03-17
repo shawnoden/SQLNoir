@@ -169,9 +169,9 @@ export default async function LocaleLayout({
         <PostHogProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
+            <CookieConsent />
           </NextIntlClientProvider>
         </PostHogProvider>
-        <CookieConsent />
         <Analytics />
       </body>
     </html>
