@@ -5,18 +5,18 @@ import { Navbar } from "@/components/Navbar";
 import { getAllCases, getCaseSlug, getAllLocalizedCases } from "@/lib/case-utils";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("cases.metadata");
+  const locale = await getLocale();
 
   return {
     title: t("title"),
     description: t("description"),
-    alternates: {
-      canonical: "/cases",
-    },
+    alternates: localeAlternates("/cases", locale),
     openGraph: {
       type: "website",
       title: t("ogTitle"),

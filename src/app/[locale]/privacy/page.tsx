@@ -1,24 +1,53 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "SQLNoir privacy policy — how we collect, use, and protect your data.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("privacy.metadata");
+  const locale = await getLocale();
 
-export default function PrivacyPage() {
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: localeAlternates("/privacy", locale),
+    openGraph: {
+      type: "website",
+      title: t("title"),
+      description: t("description"),
+      url: "https://www.sqlnoir.com/privacy",
+      images: [
+        {
+          url: "/open-graph-image.png",
+          width: 1200,
+          height: 630,
+          alt: t("title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: ["/open-graph-image.png"],
+    },
+  };
+}
+
+export default async function PrivacyPage() {
+  const tNav = await getTranslations("nav");
+
   return (
     <>
       <Navbar
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: "Home", href: "/" },
-          { label: "Cases", href: "/cases", activeMatch: "/cases" },
-          { label: "Journal", href: "/blog", activeMatch: ["/blog"] },
-          { label: "Help", href: "/help" },
+          { label: tNav("home"), href: "/" },
+          { label: tNav("cases"), href: "/cases", activeMatch: "/cases" },
+          { label: tNav("journal"), href: "/blog", activeMatch: ["/blog"] },
+          { label: tNav("help"), href: "/help" },
         ]}
         showShare
       />

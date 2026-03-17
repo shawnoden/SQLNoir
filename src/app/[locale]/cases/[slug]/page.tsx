@@ -6,6 +6,7 @@ import { findCaseBySlug, getAllCases, getCaseSlug, getLocalizedCase } from "@/li
 import { isCaseFree } from "@/lib/license";
 import { getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { localeAlternates } from "@/lib/seo";
 
 interface CasePageProps {
   params: Promise<{ slug: string }>;
@@ -23,6 +24,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: CasePageProps): Promise<Metadata> {
   const { slug } = await params;
   const caseData = findCaseBySlug(slug);
+  const locale = await getLocale();
 
   if (!caseData) {
     return {
@@ -33,9 +35,7 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
   return {
     title: caseData.title,
     description: caseData.description,
-    alternates: {
-      canonical: `/cases/${slug}`,
-    },
+    alternates: localeAlternates(`/cases/${slug}`, locale),
     openGraph: {
       type: "article",
       title: caseData.title,

@@ -1,19 +1,37 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { HelpPageClient } from "@/components/HelpPageClient";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("help.metadata");
+  const locale = await getLocale();
+  const alternates = localeAlternates("/help", locale);
 
   return {
     title: t("title"),
     description: t("description"),
-    alternates: {
-      canonical: "/help",
-    },
+    alternates,
     openGraph: {
+      type: "website",
+      title: t("title"),
+      description: t("description"),
       url: "https://www.sqlnoir.com/help",
+      images: [
+        {
+          url: "/open-graph-image.png",
+          width: 1200,
+          height: 630,
+          alt: t("title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: ["/open-graph-image.png"],
     },
   };
 }

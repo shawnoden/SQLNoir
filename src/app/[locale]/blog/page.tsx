@@ -3,15 +3,18 @@ import { Blog } from "@/components/Blog";
 import { getBlogPostsForLocale } from "@/lib/blog-posts";
 import { getPostsForPage, getTotalPages } from "@/lib/pagination";
 import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("blog.metadata");
+  const locale = await getLocale();
+  const alternates = localeAlternates("/blog", locale);
 
   return {
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: "/blog",
+      ...alternates,
       types: {
         "application/rss+xml": "/blog/rss.xml",
       },

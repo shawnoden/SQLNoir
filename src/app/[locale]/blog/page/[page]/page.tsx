@@ -5,6 +5,7 @@ import { Blog } from "@/components/Blog";
 import { getPostsForPage, getTotalPages, isValidPage } from "@/lib/pagination";
 import { getTranslations, getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { localeAlternates } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ page: string }>;
@@ -24,6 +25,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { page } = await params;
   const pageNum = parseInt(page, 10);
+  const locale = await getLocale();
 
   const tBlog = await getTranslations("blog");
   const tMeta = await getTranslations("blog.metadata");
@@ -34,9 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
-    alternates: {
-      canonical: `/blog/page/${pageNum}`,
-    },
+    alternates: localeAlternates(`/blog/page/${pageNum}`, locale),
     openGraph: {
       type: "website",
       title,
@@ -83,25 +83,29 @@ export default async function BlogPaginatedPage({ params }: PageProps) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
+    "@graph": [
       {
-        "@type": "ListItem",
-        position: 1,
-        name: tNav("home"),
-        item: "https://www.sqlnoir.com/",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: tNav("blog"),
-        item: "https://www.sqlnoir.com/blog",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: tBlog("pageTitle", { pageNum }),
-        item: `https://www.sqlnoir.com/blog/page/${pageNum}`,
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: tNav("home"),
+            item: "https://www.sqlnoir.com/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: tNav("blog"),
+            item: "https://www.sqlnoir.com/blog",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: tBlog("pageTitle", { pageNum }),
+            item: `https://www.sqlnoir.com/blog/page/${pageNum}`,
+          },
+        ],
       },
     ],
   };

@@ -1,23 +1,53 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "SQLNoir terms of service — rules and conditions for using the platform.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("terms.metadata");
+  const locale = await getLocale();
 
-export default function TermsPage() {
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: localeAlternates("/terms", locale),
+    openGraph: {
+      type: "website",
+      title: t("title"),
+      description: t("description"),
+      url: "https://www.sqlnoir.com/terms",
+      images: [
+        {
+          url: "/open-graph-image.png",
+          width: 1200,
+          height: 630,
+          alt: t("title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: ["/open-graph-image.png"],
+    },
+  };
+}
+
+export default async function TermsPage() {
+  const tNav = await getTranslations("nav");
+
   return (
     <>
       <Navbar
         title="SQLNoir"
         titleHref="/"
         links={[
-          { label: "Home", href: "/" },
-          { label: "Cases", href: "/cases", activeMatch: "/cases" },
-          { label: "Journal", href: "/blog", activeMatch: ["/blog"] },
-          { label: "Help", href: "/help" },
+          { label: tNav("home"), href: "/" },
+          { label: tNav("cases"), href: "/cases", activeMatch: "/cases" },
+          { label: tNav("journal"), href: "/blog", activeMatch: ["/blog"] },
+          { label: tNav("help"), href: "/help" },
         ]}
         showShare
       />

@@ -327,6 +327,30 @@
     "portuguese": "Português (BR)",
     "english": "English"
   },
+  "privacy": {
+    "metadata": {
+      "title": "Privacy Policy",
+      "description": "SQLNoir privacy policy — how we collect, use, and protect your data when you play our interactive SQL detective game."
+    }
+  },
+  "terms": {
+    "metadata": {
+      "title": "Terms of Service",
+      "description": "SQLNoir terms of service — rules and conditions for using our interactive SQL learning platform and detective cases."
+    }
+  },
+  "contact": {
+    "metadata": {
+      "title": "Contact",
+      "description": "Get in touch with the SQLNoir team. Report bugs, suggest features, or join our Discord community for SQL detective enthusiasts."
+    }
+  },
+  "checkoutSuccess": {
+    "metadata": {
+      "title": "Purchase Complete",
+      "description": "Your Detective License purchase is complete. Sign in to activate your license and unlock all SQLNoir cases."
+    }
+  },
   "metadata": {
     "siteTitle": "Interactive SQL Game | Learn SQL by Solving Detective Cases | SQLNoir",
     "siteDescription": "SQLNoir is an interactive SQL game where you solve crimes and mysteries using SQL queries. Learn SQL by playing detective in this engaging SQL learning game.",

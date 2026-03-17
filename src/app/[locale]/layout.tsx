@@ -29,6 +29,7 @@ const localeMeta: Record<string, { title: string; description: string; keywords:
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const meta = localeMeta[locale] || localeMeta.en;
+  const prefix = locale === "en" ? "" : `/${locale}`;
 
   return {
     metadataBase: new URL(siteUrl),
@@ -39,10 +40,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: meta.description,
     keywords: meta.keywords,
     alternates: {
-      canonical: "/",
+      canonical: `${prefix}/`,
       languages: {
         en: "/",
-        "pt-BR": "/pt-br",
+        "pt-br": "/pt-br",
       },
       types: {
         "application/rss+xml": "/blog/rss.xml",
@@ -59,7 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
           url: "/open-graph-image.png",
           width: 1200,
           height: 630,
-          alt: "SQLNoir interactive SQL detective game",
+          alt: meta.title,
         },
       ],
     },
@@ -81,7 +82,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-function buildJsonLd(navNames: { home: string; cases: string; blog: string; help: string }) {
+function buildJsonLd(navNames: { home: string; cases: string; blog: string; help: string }, description: string) {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -106,7 +107,7 @@ function buildJsonLd(navNames: { home: string; cases: string; blog: string; help
         "@id": `${siteUrl}/#website`,
         url: siteUrl,
         name: "SQLNoir",
-        description: defaultDescription,
+        description,
         publisher: {
           "@id": `${siteUrl}/#organization`,
         },
@@ -146,12 +147,13 @@ export default async function LocaleLayout({
 
   const messages = (await import(`../../../messages/${locale}.json`)).default;
   const nav = messages.nav || {};
+  const meta = localeMeta[locale] || localeMeta.en;
   const jsonLd = buildJsonLd({
     home: nav.home || "Home",
     cases: nav.cases || "Cases",
     blog: nav.blog || "Blog",
     help: nav.help || "Help",
-  });
+  }, meta.description);
 
   return (
     <html lang={locale}>

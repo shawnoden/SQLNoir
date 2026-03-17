@@ -1,9 +1,14 @@
-import { blogPostsMeta } from "@/lib/blog-posts";
-import { getTranslations } from "next-intl/server";
+import { getBlogPostsForLocale } from "@/lib/blog-posts";
+import { getTranslations, getLocale } from "next-intl/server";
 
 const siteUrl = "https://www.sqlnoir.com";
 
-const generateRssItem = (post: (typeof blogPostsMeta)[number]) => {
+const localeToLanguageTag: Record<string, string> = {
+  en: "en-US",
+  "pt-br": "pt-BR",
+};
+
+const generateRssItem = (post: { title: string; excerpt: string; slug: string; date: string; author: string }) => {
   const pubDate = new Date(post.date).toUTCString();
   return `
     <item>
@@ -19,7 +24,10 @@ const generateRssItem = (post: (typeof blogPostsMeta)[number]) => {
 
 export async function GET() {
   const t = await getTranslations("blog.metadata");
-  const items = blogPostsMeta.map(generateRssItem).join("");
+  const locale = await getLocale();
+  const posts = getBlogPostsForLocale(locale);
+  const items = posts.map(generateRssItem).join("");
+  const languageTag = localeToLanguageTag[locale] || "en-US";
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -28,7 +36,7 @@ export async function GET() {
     <description>${t("rssDescription")}</description>
     <link>${siteUrl}/blog</link>
     <atom:link href="${siteUrl}/blog/rss.xml" rel="self" type="application/rss+xml" />
-    <language>en-US</language>
+    <language>${languageTag}</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     ${items}
   </channel>

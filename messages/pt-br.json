@@ -327,6 +327,30 @@
     "portuguese": "Português (BR)",
     "english": "English"
   },
+  "privacy": {
+    "metadata": {
+      "title": "Política de Privacidade",
+      "description": "Política de privacidade do SQLNoir — como coletamos, usamos e protegemos seus dados ao jogar nosso jogo interativo de detetive SQL."
+    }
+  },
+  "terms": {
+    "metadata": {
+      "title": "Termos de Serviço",
+      "description": "Termos de serviço do SQLNoir — regras e condições para usar nossa plataforma interativa de aprendizado de SQL e casos de detetive."
+    }
+  },
+  "contact": {
+    "metadata": {
+      "title": "Contato",
+      "description": "Entre em contato com a equipe do SQLNoir. Reporte bugs, sugira funcionalidades ou junte-se à nossa comunidade no Discord para entusiastas de SQL."
+    }
+  },
+  "checkoutSuccess": {
+    "metadata": {
+      "title": "Compra Concluída",
+      "description": "Sua compra da Licença de Detetive está completa. Entre para ativar sua licença e desbloquear todos os casos do SQLNoir."
+    }
+  },
   "metadata": {
     "siteTitle": "Jogo Interativo de SQL | Aprenda SQL Resolvendo Casos de Detetive | SQLNoir",
     "siteDescription": "SQLNoir é um jogo interativo de SQL onde você soluciona crimes e mistérios usando consultas SQL. Aprenda SQL sendo detetive neste envolvente jogo de aprendizado.",

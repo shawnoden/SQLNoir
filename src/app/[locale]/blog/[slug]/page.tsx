@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BlogPost } from "@/components/blog/BlogPost";
 import { getBlogPostMeta } from "@/lib/blog-posts";
 import { getTranslations, getLocale } from "next-intl/server";
+import { localeAlternates } from "@/lib/seo";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -28,9 +29,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: {
-      canonical: `/blog/${post.slug}`,
-    },
+    alternates: localeAlternates(`/blog/${post.slug}`, locale),
     openGraph: {
       type: "article",
       title: post.title,
